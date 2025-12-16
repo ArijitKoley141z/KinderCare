@@ -54,32 +54,14 @@ if 'conversation_history' not in st.session_state:
 
 with st.sidebar:
     st.markdown("""
-    <div style="text-align: center; padding: 1rem 0;">
-        <h2 style="color: #1e88e5; margin: 0;">Smart Child</h2>
-        <h3 style="color: #43a047; margin: 0;">Vaccination & Health</h3>
-        <p style="color: #666; font-size: 0.9rem;">Assistant</p>
+    <div style="text-align: center; padding: 2rem 0.5rem;">
+        <h1 style="color: #1e88e5; margin: 0; font-size: 2.2rem; font-weight: 700; line-height: 1.2;">
+            Smart Child<br>
+            <span style="color: #43a047;">Vaccination</span><br>
+            <span style="color: #ff7043;">Health Assistant</span>
+        </h1>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    pages = ["Dashboard", "Vaccination Schedule", "Vaccination Timeline", "Health Timeline", "Diseases & Remedies", "Assistant", "Settings"]
-    
-    for page in pages:
-        icon = {
-            "Dashboard": "📊",
-            "Vaccination Schedule": "💉",
-            "Vaccination Timeline": "📈",
-            "Health Timeline": "📅",
-            "Diseases & Remedies": "🏥",
-            "Assistant": "🤖",
-            "Settings": "⚙️"
-        }.get(page, "📄")
-        
-        if st.button(f"{icon} {page}", key=f"nav_{page}", width='stretch',
-                     type="primary" if st.session_state.current_page == page else "secondary"):
-            st.session_state.current_page = page
-            st.rerun()
     
     st.markdown("---")
     
