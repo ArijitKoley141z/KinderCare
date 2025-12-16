@@ -3,7 +3,7 @@ from vaccination_guidelines import INDIA_UIP_SCHEDULE, WHO_SCHEDULE, CDC_SCHEDUL
 
 def render():
     st.title("Vaccination Timeline")
-    st.markdown("View the recommended vaccination schedule based on official guidelines.")
+    st.markdown("A simple guide showing when your child needs each vaccine.")
     
     guideline = st.selectbox(
         "Select Vaccination Guideline",
@@ -38,81 +38,78 @@ def render():
     
     sorted_groups = sorted(age_groups.items(), key=lambda x: x[1]['weeks'])
     
-    total_vaccines = len(schedule)
-    total_stages = len(sorted_groups)
-    
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Total Vaccines", total_vaccines)
+        st.metric("Total Vaccines", len(schedule))
     with col2:
-        st.metric("Age Stages", total_stages)
+        st.metric("Age Stages", len(sorted_groups))
     
     st.markdown("---")
-    st.subheader("Vaccination Schedule")
+    st.subheader("When to Vaccinate Your Child")
     
-    for i, (age_label, data) in enumerate(sorted_groups):
+    for age_label, data in sorted_groups:
         vaccines = data['vaccines']
+        weeks = data['weeks']
         
-        if data['weeks'] == 0:
-            color = "#e91e63"
-            icon = "👶"
-        elif data['weeks'] <= 14:
-            color = "#9c27b0"
-            icon = "🍼"
-        elif data['weeks'] <= 52:
-            color = "#2196f3"
-            icon = "🧒"
-        elif data['weeks'] <= 260:
-            color = "#4caf50"
-            icon = "👦"
+        if weeks == 0:
+            stage_icon = "👶"
+            stage_color = "#e91e63"
+        elif weeks <= 14:
+            stage_icon = "🍼"
+            stage_color = "#9c27b0"
+        elif weeks <= 52:
+            stage_icon = "🧒"
+            stage_color = "#2196f3"
+        elif weeks <= 260:
+            stage_icon = "👦"
+            stage_color = "#4caf50"
         else:
-            color = "#ff9800"
-            icon = "🧑"
+            stage_icon = "🧑"
+            stage_color = "#ff9800"
         
-        vaccine_cards = ""
-        for vacc in vaccines:
-            vaccine_cards += f"""
-                <div style="background-color: white; border: 2px solid {color}; border-radius: 8px; 
-                            padding: 10px 15px; min-width: 200px; flex: 1;">
-                    <div style="font-weight: bold; color: #333; margin-bottom: 5px;">
-                        {vacc['name']}
+        vaccine_count = len(vaccines)
+        vaccine_text = "vaccine" if vaccine_count == 1 else "vaccines"
+        
+        with st.expander(f"{stage_icon} **{age_label}** — {vaccine_count} {vaccine_text}", expanded=False):
+            for vacc in vaccines:
+                st.markdown(f"""
+                <div style="background-color: {stage_color}; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; color: white;">
+                    <div style="font-weight: bold; font-size: 16px; margin-bottom: 4px;">
+                        💉 {vacc['name']}
                     </div>
-                    <div style="font-size: 12px; color: #666;">
+                    <div style="font-size: 14px; opacity: 0.95;">
                         {vacc['description']}
                     </div>
                 </div>
-            """
-        
-        connector_line = f"<div style='width: 3px; height: 30px; background-color: {color}; opacity: 0.4;'></div>" if i < len(sorted_groups) - 1 else ""
-        
-        with st.container():
-            st.markdown(f"""
-            <div style="display: flex; margin-bottom: 20px;">
-                <div style="display: flex; flex-direction: column; align-items: center; margin-right: 20px; min-width: 60px;">
-                    <div style="width: 50px; height: 50px; border-radius: 50%; background-color: {color}; 
-                                display: flex; align-items: center; justify-content: center; 
-                                font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                        {icon}
-                    </div>
-                    {connector_line}
-                </div>
-                <div style="flex-grow: 1; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
-                            padding: 20px; border-radius: 12px; border-left: 5px solid {color}; 
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <h3 style="margin: 0 0 15px 0; color: {color}; font-size: 1.3rem;">
-                        {age_label}
-                    </h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        {vaccine_cards}
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    st.subheader("Quick Reference Table")
+    
+    table_rows = ""
+    for age_label, data in sorted_groups:
+        vaccine_names = ", ".join([v['name'] for v in data['vaccines']])
+        table_rows += f"<tr><td style='padding: 10px; border: 1px solid #ddd; font-weight: bold;'>{age_label}</td><td style='padding: 10px; border: 1px solid #ddd;'>{vaccine_names}</td></tr>"
+    
+    st.markdown(f"""
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <thead>
+            <tr style="background-color: #1e88e5; color: white;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #1565c0;">Age</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #1565c0;">Vaccines</th>
+            </tr>
+        </thead>
+        <tbody>
+            {table_rows}
+        </tbody>
+    </table>
+    """, unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
-        <strong>Note:</strong> This timeline shows the standard recommended vaccination schedule. 
-        Actual timing may vary based on your child's health condition and your pediatrician's advice.
+    <div style="background-color: #117a8b; padding: 15px; border-radius: 8px; color: white;">
+        <strong>Important:</strong> This timeline shows the standard recommended vaccination schedule. 
+        Always consult your pediatrician for advice specific to your child's health needs.
     </div>
     """, unsafe_allow_html=True)
