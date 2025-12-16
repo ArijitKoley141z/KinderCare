@@ -63,13 +63,14 @@ with st.sidebar:
     
     st.markdown("---")
     
-    pages = ["Dashboard", "Vaccination Schedule", "Health Timeline", "Assistant", "Settings"]
+    pages = ["Dashboard", "Vaccination Schedule", "Health Timeline", "Diseases & Remedies", "Assistant", "Settings"]
     
     for page in pages:
         icon = {
             "Dashboard": "📊",
             "Vaccination Schedule": "💉",
             "Health Timeline": "📅",
+            "Diseases & Remedies": "🏥",
             "Assistant": "🤖",
             "Settings": "⚙️"
         }.get(page, "📄")
@@ -106,6 +107,9 @@ elif st.session_state.current_page == "Vaccination Schedule":
 elif st.session_state.current_page == "Health Timeline":
     from pages import health_timeline
     health_timeline.render()
+elif st.session_state.current_page == "Diseases & Remedies":
+    from pages import diseases_remedies
+    diseases_remedies.render()
 elif st.session_state.current_page == "Assistant":
     from pages import assistant
     assistant.render()
