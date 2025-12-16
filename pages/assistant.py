@@ -52,7 +52,7 @@ def render():
     cols = st.columns(3)
     for idx, qr in enumerate(quick_responses):
         with cols[idx % 3]:
-            if st.button(qr['label'], key=f"quick_{idx}", use_container_width=True):
+            if st.button(qr['label'], key=f"quick_{idx}", width='stretch'):
                 process_user_message(qr['query'], child, vaccinations, health_events)
                 st.rerun()
     
@@ -92,7 +92,7 @@ def render():
         )
     
     with col2:
-        send_button = st.button("Send", type="primary", use_container_width=True)
+        send_button = st.button("Send", type="primary", width='stretch')
     
     if send_button and user_input:
         process_user_message(user_input, child, vaccinations, health_events)
@@ -141,7 +141,7 @@ def render():
     
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Clear Chat History", use_container_width=True):
+        if st.button("Clear Chat History", width='stretch'):
             st.session_state.conversation_history = []
             st.rerun()
     

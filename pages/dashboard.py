@@ -132,7 +132,7 @@ def render():
             margin=dict(t=20, b=20, l=20, r=20),
             height=300
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with col2:
         st.subheader("Upcoming Vaccines Timeline")
@@ -173,7 +173,7 @@ def render():
                 margin=dict(t=20, b=40, l=20, r=20),
                 barmode='stack'
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         else:
             st.info("No upcoming vaccines in the next 30 days!")
     
@@ -183,22 +183,22 @@ def render():
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button("View Schedule", use_container_width=True):
+        if st.button("View Schedule", width='stretch'):
             st.session_state.current_page = "Vaccination Schedule"
             st.rerun()
     
     with col2:
-        if st.button("Health Timeline", use_container_width=True):
+        if st.button("Health Timeline", width='stretch'):
             st.session_state.current_page = "Health Timeline"
             st.rerun()
     
     with col3:
-        if st.button("Ask Assistant", use_container_width=True):
+        if st.button("Ask Assistant", width='stretch'):
             st.session_state.current_page = "Assistant"
             st.rerun()
     
     with col4:
-        if st.button("Settings", use_container_width=True):
+        if st.button("Settings", width='stretch'):
             st.session_state.current_page = "Settings"
             st.rerun()
     

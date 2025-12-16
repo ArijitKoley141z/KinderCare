@@ -147,7 +147,7 @@ def render_vaccine_card(vacc, status_type):
         if status_type != "completed":
             col1, col2 = st.columns([3, 1])
             with col2:
-                if st.button("Mark Complete", key=f"complete_{vacc['id']}", use_container_width=True):
+                if st.button("Mark Complete", key=f"complete_{vacc['id']}", width='stretch'):
                     st.session_state[f"show_complete_form_{vacc['id']}"] = True
             
             if st.session_state.get(f"show_complete_form_{vacc['id']}", False):
@@ -166,7 +166,7 @@ def render_vaccine_card(vacc, status_type):
                     
                     col1, col2 = st.columns(2)
                     with col1:
-                        if st.form_submit_button("Save", type="primary", use_container_width=True):
+                        if st.form_submit_button("Save", type="primary", width='stretch'):
                             db.update_vaccination_status(
                                 vacc['id'],
                                 status='completed',
@@ -179,6 +179,6 @@ def render_vaccine_card(vacc, status_type):
                             st.success(f"{vacc['vaccine_name']} marked as completed!")
                             st.rerun()
                     with col2:
-                        if st.form_submit_button("Cancel", use_container_width=True):
+                        if st.form_submit_button("Cancel", width='stretch'):
                             st.session_state[f"show_complete_form_{vacc['id']}"] = False
                             st.rerun()

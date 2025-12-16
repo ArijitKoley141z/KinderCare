@@ -77,7 +77,7 @@ def render_add_child_form():
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.form_submit_button("Add Child", type="primary", use_container_width=True):
+            if st.form_submit_button("Add Child", type="primary", width='stretch'):
                 if not name:
                     st.error("Please enter the child's name.")
                 else:
@@ -105,7 +105,7 @@ def render_add_child_form():
                     st.success(f"Child profile for {name} created with vaccination schedule!")
                     st.rerun()
         with col2:
-            if st.form_submit_button("Cancel", use_container_width=True):
+            if st.form_submit_button("Cancel", width='stretch'):
                 st.session_state.show_add_child = False
                 st.rerun()
 
@@ -132,10 +132,10 @@ def render_child_profile_card(child):
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            if st.button("Edit", key=f"edit_{child['id']}", use_container_width=True):
+            if st.button("Edit", key=f"edit_{child['id']}", width='stretch'):
                 st.session_state[f"edit_child_{child['id']}"] = True
         with col2:
-            if st.button("Regenerate Schedule", key=f"regen_{child['id']}", use_container_width=True):
+            if st.button("Regenerate Schedule", key=f"regen_{child['id']}", width='stretch'):
                 db.delete_all_vaccinations(child['id'])
                 schedule = generate_vaccination_schedule(dob, child['country_guideline'])
                 for vacc in schedule:
@@ -149,7 +149,7 @@ def render_child_profile_card(child):
                 st.success("Vaccination schedule regenerated!")
                 st.rerun()
         with col3:
-            if st.button("Delete", key=f"delete_{child['id']}", type="secondary", use_container_width=True):
+            if st.button("Delete", key=f"delete_{child['id']}", type="secondary", width='stretch'):
                 st.session_state[f"confirm_delete_{child['id']}"] = True
         
         if st.session_state.get(f"confirm_delete_{child['id']}", False):
@@ -216,7 +216,7 @@ def render_edit_child_form(child):
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.form_submit_button("Save Changes", type="primary", use_container_width=True):
+            if st.form_submit_button("Save Changes", type="primary", width='stretch'):
                 db.update_child(
                     child['id'],
                     name=name,
@@ -230,7 +230,7 @@ def render_edit_child_form(child):
                 st.success("Profile updated!")
                 st.rerun()
         with col2:
-            if st.form_submit_button("Cancel", use_container_width=True):
+            if st.form_submit_button("Cancel", width='stretch'):
                 st.session_state[f"edit_child_{child['id']}"] = False
                 st.rerun()
 

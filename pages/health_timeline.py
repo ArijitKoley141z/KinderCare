@@ -34,7 +34,7 @@ def render():
     
     col1, col2 = st.columns([3, 1])
     with col2:
-        if st.button("Add Health Event", type="primary", use_container_width=True):
+        if st.button("Add Health Event", type="primary", width='stretch'):
             st.session_state.show_add_event = True
     
     if st.session_state.get('show_add_event', False):
@@ -158,7 +158,7 @@ def render_add_event_form(child_id):
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.form_submit_button("Save Event", type="primary", use_container_width=True):
+            if st.form_submit_button("Save Event", type="primary", width='stretch'):
                 if not title:
                     st.error("Please enter a title for the event.")
                 else:
@@ -178,7 +178,7 @@ def render_add_event_form(child_id):
                     st.success("Health event added successfully!")
                     st.rerun()
         with col2:
-            if st.form_submit_button("Cancel", use_container_width=True):
+            if st.form_submit_button("Cancel", width='stretch'):
                 st.session_state.show_add_event = False
                 st.rerun()
 
@@ -220,7 +220,7 @@ def render_timeline_chart(items):
         hovermode='closest'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 def render_timeline_card(item):
     with st.container():

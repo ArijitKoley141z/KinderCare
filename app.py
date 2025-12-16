@@ -75,7 +75,7 @@ with st.sidebar:
             "Settings": "⚙️"
         }.get(page, "📄")
         
-        if st.button(f"{icon} {page}", key=f"nav_{page}", use_container_width=True,
+        if st.button(f"{icon} {page}", key=f"nav_{page}", width='stretch',
                      type="primary" if st.session_state.current_page == page else "secondary"):
             st.session_state.current_page = page
             st.rerun()
