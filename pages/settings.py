@@ -24,7 +24,7 @@ def render():
 def render_child_profiles():
     st.subheader("Manage Child Profiles")
     
-    if st.button("Add New Child", type="primary"):
+    if st.button("Add New Child Profile", type="primary"):
         st.session_state.show_add_child = True
     
     if st.session_state.get('show_add_child', False):
