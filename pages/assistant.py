@@ -66,14 +66,14 @@ def render():
         for msg in st.session_state.conversation_history:
             if msg['role'] == 'user':
                 st.markdown(f"""
-                <div style="background-color: #e3f2fd; padding: 10px 15px; border-radius: 15px; 
+                <div style="background-color: #90caf9; padding: 10px 15px; border-radius: 15px; 
                             margin: 10px 0; margin-left: 20%; text-align: right;">
                     <strong>You:</strong> {msg['content']}
                 </div>
                 """, unsafe_allow_html=True)
             else:
                 st.markdown(f"""
-                <div style="background-color: #f5f5f5; padding: 10px 15px; border-radius: 15px; 
+                <div style="background-color: #d0d0d0; padding: 10px 15px; border-radius: 15px; 
                             margin: 10px 0; margin-right: 20%;">
                     <strong>Assistant:</strong><br>{msg['content']}
                 </div>
