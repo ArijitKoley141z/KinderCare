@@ -57,7 +57,7 @@ with st.sidebar:
     <div style="text-align: center; padding: 2rem 0.5rem;">
         <h1 style="color: #1e88e5; margin: 0; font-size: 2.2rem; font-weight: 700; line-height: 1.2;">
             Smart Child<br>
-            <span style="color: #43a047;">Vaccination</span><br>
+            <span style="color: #43a047;">Vaccination</span> &<br>
             <span style="color: #ff7043;">Health Assistant</span>
         </h1>
     </div>

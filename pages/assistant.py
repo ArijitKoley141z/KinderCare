@@ -9,7 +9,7 @@ def render():
     st.title("Health Assistant")
     
     st.markdown("""
-    <div style="background-color: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    <div style="background-color: #42a5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #fff;">
         <strong>AI Health Assistant</strong><br>
         Ask questions about your child's vaccination schedule, health concerns, or get general guidance.
         I can understand natural language - just ask as you would ask a friend!
