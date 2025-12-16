@@ -75,6 +75,12 @@ def render_add_child_form():
         with col2:
             allergies = st.text_input("Known Allergies (Optional)", placeholder="e.g., Penicillin, Eggs")
         
+        received_vaccines = st.text_area(
+            "Already Received Vaccines (Optional)",
+            placeholder="Enter vaccine names separated by commas (e.g., BCG, OPV, Hepatitis B)",
+            help="If your child has already received some vaccines, enter their names here. They will be marked as completed."
+        )
+        
         col1, col2 = st.columns(2)
         with col1:
             if st.form_submit_button("Add Child", type="primary", width='stretch'):
@@ -90,19 +96,47 @@ def render_add_child_form():
                         allergies=allergies if allergies else None
                     )
                     
+                    received_list = []
+                    if received_vaccines:
+                        received_list = [v.strip().lower() for v in received_vaccines.split(',') if v.strip()]
+                    
                     schedule = generate_vaccination_schedule(dob, country)
                     for vacc in schedule:
-                        db.add_vaccination(
+                        is_received = any(
+                            recv in vacc['vaccine_name'].lower() or 
+                            vacc['vaccine_name'].lower() in recv or
+                            recv in vacc['vaccine_code'].lower()
+                            for recv in received_list
+                        )
+                        
+                        vacc_id = db.add_vaccination(
                             child_id=child_id,
                             vaccine_name=vacc['vaccine_name'],
                             vaccine_code=vacc['vaccine_code'],
                             due_date=vacc['due_date'].isoformat(),
-                            status='pending'
+                            status='completed' if is_received else 'pending'
                         )
+                        
+                        if is_received:
+                            db.update_vaccination_status(
+                                vacc_id,
+                                status='completed',
+                                administered_date=date.today().isoformat(),
+                                notes='Marked as already received during profile creation'
+                            )
                     
                     st.session_state.selected_child_id = child_id
                     st.session_state.show_add_child = False
-                    st.success(f"Child profile for {name} created with vaccination schedule!")
+                    completed_count = len([v for v in schedule if any(
+                        recv in v['vaccine_name'].lower() or 
+                        v['vaccine_name'].lower() in recv or
+                        recv in v['vaccine_code'].lower()
+                        for recv in received_list
+                    )]) if received_list else 0
+                    if completed_count > 0:
+                        st.success(f"Child profile for {name} created! {completed_count} vaccine(s) marked as completed.")
+                    else:
+                        st.success(f"Child profile for {name} created with vaccination schedule!")
                     st.rerun()
         with col2:
             if st.form_submit_button("Cancel", width='stretch'):
