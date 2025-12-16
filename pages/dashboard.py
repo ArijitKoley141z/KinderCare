@@ -204,7 +204,7 @@ def render():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107;">
+    <div style="background-color: #b8860b; padding: 15px; border-radius: 5px; border-left: 4px solid #8b6914; color: white;">
         <strong>Medical Disclaimer:</strong> This application provides general vaccination tracking and health information. 
         It is not a substitute for professional medical advice, diagnosis, or treatment. 
         Always consult your child's pediatrician for personalized medical guidance.

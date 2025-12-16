@@ -95,7 +95,7 @@ def render():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #d1ecf1; padding: 15px; border-radius: 5px; border-left: 4px solid #17a2b8;">
+    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
         <strong>Note:</strong> Always consult with your child's pediatrician before administering any vaccine. 
         The schedule shown is based on official guidelines but may need adjustment based on your child's individual health needs.
     </div>

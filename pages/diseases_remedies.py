@@ -196,7 +196,7 @@ def render():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #fff3e0; padding: 1rem; border-radius: 8px; border-left: 4px solid #ff9800;">
+    <div style="background-color: #c65d00; padding: 1rem; border-radius: 8px; border-left: 4px solid #8b4000; color: white;">
         <strong>⚠️ Important Disclaimer:</strong><br>
         This information is for educational purposes only and should not replace professional medical advice. 
         Always consult a healthcare provider for proper diagnosis and treatment of your child's health conditions.

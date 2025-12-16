@@ -147,7 +147,7 @@ def render():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107;">
+    <div style="background-color: #b8860b; padding: 15px; border-radius: 5px; border-left: 4px solid #8b6914; color: white;">
         <strong>Medical Disclaimer:</strong> This AI assistant provides general health information and vaccination tracking guidance. 
         It is NOT a substitute for professional medical advice, diagnosis, or treatment. 
         Always consult your child's pediatrician or healthcare provider for personalized medical guidance.

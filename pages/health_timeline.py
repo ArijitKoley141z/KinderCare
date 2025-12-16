@@ -119,7 +119,7 @@ def render():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #d1ecf1; padding: 15px; border-radius: 5px; border-left: 4px solid #17a2b8;">
+    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
         <strong>Tip:</strong> Keep track of all health events including illnesses, symptoms, and doctor visits. 
         This helps you and your healthcare provider understand your child's complete health history.
     </div>

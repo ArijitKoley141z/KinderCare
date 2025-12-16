@@ -320,7 +320,7 @@ def render_notification_settings():
     
     st.markdown("---")
     st.markdown("""
-    <div style="background-color: #d1ecf1; padding: 15px; border-radius: 5px; border-left: 4px solid #17a2b8;">
+    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
         <strong>Email Configuration:</strong> To send email reminders, configure SMTP settings in your environment variables:
         <ul>
             <li>SMTP_SERVER - Your SMTP server address</li>
