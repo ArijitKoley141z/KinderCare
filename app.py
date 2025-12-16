@@ -65,6 +65,26 @@ with st.sidebar:
     
     st.markdown("---")
     
+    pages = ["Dashboard", "Vaccination Schedule", "Vaccination Timeline", "Health Timeline", "Diseases & Remedies", "Assistant", "Settings"]
+    
+    for page in pages:
+        icon = {
+            "Dashboard": "📊",
+            "Vaccination Schedule": "💉",
+            "Vaccination Timeline": "📈",
+            "Health Timeline": "📅",
+            "Diseases & Remedies": "🏥",
+            "Assistant": "🤖",
+            "Settings": "⚙️"
+        }.get(page, "📄")
+        
+        if st.button(f"{icon} {page}", key=f"nav_{page}", width='stretch',
+                     type="primary" if st.session_state.current_page == page else "secondary"):
+            st.session_state.current_page = page
+            st.rerun()
+    
+    st.markdown("---")
+    
     children = db.get_all_children()
     if children:
         st.markdown("**Current Child:**")
