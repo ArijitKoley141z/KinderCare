@@ -69,6 +69,22 @@ def render():
             color = "#ff9800"
             icon = "🧑"
         
+        vaccine_cards = ""
+        for vacc in vaccines:
+            vaccine_cards += f"""
+                <div style="background-color: white; border: 2px solid {color}; border-radius: 8px; 
+                            padding: 10px 15px; min-width: 200px; flex: 1;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 5px;">
+                        {vacc['name']}
+                    </div>
+                    <div style="font-size: 12px; color: #666;">
+                        {vacc['description']}
+                    </div>
+                </div>
+            """
+        
+        connector_line = f"<div style='width: 3px; height: 30px; background-color: {color}; opacity: 0.4;'></div>" if i < len(sorted_groups) - 1 else ""
+        
         with st.container():
             st.markdown(f"""
             <div style="display: flex; margin-bottom: 20px;">
@@ -78,7 +94,7 @@ def render():
                                 font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                         {icon}
                     </div>
-                    {"<div style='width: 3px; height: 30px; background-color: " + color + "; opacity: 0.4;'></div>" if i < len(sorted_groups) - 1 else ""}
+                    {connector_line}
                 </div>
                 <div style="flex-grow: 1; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
                             padding: 20px; border-radius: 12px; border-left: 5px solid {color}; 
@@ -87,22 +103,7 @@ def render():
                         {age_label}
                     </h3>
                     <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            """, unsafe_allow_html=True)
-            
-            for vacc in vaccines:
-                st.markdown(f"""
-                        <div style="background-color: white; border: 2px solid {color}; border-radius: 8px; 
-                                    padding: 10px 15px; min-width: 200px; flex: 1;">
-                            <div style="font-weight: bold; color: #333; margin-bottom: 5px;">
-                                {vacc['name']}
-                            </div>
-                            <div style="font-size: 12px; color: #666;">
-                                {vacc['description']}
-                            </div>
-                        </div>
-                """, unsafe_allow_html=True)
-            
-            st.markdown("""
+                        {vaccine_cards}
                     </div>
                 </div>
             </div>
