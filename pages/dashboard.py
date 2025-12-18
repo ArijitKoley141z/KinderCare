@@ -7,15 +7,12 @@ from vaccination_guidelines import categorize_vaccinations, get_age_string
 from notifications import get_in_app_notifications
 
 def render():
-    st.title("Dashboard")
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">Dashboard</h1>', unsafe_allow_html=True)
     
     children = db.get_all_children()
     
     if not children:
         st.info("Welcome! Please add a child profile in the Settings page to get started.")
-        if st.button("Go to Settings", type="primary"):
-            st.session_state.current_page = "Settings"
-            st.rerun()
         return
     
     if 'selected_child_id' not in st.session_state or st.session_state.selected_child_id is None:
@@ -35,7 +32,7 @@ def render():
     
     notifications = get_in_app_notifications(st.session_state.selected_child_id)
     if notifications:
-        st.markdown("### Notifications")
+        st.markdown("<h3>Notifications</h3>", unsafe_allow_html=True)
         for notif in notifications:
             if notif['type'] == 'error':
                 st.error(f"**{notif['title']}**: {notif['message']}")
@@ -73,140 +70,48 @@ def render():
         <div style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); 
                     padding: 20px; border-radius: 10px; color: white;">
             <h3 style="margin: 0; color: white;">Vaccination Progress</h3>
-            <p style="font-size: 36px; margin: 10px 0; font-weight: bold;">{progress:.0f}%</p>
-            <p style="margin: 0;">{completed} of {total} vaccines completed</p>
+            <p style="font-size: 24px; margin: 10px 0; font-weight: bold;">{completed}/{total}</p>
+            <p style="margin: 0;">Completed: {progress:.1f}%</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
-        overdue_count = len(categories['overdue'])
-        upcoming_count = len(categories['upcoming'])
-        
-        if overdue_count > 0:
-            bg_color = "linear-gradient(135deg, #eb3349 0%, #f45c43 100%)"
-            status_text = f"{overdue_count} Overdue"
-        elif upcoming_count > 0:
-            bg_color = "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-            status_text = f"{upcoming_count} Upcoming"
-        else:
-            bg_color = "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-            status_text = "All up to date!"
-        
+        upcoming = len(categories['upcoming'])
         st.markdown(f"""
-        <div style="background: {bg_color}; 
+        <div style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); 
                     padding: 20px; border-radius: 10px; color: white;">
-            <h3 style="margin: 0; color: white;">Status</h3>
-            <p style="font-size: 24px; margin: 10px 0; font-weight: bold;">{status_text}</p>
-            <p style="margin: 0;">Guideline: {child['country_guideline']}</p>
+            <h3 style="margin: 0; color: white;">Upcoming Vaccines</h3>
+            <p style="font-size: 24px; margin: 10px 0; font-weight: bold;">{upcoming}</p>
+            <p style="margin: 0;">Pending</p>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
-    col1, col2 = st.columns(2)
+    st.markdown("<h3>Vaccination Categories</h3>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.subheader("Vaccination Status Overview")
-        
-        status_data = {
-            'Status': ['Completed', 'Overdue', 'Upcoming', 'Pending'],
-            'Count': [
-                len(categories['completed']),
-                len(categories['overdue']),
-                len(categories['upcoming']),
-                len(categories['pending'])
-            ]
-        }
-        
-        colors = ['#38ef7d', '#f45c43', '#f5576c', '#4facfe']
-        
-        fig = go.Figure(data=[go.Pie(
-            labels=status_data['Status'],
-            values=status_data['Count'],
-            hole=.4,
-            marker_colors=colors
-        )])
-        fig.update_layout(
-            showlegend=True,
-            legend=dict(orientation="h", yanchor="bottom", y=-0.2),
-            margin=dict(t=20, b=20, l=20, r=20),
-            height=300
-        )
-        st.plotly_chart(fig, width='stretch')
+        st.markdown(f"""
+        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
+            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0;">Completed</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #4caf50; margin: 0;">{len(categories['completed'])}</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.subheader("Upcoming Vaccines Timeline")
-        
-        upcoming = categories['upcoming'] + categories['overdue']
-        upcoming_sorted = sorted(upcoming, key=lambda x: x['due_date'] if isinstance(x['due_date'], date) 
-                                  else date.fromisoformat(x['due_date']))[:5]
-        
-        if upcoming_sorted:
-            timeline_data = []
-            for v in upcoming_sorted:
-                due = v['due_date']
-                if isinstance(due, str):
-                    due = date.fromisoformat(due)
-                days_diff = (due - date.today()).days
-                timeline_data.append({
-                    'Vaccine': v['vaccine_name'],
-                    'Days': days_diff,
-                    'Status': 'Overdue' if days_diff < 0 else 'Upcoming'
-                })
-            
-            fig = go.Figure()
-            for item in timeline_data:
-                color = '#f45c43' if item['Status'] == 'Overdue' else '#38ef7d'
-                fig.add_trace(go.Bar(
-                    y=[item['Vaccine']],
-                    x=[item['Days']],
-                    orientation='h',
-                    marker_color=color,
-                    text=f"{abs(item['Days'])} days {'ago' if item['Days'] < 0 else 'away'}",
-                    textposition='outside'
-                ))
-            
-            fig.update_layout(
-                showlegend=False,
-                xaxis_title="Days from Today",
-                height=300,
-                margin=dict(t=20, b=40, l=20, r=20),
-                barmode='stack'
-            )
-            st.plotly_chart(fig, width='stretch')
-        else:
-            st.info("No upcoming vaccines in the next 30 days!")
-    
-    st.markdown("---")
-    st.subheader("Quick Actions")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        if st.button("View Schedule", width='stretch'):
-            st.session_state.current_page = "Vaccination Schedule"
-            st.rerun()
-    
-    with col2:
-        if st.button("Health Timeline", width='stretch'):
-            st.session_state.current_page = "Health Timeline"
-            st.rerun()
+        st.markdown(f"""
+        <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
+            <h4 style="color: #e65100; margin: 0 0 0.5rem 0;">Upcoming</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #ff9800; margin: 0;">{len(categories['upcoming'])}</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     with col3:
-        if st.button("Ask Assistant", width='stretch'):
-            st.session_state.current_page = "Assistant"
-            st.rerun()
-    
-    with col4:
-        if st.button("Settings", width='stretch'):
-            st.session_state.current_page = "Settings"
-            st.rerun()
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="background-color: #b8860b; padding: 15px; border-radius: 5px; border-left: 4px solid #8b6914; color: white;">
-        <strong>Medical Disclaimer:</strong> This application provides general vaccination tracking and health information. 
-        It is not a substitute for professional medical advice, diagnosis, or treatment. 
-        Always consult your child's pediatrician for personalized medical guidance.
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #9c27b0;">
+            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">Not Yet Due</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #9c27b0; margin: 0;">{len(categories['not_yet_due'])}</p>
+        </div>
+        """, unsafe_allow_html=True)

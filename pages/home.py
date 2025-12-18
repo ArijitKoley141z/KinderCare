@@ -2,88 +2,63 @@ import streamlit as st
 
 def render():
     st.markdown("""
-    <div style="text-align: center; padding: 3rem 1rem;">
-        <h1 style="font-size: 3.5rem; font-weight: 800; margin: 0; line-height: 1.1;">
-            <span style="color: #667eea;">KinderCare</span>
-        </h1>
-        <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0.5rem 0 1rem 0; line-height: 1.2; color: #666;">
-            Your Child's Health & Vaccination Companion
-        </h2>
-        <p style="font-size: 1.1rem; color: #888; margin: 1rem 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-            Track vaccinations, manage health records, and get instant answers from our AI assistant
-        </p>
+    <div class="hero">
+        <h1>KinderCare</h1>
+        <h2>Your Child's Health & Vaccination Companion</h2>
+        <p>Track vaccinations, manage health records, and get instant answers from our AI assistant</p>
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("---")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📊</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Dashboard</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">View your child's health overview</p>
+    st.markdown("""
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #667eea; --gradient-end: #764ba2;">
+                <div class="card-icon">📊</div>
+                <h3>Dashboard</h3>
+                <p>View your child's health overview</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💉</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Vaccinations</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Track vaccine schedules and timelines</p>
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #f093fb; --gradient-end: #f5576c;">
+                <div class="card-icon">💉</div>
+                <h3>Vaccinations</h3>
+                <p>Track vaccine schedules and timelines</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🤖</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">AI Assistant</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Ask health and vaccine questions</p>
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #4facfe; --gradient-end: #00f2fe;">
+                <div class="card-icon">🤖</div>
+                <h3>AI Assistant</h3>
+                <p>Ask health and vaccine questions</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📅</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Health Timeline</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Record health events and milestones</p>
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #fa709a; --gradient-end: #fee140;">
+                <div class="card-icon">📅</div>
+                <h3>Health Timeline</h3>
+                <p>Record health events and milestones</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏥</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Diseases & Remedies</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Learn about common childhood illnesses</p>
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #30cfd0; --gradient-end: #330867;">
+                <div class="card-icon">🏥</div>
+                <h3>Diseases & Remedies</h3>
+                <p>Learn about common childhood illnesses</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 2rem; border-radius: 12px; text-align: center; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚙️</div>
-            <h3 style="margin: 0; font-size: 1.3rem; font-weight: 700;">Settings</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Manage your profile and preferences</p>
+        <div class="card">
+            <div class="card-gradient" style="--gradient-start: #a8edea; --gradient-end: #fed6e3;">
+                <div class="card-icon">📈</div>
+                <h3>Timeline</h3>
+                <p>Visualize your child's vaccination progress</p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("---")
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
-    <div style="background-color: #f0f7ff; padding: 2rem; border-radius: 12px; border-left: 5px solid #1e88e5; text-align: center;">
-        <h3 style="margin: 0 0 0.5rem 0; color: #1e88e5;">Welcome!</h3>
-        <p style="margin: 0; color: #333; line-height: 1.6;">
-            This application helps you keep track of your child's vaccinations and health. Use the navigation buttons at the top to explore different features. Our AI Health Assistant is always ready to answer your questions about child health and vaccinations.
-        </p>
+    <div class="info-box">
+        <h3>Welcome to KinderCare</h3>
+        <p>This application helps you keep track of your child's vaccinations and health. Use the navigation bar at the top to explore different features. Our AI Health Assistant is always ready to answer your questions about child health and vaccinations.</p>
     </div>
     """, unsafe_allow_html=True)

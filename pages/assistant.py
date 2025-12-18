@@ -5,21 +5,29 @@ from datetime import date
 import database as db
 from ai_assistant import chat_with_assistant, transcribe_audio, get_quick_responses
 
+def process_user_message(user_input, child, vaccinations, health_events):
+    if not child:
+        st.warning("Please select a child first")
+        return
+    
+    response = chat_with_assistant(user_input, child, vaccinations, health_events)
+    st.session_state.conversation_history.append({"role": "user", "content": user_input})
+    st.session_state.conversation_history.append({"role": "assistant", "content": response})
+
 def render():
-    st.title("Health Assistant")
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">Health Assistant</h1>', unsafe_allow_html=True)
     
     st.markdown("""
-    <div style="background-color: #42a5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #fff;">
-        <strong>AI Health Assistant</strong><br>
-        Ask questions about your child's vaccination schedule, health concerns, or get general guidance.
-        I can understand natural language - just ask as you would ask a friend!
+    <div class="info-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+        <h3 style="color: white; margin-top: 0;">AI Health Assistant</h3>
+        <p style="color: white; margin: 0;">Ask questions about your child's vaccination schedule, health concerns, or get general guidance. I understand natural language - just ask as you would ask a friend!</p>
     </div>
     """, unsafe_allow_html=True)
     
     children = db.get_all_children()
     
     if not children:
-        st.warning("Please add a child profile in Settings to use the assistant effectively.")
+        st.warning("Please add a child profile to use the assistant effectively.")
         child = None
         vaccinations = []
         health_events = []
@@ -97,79 +105,3 @@ def render():
     if send_button and user_input:
         process_user_message(user_input, child, vaccinations, health_events)
         st.rerun()
-    
-    st.markdown("---")
-    st.subheader("Voice Input")
-    
-    try:
-        from audio_recorder_streamlit import audio_recorder
-        
-        st.write("Click the microphone to record your question:")
-        audio_bytes = audio_recorder(
-            pause_threshold=2.0,
-            sample_rate=16000,
-            text="Click to record",
-            recording_color="#e74c3c",
-            neutral_color="#3498db"
-        )
-        
-        if audio_bytes:
-            st.audio(audio_bytes, format="audio/wav")
-            
-            if st.button("Transcribe and Send", type="primary"):
-                with st.spinner("Transcribing..."):
-                    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
-                        tmp_file.write(audio_bytes)
-                        tmp_path = tmp_file.name
-                    
-                    try:
-                        transcribed_text = transcribe_audio(tmp_path)
-                        if transcribed_text and not transcribed_text.startswith("Error"):
-                            st.info(f"Transcribed: {transcribed_text}")
-                            process_user_message(transcribed_text, child, vaccinations, health_events)
-                            st.rerun()
-                        else:
-                            st.error(transcribed_text)
-                    finally:
-                        os.unlink(tmp_path)
-    except ImportError:
-        st.info("Voice input requires the audio-recorder-streamlit package.")
-    except Exception as e:
-        st.warning(f"Voice recording is not available: {str(e)}")
-    
-    st.markdown("---")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Clear Chat History", width='stretch'):
-            st.session_state.conversation_history = []
-            st.rerun()
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="background-color: #b8860b; padding: 15px; border-radius: 5px; border-left: 4px solid #8b6914; color: white;">
-        <strong>Medical Disclaimer:</strong> This AI assistant provides general health information and vaccination tracking guidance. 
-        It is NOT a substitute for professional medical advice, diagnosis, or treatment. 
-        Always consult your child's pediatrician or healthcare provider for personalized medical guidance.
-    </div>
-    """, unsafe_allow_html=True)
-
-def process_user_message(message: str, child, vaccinations, health_events):
-    st.session_state.conversation_history.append({
-        "role": "user",
-        "content": message
-    })
-    
-    with st.spinner("Thinking..."):
-        response = chat_with_assistant(
-            message,
-            child,
-            vaccinations,
-            health_events,
-            st.session_state.conversation_history[:-1]
-        )
-    
-    st.session_state.conversation_history.append({
-        "role": "assistant",
-        "content": response
-    })

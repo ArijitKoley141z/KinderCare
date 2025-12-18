@@ -10,23 +10,10 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    [data-testid="stSidebarNav"] {
-        display: none;
-    }
-    [data-testid="stSidebar"] {
-        display: none;
-    }
-    .stButton>button {
-        border-radius: 8px;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+    [data-testid="stSidebarNav"] { display: none; }
+    [data-testid="stSidebar"] { display: none; }
+    .stMainBlockContainer { padding-top: 0; }
+    .stApp { background-color: #f8f9fa; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -42,15 +29,47 @@ if 'selected_child_id' not in st.session_state:
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
-st.markdown("""
-<div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); padding: 1rem 0; margin: -5rem -5rem 2rem -5rem; padding-left: 5rem; padding-right: 5rem;">
-    <h1 style="text-align: center; color: white; margin: 0; font-size: 2rem; font-weight: 700;">
-        KinderCare
-    </h1>
-</div>
-""", unsafe_allow_html=True)
+def render_header():
+    st.markdown("""
+    <div class="header-bar">
+        <div class="header-content">
+            <a href="#" class="logo">👶 KinderCare</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown("---")
+def render_navbar():
+    pages_nav = [
+        ("Home", "🏠"),
+        ("Dashboard", "📊"),
+        ("Vaccination Schedule", "💉"),
+        ("Vaccination Timeline", "📈"),
+        ("Health Timeline", "📅"),
+        ("Diseases & Remedies", "🏥"),
+        ("Assistant", "🤖"),
+    ]
+    
+    nav_html = '<div class="navbar"><div class="navbar-content"><div class="nav-links">'
+    
+    for page, icon in pages_nav:
+        active_class = "active" if st.session_state.current_page == page else ""
+        nav_html += f'<button class="nav-btn {active_class}" onclick="window.location.hash=\'{page}\'">{icon} {page}</button>'
+    
+    nav_html += '</div><div class="auth-btns">'
+    nav_html += '<button class="btn-login" onclick="window.location.hash=\'Login\'">Login</button>'
+    nav_html += '<button class="btn-signup" onclick="window.location.hash=\'Sign Up\'">Sign Up</button>'
+    nav_html += '</div></div></div>'
+    
+    st.markdown(nav_html, unsafe_allow_html=True)
+
+def load_css():
+    with open("assets/styles.css", "r") as f:
+        css = f.read()
+    st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+load_css()
+render_header()
+render_navbar()
 
 col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
 
@@ -73,18 +92,18 @@ for idx, (page, icon) in enumerate(pages_nav):
             st.session_state.current_page = page
             st.rerun()
 
-with col7:
-    col_login, col_signup = st.columns(2)
-    with col_login:
-        if st.button("Login", key="nav_login", width='stretch', type="secondary"):
-            st.session_state.current_page = "Login"
-            st.rerun()
-    with col_signup:
-        if st.button("Sign Up", key="nav_signup", width='stretch', type="primary"):
-            st.session_state.current_page = "Sign Up"
-            st.rerun()
+col_login, col_signup = st.columns([1, 1])
+with col_login:
+    if st.button("Login", key="nav_login", width='stretch', type="secondary"):
+        st.session_state.current_page = "Login"
+        st.rerun()
+with col_signup:
+    if st.button("Sign Up", key="nav_signup", width='stretch', type="primary"):
+        st.session_state.current_page = "Sign Up"
+        st.rerun()
 
 st.markdown("---")
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
 if st.session_state.current_page == "Home":
     from pages import home
@@ -113,3 +132,5 @@ elif st.session_state.current_page == "Login":
 elif st.session_state.current_page == "Sign Up":
     from pages import signup
     signup.render()
+
+st.markdown('</div>', unsafe_allow_html=True)
