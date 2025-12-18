@@ -10,6 +10,12 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+    [data-testid="stSidebarNav"] {
+        display: none;
+    }
+    [data-testid="stSidebar"] {
+        display: none;
+    }
     .stButton>button {
         border-radius: 8px;
     }
