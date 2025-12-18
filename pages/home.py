@@ -15,9 +15,10 @@ def render():
             <div class="card-gradient" style="--gradient-start: #667eea; --gradient-end: #764ba2;">
                 <div class="card-icon">📊</div>
                 <h3>Dashboard</h3>
-                <p>View your child's health overview</p>
+                <p>View your child's complete health overview</p>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-gradient" style="--gradient-start: #f093fb; --gradient-end: #f5576c;">
                 <div class="card-icon">💉</div>
@@ -25,6 +26,7 @@ def render():
                 <p>Track vaccine schedules and timelines</p>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-gradient" style="--gradient-start: #4facfe; --gradient-end: #00f2fe;">
                 <div class="card-icon">🤖</div>
@@ -32,6 +34,7 @@ def render():
                 <p>Ask health and vaccine questions</p>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-gradient" style="--gradient-start: #fa709a; --gradient-end: #fee140;">
                 <div class="card-icon">📅</div>
@@ -39,6 +42,7 @@ def render():
                 <p>Record health events and milestones</p>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-gradient" style="--gradient-start: #30cfd0; --gradient-end: #330867;">
                 <div class="card-icon">🏥</div>
@@ -46,11 +50,12 @@ def render():
                 <p>Learn about common childhood illnesses</p>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-gradient" style="--gradient-start: #a8edea; --gradient-end: #fed6e3;">
                 <div class="card-icon">📈</div>
-                <h3>Timeline</h3>
-                <p>Visualize your child's vaccination progress</p>
+                <h3>Vaccination Timeline</h3>
+                <p>Visualize vaccination progress</p>
             </div>
         </div>
     </div>
@@ -59,6 +64,6 @@ def render():
     st.markdown("""
     <div class="info-box">
         <h3>Welcome to KinderCare</h3>
-        <p>This application helps you keep track of your child's vaccinations and health. Use the navigation bar at the top to explore different features. Our AI Health Assistant is always ready to answer your questions about child health and vaccinations.</p>
+        <p>This application helps you keep track of your child's vaccinations and health. Use the navigation buttons at the top to explore different features. Our AI Health Assistant is always ready to answer your questions about child health and vaccinations.</p>
     </div>
     """, unsafe_allow_html=True)
