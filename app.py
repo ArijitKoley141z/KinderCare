@@ -5,29 +5,13 @@ st.set_page_config(
     page_title="Smart Child Vaccination & Health Assistant",
     page_icon="💉",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #1e88e5;
-        text-align: center;
-        padding: 1rem 0;
-    }
     .stButton>button {
         border-radius: 8px;
-    }
-    .sidebar-header {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 1rem;
-    }
-    div[data-testid="stSidebarNav"] {
-        padding-top: 1rem;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 2px;
@@ -43,7 +27,7 @@ st.markdown("""
 db.init_database()
 
 if 'current_page' not in st.session_state:
-    st.session_state.current_page = "Dashboard"
+    st.session_state.current_page = "Home"
 
 if 'selected_child_id' not in st.session_state:
     children = db.get_all_children()
@@ -52,56 +36,51 @@ if 'selected_child_id' not in st.session_state:
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
-with st.sidebar:
-    st.markdown("""
-    <div style="text-align: center; padding: 2rem 0.5rem;">
-        <h1 style="color: #1e88e5; margin: 0; font-size: 2.2rem; font-weight: 700; line-height: 1.2;">
-            Smart Child<br>
-            <span style="color: #43a047;">Vaccination</span> &<br>
-            <span style="color: #ff7043;">Health Assistant</span>
-        </h1>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    pages = ["Dashboard", "Vaccination Schedule", "Vaccination Timeline", "Health Timeline", "Diseases & Remedies", "Assistant", "Settings"]
-    
-    for page in pages:
-        icon = {
-            "Dashboard": "📊",
-            "Vaccination Schedule": "💉",
-            "Vaccination Timeline": "📈",
-            "Health Timeline": "📅",
-            "Diseases & Remedies": "🏥",
-            "Assistant": "🤖",
-            "Settings": "⚙️"
-        }.get(page, "📄")
-        
-        if st.button(f"{icon} {page}", key=f"nav_{page}", width='stretch',
+st.markdown("""
+<div style="background: linear-gradient(90deg, #1e88e5 0%, #43a047 50%, #ff7043 100%); padding: 1rem 0; margin: -5rem -5rem 2rem -5rem; padding-left: 5rem; padding-right: 5rem;">
+    <h1 style="text-align: center; color: white; margin: 0; font-size: 2rem; font-weight: 700;">
+        Smart Child Vaccination & Health Assistant
+    </h1>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("---")
+
+col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+
+pages_nav = [
+    ("Home", "🏠"),
+    ("Dashboard", "📊"),
+    ("Vaccination Schedule", "💉"),
+    ("Vaccination Timeline", "📈"),
+    ("Health Timeline", "📅"),
+    ("Diseases & Remedies", "🏥"),
+    ("Assistant", "🤖"),
+    ("Settings", "⚙️")
+]
+
+cols = [col1, col2, col3, col4, col5, col6, col7]
+
+for idx, (page, icon) in enumerate(pages_nav[:-1]):
+    with cols[idx]:
+        if st.button(f"{icon}\n{page}", key=f"nav_{page}", width='stretch',
                      type="primary" if st.session_state.current_page == page else "secondary"):
             st.session_state.current_page = page
             st.rerun()
-    
-    st.markdown("---")
-    
-    children = db.get_all_children()
-    if children:
-        st.markdown("**Current Child:**")
-        if st.session_state.selected_child_id:
-            child = db.get_child(st.session_state.selected_child_id)
-            if child:
-                st.info(f"👶 {child['name']}")
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; font-size: 0.8rem; color: #888;">
-        <p>Version 1.0.0</p>
-        <p>Made with ❤️ for parents</p>
-    </div>
-    """, unsafe_allow_html=True)
 
-if st.session_state.current_page == "Dashboard":
+with col7:
+    children = db.get_all_children()
+    if children and st.session_state.selected_child_id:
+        child = db.get_child(st.session_state.selected_child_id)
+        if child:
+            st.info(f"👶 {child['name']}")
+
+st.markdown("---")
+
+if st.session_state.current_page == "Home":
+    from pages import home
+    home.render()
+elif st.session_state.current_page == "Dashboard":
     from pages import dashboard
     dashboard.render()
 elif st.session_state.current_page == "Vaccination Schedule":
