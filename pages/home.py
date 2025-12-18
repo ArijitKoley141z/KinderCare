@@ -4,14 +4,13 @@ def render():
     st.markdown("""
     <div style="text-align: center; padding: 3rem 1rem;">
         <h1 style="font-size: 3.5rem; font-weight: 800; margin: 0; line-height: 1.1;">
-            <span style="color: #1e88e5;">Smart Child</span>
+            <span style="color: #667eea;">KinderCare</span>
         </h1>
-        <h2 style="font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0; line-height: 1.2;">
-            <span style="color: #43a047;">Vaccination</span> &
-            <span style="color: #ff7043;">Health Assistant</span>
+        <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0.5rem 0 1rem 0; line-height: 1.2; color: #666;">
+            Your Child's Health & Vaccination Companion
         </h2>
-        <p style="font-size: 1.2rem; color: #666; margin: 1.5rem 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-            Your trusted companion for child health and vaccination management
+        <p style="font-size: 1.1rem; color: #888; margin: 1rem 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Track vaccinations, manage health records, and get instant answers from our AI assistant
         </p>
     </div>
     """, unsafe_allow_html=True)

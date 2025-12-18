@@ -2,8 +2,8 @@ import streamlit as st
 import database as db
 
 st.set_page_config(
-    page_title="Smart Child Vaccination & Health Assistant",
-    page_icon="💉",
+    page_title="KinderCare - Child Health & Vaccination",
+    page_icon="👶",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -43,9 +43,9 @@ if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
 st.markdown("""
-<div style="background: linear-gradient(90deg, #1e88e5 0%, #43a047 50%, #ff7043 100%); padding: 1rem 0; margin: -5rem -5rem 2rem -5rem; padding-left: 5rem; padding-right: 5rem;">
+<div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); padding: 1rem 0; margin: -5rem -5rem 2rem -5rem; padding-left: 5rem; padding-right: 5rem;">
     <h1 style="text-align: center; color: white; margin: 0; font-size: 2rem; font-weight: 700;">
-        Smart Child Vaccination & Health Assistant
+        KinderCare
     </h1>
 </div>
 """, unsafe_allow_html=True)
@@ -62,12 +62,11 @@ pages_nav = [
     ("Health Timeline", "📅"),
     ("Diseases & Remedies", "🏥"),
     ("Assistant", "🤖"),
-    ("Settings", "⚙️")
 ]
 
 cols = [col1, col2, col3, col4, col5, col6, col7]
 
-for idx, (page, icon) in enumerate(pages_nav[:-1]):
+for idx, (page, icon) in enumerate(pages_nav):
     with cols[idx]:
         if st.button(f"{icon}\n{page}", key=f"nav_{page}", width='stretch',
                      type="primary" if st.session_state.current_page == page else "secondary"):
@@ -75,11 +74,15 @@ for idx, (page, icon) in enumerate(pages_nav[:-1]):
             st.rerun()
 
 with col7:
-    children = db.get_all_children()
-    if children and st.session_state.selected_child_id:
-        child = db.get_child(st.session_state.selected_child_id)
-        if child:
-            st.info(f"👶 {child['name']}")
+    col_login, col_signup = st.columns(2)
+    with col_login:
+        if st.button("Login", key="nav_login", width='stretch', type="secondary"):
+            st.session_state.current_page = "Login"
+            st.rerun()
+    with col_signup:
+        if st.button("Sign Up", key="nav_signup", width='stretch', type="primary"):
+            st.session_state.current_page = "Sign Up"
+            st.rerun()
 
 st.markdown("---")
 
@@ -104,6 +107,9 @@ elif st.session_state.current_page == "Diseases & Remedies":
 elif st.session_state.current_page == "Assistant":
     from pages import assistant
     assistant.render()
-elif st.session_state.current_page == "Settings":
-    from pages import settings
-    settings.render()
+elif st.session_state.current_page == "Login":
+    from pages import login
+    login.render()
+elif st.session_state.current_page == "Sign Up":
+    from pages import signup
+    signup.render()
