@@ -10,13 +10,22 @@ def render():
             color: #fff !important;
             background-color: transparent !important;
             border: none !important;
+            font-weight: 600 !important;
         }
         [data-testid="stExpander"] button:hover {
             background-color: transparent !important;
             color: #fff !important;
             border: none !important;
+            font-weight: 600 !important;
+        }
+        [data-testid="stExpander"] button:active {
+            color: #fff !important;
+            background-color: transparent !important;
         }
         [data-testid="stExpander"] details {
+            color: #fff !important;
+        }
+        [data-testid="stExpander"] details[open] {
             color: #fff !important;
         }
         [data-testid="stExpander"] details:hover {
@@ -24,10 +33,17 @@ def render():
         }
         [data-testid="stExpander"] summary {
             color: #fff !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
         }
         [data-testid="stExpander"] summary:hover {
             background-color: transparent !important;
             color: #fff !important;
+            font-weight: 600 !important;
+        }
+        [data-testid="stExpander"] summary:focus {
+            color: #fff !important;
+            outline: none !important;
         }
         [data-testid="stExpander"] p, [data-testid="stExpander"] span {
             color: #000 !important;
