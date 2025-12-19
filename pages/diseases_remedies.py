@@ -94,17 +94,20 @@ def render():
             
             st.markdown("**Symptoms:**")
             symptoms_text = " • ".join(disease['symptoms'])
-            st.markdown(f"• {symptoms_text.replace(' • ', '  \n• ')}")
+            symptoms_formatted = symptoms_text.replace(' • ', '  \n• ')
+            st.markdown(f"• {symptoms_formatted}")
             
             st.markdown("**Home Remedies:**")
             remedies_text = " • ".join(disease['home_remedies'])
-            st.markdown(f"• {remedies_text.replace(' • ', '  \n• ')}")
+            remedies_formatted = remedies_text.replace(' • ', '  \n• ')
+            st.markdown(f"• {remedies_formatted}")
             
             st.markdown(f"**When to See a Doctor:**  \n{disease['when_to_see_doctor']}")
             
             st.markdown("**Prevention:**")
             prevention_text = " • ".join(disease['prevention'])
-            st.markdown(f"• {prevention_text.replace(' • ', '  \n• ')}")
+            prevention_formatted = prevention_text.replace(' • ', '  \n• ')
+            st.markdown(f"• {prevention_formatted}")
     
     st.markdown("---")
     st.markdown("""
