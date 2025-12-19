@@ -77,8 +77,8 @@ with nav_signup:
 st.markdown("""
 <style>
     [data-testid="stButton"] button {
-        color: #667eea !important;
-        background-color: transparent !important;
+        color: white !important;
+        background-color: #667eea !important;
         border: none !important;
         font-weight: 700 !important;
         font-size: 1rem !important;
@@ -87,8 +87,8 @@ st.markdown("""
     }
     
     [data-testid="stButton"] button:hover {
-        color: #764ba2 !important;
-        background-color: transparent !important;
+        color: white !important;
+        background-color: #764ba2 !important;
     }
 </style>
 """, unsafe_allow_html=True)
