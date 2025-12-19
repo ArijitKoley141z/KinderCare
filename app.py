@@ -49,73 +49,47 @@ if 'conversation_history' not in st.session_state:
 
 st.markdown("""
 <style>
-    .nav-tabs {
-        display: flex;
-        gap: 0;
-        border-bottom: 2px solid #e0e0e0;
-        margin-bottom: 2rem;
-    }
-    .nav-tab {
-        padding: 1rem 1.5rem;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #666;
-        border-bottom: 3px solid transparent;
-        transition: all 0.3s ease;
-        flex: 1;
-        text-align: center;
-    }
-    .nav-tab:hover {
-        color: #667eea;
-        background-color: #f9f9f9;
-    }
-    .nav-tab.active {
-        color: #667eea;
-        border-bottom-color: #667eea;
+    .nav-button-active {
+        border-bottom: 4px solid #667eea !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Create navigation using custom HTML for better visibility
-nav_col1, nav_col2, nav_col3, nav_col4, nav_col5 = st.columns(5)
+nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([1, 1, 1, 1, 1])
 
-with nav_col1:
-    is_active = st.session_state.current_page == "Home"
-    if st.button("🏠 Home", key="nav_Home", use_container_width=True, type="primary" if is_active else "secondary"):
+with nav_home:
+    button_label = "🏠 Home" if st.session_state.current_page == "Home" else "Home"
+    if st.button(button_label, key="nav_Home", use_container_width=True):
         st.session_state.current_page = "Home"
         st.rerun()
 
-with nav_col2:
-    is_active = st.session_state.current_page == "Diseases & Remedies"
-    if st.button("🏥 Diseases", key="nav_DR", use_container_width=True, type="primary" if is_active else "secondary"):
+with nav_diseases:
+    button_label = "🏥 Diseases & Remedies" if st.session_state.current_page == "Diseases & Remedies" else "Diseases & Remedies"
+    if st.button(button_label, key="nav_DR", use_container_width=True):
         st.session_state.current_page = "Diseases & Remedies"
         st.rerun()
 
-with nav_col3:
-    is_active = st.session_state.current_page == "About us"
-    if st.button("ℹ️ About", key="nav_About", use_container_width=True, type="primary" if is_active else "secondary"):
+with nav_about:
+    button_label = "ℹ️ About us" if st.session_state.current_page == "About us" else "About us"
+    if st.button(button_label, key="nav_About", use_container_width=True):
         st.session_state.current_page = "About us"
         st.rerun()
 
-with nav_col4:
-    is_active = st.session_state.current_page == "Login"
-    if st.button("🔐 Login", key="nav_Login", use_container_width=True, type="primary" if is_active else "secondary"):
+with nav_login:
+    button_label = "🔐 Login" if st.session_state.current_page == "Login" else "Login"
+    if st.button(button_label, key="nav_Login", use_container_width=True):
         st.session_state.current_page = "Login"
         st.rerun()
 
-with nav_col5:
-    is_active = st.session_state.current_page == "Sign Up"
-    if st.button("✍️ Sign Up", key="nav_SignUp", use_container_width=True, type="primary" if is_active else "secondary"):
+with nav_signup:
+    button_label = "✍️ Sign Up" if st.session_state.current_page == "Sign Up" else "Sign Up"
+    if st.button(button_label, key="nav_SignUp", use_container_width=True):
         st.session_state.current_page = "Sign Up"
         st.rerun()
 
 st.markdown("""
 <style>
-    /* Primary buttons (active tabs) */
-    [data-testid="baseButton-primary"] button {
+    [data-testid="stButton"] button {
         color: white !important;
         background-color: #667eea !important;
         border: none !important;
@@ -125,37 +99,18 @@ st.markdown("""
         padding: 0.5rem 1rem !important;
     }
     
-    [data-testid="baseButton-primary"] button:hover {
+    [data-testid="stButton"] button:hover {
+        color: white !important;
         background-color: #764ba2 !important;
     }
     
-    [data-testid="baseButton-primary"] button:active,
-    [data-testid="baseButton-primary"] button:focus {
+    [data-testid="stButton"] button:active {
         background-color: #667eea !important;
-        box-shadow: none !important;
     }
     
-    /* Secondary buttons (inactive tabs) */
-    [data-testid="baseButton-secondary"] button {
-        color: #666 !important;
-        background-color: #f5f5f5 !important;
-        border: 2px solid #e0e0e0 !important;
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-        transition: all 0.3s ease !important;
-        padding: 0.5rem 1rem !important;
-    }
-    
-    [data-testid="baseButton-secondary"] button:hover {
-        color: #667eea !important;
-        background-color: #f0f7ff !important;
-        border-color: #667eea !important;
-    }
-    
-    [data-testid="baseButton-secondary"] button:active,
-    [data-testid="baseButton-secondary"] button:focus {
-        background-color: #f5f5f5 !important;
-        box-shadow: none !important;
+    [data-testid="stButton"] button:focus {
+        background-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3) !important;
     }
 </style>
 """, unsafe_allow_html=True)
