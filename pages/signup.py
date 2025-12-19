@@ -1,17 +1,50 @@
 import streamlit as st
 
 def render():
+    st.markdown("""
+    <style>
+        /* Improve text input styling */
+        [data-testid="stTextInput"] input {
+            font-size: 1rem !important;
+            padding: 10px 12px !important;
+            border-radius: 8px !important;
+            border: 2px solid #e0e0e0 !important;
+            transition: all 0.3s ease !important;
+        }
+        [data-testid="stTextInput"] input:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+            outline: none !important;
+        }
+        /* Improve checkbox styling */
+        [data-testid="stCheckbox"] {
+            color: #333 !important;
+        }
+        /* Style buttons */
+        [data-testid="baseButton-primary"] {
+            font-weight: 600 !important;
+            font-size: 1.05em !important;
+            border-radius: 8px !important;
+        }
+        [data-testid="baseButton-secondary"] {
+            font-weight: 600 !important;
+            font-size: 1.05em !important;
+            border-radius: 8px !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
         st.markdown("""
         <div style="text-align: center; margin-bottom: 2rem;">
-            <h1 style="color: #667eea; font-size: 2rem; margin: 0;">Create Account</h1>
-            <p style="color: #999; margin-top: 0.5rem;">Join KinderCare to track your child's health</p>
+            <h1 style="color: #667eea; font-size: 2rem; margin: 0; font-weight: 800;">Create Account</h1>
+            <p style="color: #999; margin-top: 0.5rem; font-size: 1.05rem;">Join KinderCare to track your child's health</p>
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown('<div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">', unsafe_allow_html=True)
+        st.markdown('<div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border-top: 4px solid #667eea;">', unsafe_allow_html=True)
         
         name = st.text_input("👤 Full Name", placeholder="Your Full Name", key="signup_name")
         email = st.text_input("📧 Email Address", placeholder="your@email.com", key="signup_email")
