@@ -40,6 +40,9 @@ db.init_database()
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home"
 
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
 if 'selected_child_id' not in st.session_state:
     children = db.get_all_children()
     st.session_state.selected_child_id = children[0]['id'] if children else None
@@ -55,37 +58,76 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([1, 1, 1, 1, 1])
+if not st.session_state.logged_in:
+    nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([1, 1, 1, 1, 1])
 
-with nav_home:
-    button_label = "🏠 Home" if st.session_state.current_page == "Home" else "Home"
-    if st.button(button_label, key="nav_Home", use_container_width=True):
-        st.session_state.current_page = "Home"
-        st.rerun()
+    with nav_home:
+        button_label = "🏠 Home" if st.session_state.current_page == "Home" else "Home"
+        if st.button(button_label, key="nav_Home", use_container_width=True):
+            st.session_state.current_page = "Home"
+            st.rerun()
 
-with nav_diseases:
-    button_label = "🏥 Diseases & Remedies" if st.session_state.current_page == "Diseases & Remedies" else "Diseases & Remedies"
-    if st.button(button_label, key="nav_DR", use_container_width=True):
-        st.session_state.current_page = "Diseases & Remedies"
-        st.rerun()
+    with nav_diseases:
+        button_label = "🏥 Diseases & Remedies" if st.session_state.current_page == "Diseases & Remedies" else "Diseases & Remedies"
+        if st.button(button_label, key="nav_DR", use_container_width=True):
+            st.session_state.current_page = "Diseases & Remedies"
+            st.rerun()
 
-with nav_about:
-    button_label = "ℹ️ About us" if st.session_state.current_page == "About us" else "About us"
-    if st.button(button_label, key="nav_About", use_container_width=True):
-        st.session_state.current_page = "About us"
-        st.rerun()
+    with nav_about:
+        button_label = "ℹ️ About us" if st.session_state.current_page == "About us" else "About us"
+        if st.button(button_label, key="nav_About", use_container_width=True):
+            st.session_state.current_page = "About us"
+            st.rerun()
 
-with nav_login:
-    button_label = "🔐 Login" if st.session_state.current_page == "Login" else "Login"
-    if st.button(button_label, key="nav_Login", use_container_width=True):
-        st.session_state.current_page = "Login"
-        st.rerun()
+    with nav_login:
+        button_label = "🔐 Login" if st.session_state.current_page == "Login" else "Login"
+        if st.button(button_label, key="nav_Login", use_container_width=True):
+            st.session_state.current_page = "Login"
+            st.rerun()
 
-with nav_signup:
-    button_label = "✍️ Sign Up" if st.session_state.current_page == "Sign Up" else "Sign Up"
-    if st.button(button_label, key="nav_SignUp", use_container_width=True):
-        st.session_state.current_page = "Sign Up"
-        st.rerun()
+    with nav_signup:
+        button_label = "✍️ Sign Up" if st.session_state.current_page == "Sign Up" else "Sign Up"
+        if st.button(button_label, key="nav_SignUp", use_container_width=True):
+            st.session_state.current_page = "Sign Up"
+            st.rerun()
+else:
+    nav_dashboard, nav_vax_sched, nav_vax_timeline, nav_health_timeline, nav_assistant, nav_logout = st.columns([1, 1, 1, 1, 1, 1])
+
+    with nav_dashboard:
+        button_label = "📊 Dashboard" if st.session_state.current_page == "Dashboard" else "Dashboard"
+        if st.button(button_label, key="nav_Dashboard", use_container_width=True):
+            st.session_state.current_page = "Dashboard"
+            st.rerun()
+
+    with nav_vax_sched:
+        button_label = "💉 Vaccination Schedule" if st.session_state.current_page == "Vaccination Schedule" else "Vaccination Schedule"
+        if st.button(button_label, key="nav_VaxSched", use_container_width=True):
+            st.session_state.current_page = "Vaccination Schedule"
+            st.rerun()
+
+    with nav_vax_timeline:
+        button_label = "📅 Vaccination Timeline" if st.session_state.current_page == "Vaccination Timeline" else "Vaccination Timeline"
+        if st.button(button_label, key="nav_VaxTimeline", use_container_width=True):
+            st.session_state.current_page = "Vaccination Timeline"
+            st.rerun()
+
+    with nav_health_timeline:
+        button_label = "❤️ Health Timeline" if st.session_state.current_page == "Health Timeline" else "Health Timeline"
+        if st.button(button_label, key="nav_HealthTimeline", use_container_width=True):
+            st.session_state.current_page = "Health Timeline"
+            st.rerun()
+
+    with nav_assistant:
+        button_label = "🤖 Assistant" if st.session_state.current_page == "Assistant" else "Assistant"
+        if st.button(button_label, key="nav_Assistant", use_container_width=True):
+            st.session_state.current_page = "Assistant"
+            st.rerun()
+
+    with nav_logout:
+        if st.button("🚪 Logout", key="nav_Logout", use_container_width=True):
+            st.session_state.logged_in = False
+            st.session_state.current_page = "Home"
+            st.rerun()
 
 st.markdown("""
 <style>

@@ -66,7 +66,8 @@ def render():
         if st.button("🔓 Login", key="login_btn", use_container_width=True, type="primary"):
             if email and password:
                 st.success("✅ Login successful!")
-                st.session_state.current_page = "Home"
+                st.session_state.logged_in = True
+                st.session_state.current_page = "Dashboard"
                 st.rerun()
             else:
                 st.error("❌ Please enter both email and password")

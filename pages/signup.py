@@ -74,7 +74,8 @@ def render():
                 st.error("❌ Password must be at least 6 characters long")
             else:
                 st.success("✅ Account created successfully!")
-                st.session_state.current_page = "Home"
+                st.session_state.logged_in = True
+                st.session_state.current_page = "Dashboard"
                 st.rerun()
         
         st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
