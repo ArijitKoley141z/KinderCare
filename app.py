@@ -121,62 +121,71 @@ if 'selected_child_id' not in st.session_state:
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
-nav_items = [
-    ("Home", "nav_Home"),
-    ("Diseases & Remedies", "nav_DR"),
-    ("About us", "nav_About"),
-    ("Login", "nav_Login", "login"),
-    ("Sign Up", "nav_SignUp", "signup")
-]
-
-navbar_html = """
+st.markdown("""
 <div class="navbar">
     <div class="navbar-left">
         👶 KinderCare
     </div>
-    <div class="navbar-right">
-"""
-
-for item in nav_items:
-    page_name = item[0]
-    key = item[1]
-    btn_class = item[2] if len(item) > 2 else ""
-    
-    active_class = "active" if st.session_state.current_page == page_name else ""
-    class_attr = f"nav-btn {active_class} {btn_class}"
-    
-    navbar_html += f'<button class="{class_attr}" onclick="document.querySelector(\'button[key={key}]\').click()" style="cursor: pointer;">{page_name}</button>'
-
-navbar_html += """
+    <div class="navbar-right" id="navbar-buttons">
     </div>
 </div>
-"""
+""", unsafe_allow_html=True)
 
-st.markdown(navbar_html, unsafe_allow_html=True)
+navbar_cols = st.columns([1, 1, 1, 1, 1])
 
-if st.button("Home", key="nav_Home"):
-    st.session_state.current_page = "Home"
-    st.rerun()
+with navbar_cols[0]:
+    if st.button("Home", key="nav_Home", use_container_width=True):
+        st.session_state.current_page = "Home"
+        st.rerun()
 
-if st.button("Diseases & Remedies", key="nav_DR"):
-    st.session_state.current_page = "Diseases & Remedies"
-    st.rerun()
+with navbar_cols[1]:
+    if st.button("Diseases & Remedies", key="nav_DR", use_container_width=True):
+        st.session_state.current_page = "Diseases & Remedies"
+        st.rerun()
 
-if st.button("About us", key="nav_About"):
-    st.session_state.current_page = "About us"
-    st.rerun()
+with navbar_cols[2]:
+    if st.button("About us", key="nav_About", use_container_width=True):
+        st.session_state.current_page = "About us"
+        st.rerun()
 
-if st.button("Login", key="nav_Login"):
-    st.session_state.current_page = "Login"
-    st.rerun()
+with navbar_cols[3]:
+    if st.button("Login", key="nav_Login", use_container_width=True):
+        st.session_state.current_page = "Login"
+        st.rerun()
 
-if st.button("Sign Up", key="nav_SignUp"):
-    st.session_state.current_page = "Sign Up"
-    st.rerun()
+with navbar_cols[4]:
+    if st.button("Sign Up", key="nav_SignUp", use_container_width=True):
+        st.session_state.current_page = "Sign Up"
+        st.rerun()
 
 st.markdown("""
 <style>
-    [data-testid="stButton"] { display: none !important; }
+    [data-testid="stButton"] { 
+        background: transparent !important;
+        border: none !important;
+        color: #333 !important;
+        text-decoration: none !important;
+        font-weight: 500 !important;
+        font-size: 0.9rem !important;
+        padding: 0.6rem 1rem !important;
+        border-radius: 6px !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    [data-testid="stButton"]:hover {
+        color: #667eea !important;
+        background-color: #f5f5f5 !important;
+    }
+    
+    [data-testid="stButton"][kind="primary"] {
+        background-color: #667eea !important;
+        color: white !important;
+        border: none !important;
+    }
+    
+    [data-testid="stButton"][kind="primary"]:hover {
+        background-color: #764ba2 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
