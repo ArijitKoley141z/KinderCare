@@ -98,7 +98,7 @@ if st.session_state.current_page == "Home":
 
     with col_text:
         st.markdown("""
-<h1 style="font-size: 5rem; font-weight: 800; color: #667eea; margin: 3rem 0 0 0; text-align: left; padding: 0;">
+<h1 style="font-size: 5rem; font-weight: 800; color: #667eea; margin: 8rem 0 0 0; text-align: left; padding: 0;">
     KinderCare
 </h1>
 <h2 style="font-size: 2.5rem; font-weight: 600; color: #333; margin: 0 0 0.5rem 0; text-align: left; padding: 0;">
