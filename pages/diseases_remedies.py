@@ -4,10 +4,10 @@ def render():
     st.markdown("""
     <style>
         [data-testid="stExpander"] {
-            color: #000 !important;
+            color: #fff !important;
         }
         [data-testid="stExpander"] button {
-            color: #000 !important;
+            color: #fff !important;
             background-color: transparent !important;
             border: none !important;
         }
@@ -17,13 +17,13 @@ def render():
             border: none !important;
         }
         [data-testid="stExpander"] details {
-            color: #000 !important;
+            color: #fff !important;
         }
         [data-testid="stExpander"] details:hover {
             background-color: transparent !important;
         }
         [data-testid="stExpander"] summary {
-            color: #000 !important;
+            color: #fff !important;
         }
         [data-testid="stExpander"] summary:hover {
             background-color: transparent !important;
