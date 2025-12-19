@@ -1,5 +1,8 @@
 import streamlit as st
 import database as db
+from PIL import Image
+import base64
+from io import BytesIO
 
 st.set_page_config(
     page_title="KinderCare - Child Health & Vaccination",
@@ -103,7 +106,15 @@ with col_text:
 """, unsafe_allow_html=True)
 
 with col_image:
-    st.markdown('<img src="home_hero.jpg" width="500" style="width: 100%; max-width: 500px;">', unsafe_allow_html=True)
+    # Load and encode image as base64 to avoid fullscreen icon
+    try:
+        img = Image.open("home_hero.jpg")
+        buffered = BytesIO()
+        img.save(buffered, format="JPEG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        st.markdown(f'<img src="data:image/jpeg;base64,{img_str}" style="width: 100%; max-width: 500px;">', unsafe_allow_html=True)
+    except:
+        st.write("Image not found")
 
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
