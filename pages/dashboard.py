@@ -5,10 +5,8 @@ from datetime import date, timedelta
 import database as db
 from vaccination_guidelines import categorize_vaccinations, get_age_string
 from notifications import get_in_app_notifications
-import layout
 
 def render():
-    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">Dashboard</h1>', unsafe_allow_html=True)
     
     children = db.get_all_children()

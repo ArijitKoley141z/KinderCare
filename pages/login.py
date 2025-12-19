@@ -1,8 +1,6 @@
 import streamlit as st
-import layout
 
 def render():
-    layout.render_header()
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:

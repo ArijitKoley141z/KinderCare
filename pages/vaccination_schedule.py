@@ -4,7 +4,6 @@ import database as db
 from vaccination_guidelines import categorize_vaccinations, get_age_string, generate_vaccination_schedule
 import json
 import os
-import layout
 
 def load_vaccine_data():
     """Load vaccine data from JSON files"""
@@ -28,7 +27,6 @@ def load_vaccine_data():
     return data
 
 def render():
-    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📋 Vaccination Schedule</h1>', unsafe_allow_html=True)
     st.markdown("Track your child's vaccination schedule based on recommended guidelines")
     

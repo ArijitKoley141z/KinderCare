@@ -3,10 +3,8 @@ from datetime import date, datetime
 import plotly.graph_objects as go
 import database as db
 from vaccination_guidelines import get_age_string
-import layout
 
 def render():
-    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📅 Health Timeline</h1>', unsafe_allow_html=True)
     st.markdown("Track your child's health events, vaccinations, and important milestones")
     

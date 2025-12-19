@@ -3,10 +3,8 @@ from datetime import date, datetime
 import os
 import database as db
 from vaccination_guidelines import generate_vaccination_schedule
-import layout
 
 def render():
-    layout.render_header()
     st.title("Settings")
     
     tab1, tab2, tab3, tab4 = st.tabs(["Child Profiles", "Notifications", "Data Management", "About"])

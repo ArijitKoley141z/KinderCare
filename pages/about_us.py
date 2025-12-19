@@ -1,8 +1,6 @@
 import streamlit as st
-import layout
 
 def render():
-    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">ℹ️ About Us</h1>', unsafe_allow_html=True)
     
     st.markdown("""
