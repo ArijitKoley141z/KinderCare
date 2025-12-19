@@ -5,30 +5,45 @@ def render():
     
     with col2:
         st.markdown("""
-        <div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; color: #667eea; margin-bottom: 2rem; font-size: 1.8rem;">Create Account</h2>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: #667eea; font-size: 2rem; margin: 0;">Create Account</h1>
+            <p style="color: #999; margin-top: 0.5rem;">Join KinderCare to track your child's health</p>
+        </div>
         """, unsafe_allow_html=True)
         
-        name = st.text_input("Full Name", placeholder="Your Name", key="signup_name")
-        email = st.text_input("Email Address", placeholder="your@email.com", key="signup_email")
-        password = st.text_input("Password", type="password", placeholder="Create a password", key="signup_password")
-        confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password", key="signup_confirm")
+        st.markdown('<div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">', unsafe_allow_html=True)
         
-        st.checkbox("I agree to the Terms & Conditions", key="terms_agree", value=False)
+        name = st.text_input("👤 Full Name", placeholder="Your Full Name", key="signup_name")
+        email = st.text_input("📧 Email Address", placeholder="your@email.com", key="signup_email")
+        password = st.text_input("🔐 Password", type="password", placeholder="Create a strong password", key="signup_password")
+        confirm_password = st.text_input("🔐 Confirm Password", type="password", placeholder="Re-enter your password", key="signup_confirm")
         
-        if st.button("Sign Up", key="signup_btn", use_container_width=True, type="primary"):
+        col_terms, col_space = st.columns([5, 1])
+        with col_terms:
+            agree_terms = st.checkbox("I agree to the Terms & Conditions", key="terms_agree", value=False)
+        
+        if st.button("✍️ Create Account", key="signup_btn", use_container_width=True, type="primary"):
             if not name or not email or not password or not confirm_password:
                 st.error("❌ Please fill all fields")
             elif password != confirm_password:
                 st.error("❌ Passwords don't match")
-            elif not st.session_state.get('terms_agree', False):
+            elif not agree_terms:
                 st.error("❌ Please agree to Terms & Conditions")
+            elif len(password) < 6:
+                st.error("❌ Password must be at least 6 characters long")
             else:
-                st.success("✅ Account created successfully! (Demo mode)")
-                st.session_state.current_page = "Dashboard"
+                st.success("✅ Account created successfully!")
+                st.session_state.current_page = "Home"
                 st.rerun()
         
-        st.divider()
-        st.markdown('<p style="text-align: center; color: #888;">Already have an account? <strong style="color: #667eea;">Login</strong></p>', unsafe_allow_html=True)
+        st.markdown("---")
+        
+        col_text, col_btn = st.columns([2, 1])
+        with col_text:
+            st.markdown('<p style="color: #888; margin: 0;">Already have an account?</p>', unsafe_allow_html=True)
+        with col_btn:
+            if st.button("Login", key="switch_to_login", use_container_width=True, type="secondary"):
+                st.session_state.current_page = "Login"
+                st.rerun()
         
         st.markdown("</div>", unsafe_allow_html=True)
