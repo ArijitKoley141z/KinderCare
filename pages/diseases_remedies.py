@@ -13,7 +13,7 @@ def render():
         }
         [data-testid="stExpander"] button:hover {
             background-color: transparent !important;
-            color: #000 !important;
+            color: #fff !important;
             border: none !important;
         }
         [data-testid="stExpander"] details {
@@ -27,7 +27,7 @@ def render():
         }
         [data-testid="stExpander"] summary:hover {
             background-color: transparent !important;
-            color: #000 !important;
+            color: #fff !important;
         }
         [data-testid="stExpander"] p, [data-testid="stExpander"] span {
             color: #000 !important;
