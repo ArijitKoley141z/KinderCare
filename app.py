@@ -15,7 +15,7 @@ st.markdown("""
 <style>
     [data-testid="stSidebarNav"] { display: none; }
     [data-testid="stSidebar"] { display: none; }
-    [data-testid="stAppViewContainer"] { background-color: #667eea; padding: 2rem; }
+    [data-testid="stAppViewContainer"] { background-color: #ffffff; }
     
     body {
         background-color: #ffffff;
