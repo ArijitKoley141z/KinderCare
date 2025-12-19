@@ -33,17 +33,20 @@ def render():
         }
         [data-testid="stExpander"] summary {
             color: #fff !important;
-            font-weight: 600 !important;
+            font-weight: 800 !important;
+            font-size: 1.05em !important;
             cursor: pointer !important;
         }
         [data-testid="stExpander"] summary:hover {
             background-color: transparent !important;
             color: #fff !important;
-            font-weight: 600 !important;
+            font-weight: 800 !important;
+            font-size: 1.05em !important;
         }
         [data-testid="stExpander"] summary:focus {
             color: #fff !important;
             outline: none !important;
+            font-weight: 800 !important;
         }
         [data-testid="stExpander"] p, [data-testid="stExpander"] span {
             color: #000 !important;
@@ -52,11 +55,15 @@ def render():
         [data-testid="stExpander"] details[open] > summary {
             background-color: transparent !important;
             color: #ffffff !important;
+            font-weight: 800 !important;
+            font-size: 1.05em !important;
         }
         /* Ensure text stays visible on hover */
         [data-testid="stExpander"] details[open] > summary:hover {
             background-color: rgba(255, 255, 255, 0.08) !important;
             color: #ffffff !important;
+            font-weight: 800 !important;
+            font-size: 1.05em !important;
         }
     </style>
     """, unsafe_allow_html=True)
