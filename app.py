@@ -80,7 +80,7 @@ st.markdown("""
         color: #667eea !important;
         background-color: transparent !important;
         border: none !important;
-        font-weight: 500 !important;
+        font-weight: 700 !important;
         font-size: 1rem !important;
         transition: all 0.3s ease !important;
         padding: 0.5rem 1rem !important;
