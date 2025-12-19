@@ -126,67 +126,111 @@ st.markdown("""
     <div class="navbar-left">
         👶 KinderCare
     </div>
-    <div class="navbar-right" id="navbar-buttons">
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
-navbar_cols = st.columns([1, 1, 1, 1, 1])
+nav_spacer, nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([2.5, 1, 1.3, 0.8, 0.8, 0.8])
 
-with navbar_cols[0]:
+with nav_home:
     if st.button("Home", key="nav_Home", use_container_width=True):
         st.session_state.current_page = "Home"
         st.rerun()
 
-with navbar_cols[1]:
-    if st.button("Diseases & Remedies", key="nav_DR", use_container_width=True):
+with nav_diseases:
+    if st.button("Diseases &\nRemedies", key="nav_DR", use_container_width=True):
         st.session_state.current_page = "Diseases & Remedies"
         st.rerun()
 
-with navbar_cols[2]:
-    if st.button("About us", key="nav_About", use_container_width=True):
+with nav_about:
+    if st.button("About", key="nav_About", use_container_width=True):
         st.session_state.current_page = "About us"
         st.rerun()
 
-with navbar_cols[3]:
+with nav_login:
     if st.button("Login", key="nav_Login", use_container_width=True):
         st.session_state.current_page = "Login"
         st.rerun()
 
-with navbar_cols[4]:
+with nav_signup:
     if st.button("Sign Up", key="nav_SignUp", use_container_width=True):
         st.session_state.current_page = "Sign Up"
         st.rerun()
 
 st.markdown("""
 <style>
-    [data-testid="stButton"] { 
-        background: transparent !important;
-        border: none !important;
+    .nav-btn-regular {
         color: #333 !important;
-        text-decoration: none !important;
+        background-color: transparent !important;
+        border: none !important;
         font-weight: 500 !important;
-        font-size: 0.9rem !important;
-        padding: 0.6rem 1rem !important;
-        border-radius: 6px !important;
+        font-size: 0.95rem !important;
         transition: all 0.3s ease !important;
     }
     
-    [data-testid="stButton"]:hover {
+    .nav-btn-regular:hover {
         color: #667eea !important;
         background-color: #f5f5f5 !important;
     }
     
-    [data-testid="stButton"][kind="primary"] {
-        background-color: #667eea !important;
-        color: white !important;
-        border: none !important;
+    .nav-btn-auth {
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 6px !important;
     }
     
-    [data-testid="stButton"][kind="primary"]:hover {
+    .nav-btn-login {
+        color: #667eea !important;
+        background-color: white !important;
+        border: 2px solid #667eea !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .nav-btn-login:hover {
+        background-color: #667eea !important;
+        color: white !important;
+    }
+    
+    .nav-btn-signup {
+        color: white !important;
+        background-color: #667eea !important;
+        border: 2px solid #667eea !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .nav-btn-signup:hover {
         background-color: #764ba2 !important;
+        border-color: #764ba2 !important;
+    }
+    
+    [data-testid="stButton"] {
+        width: 100% !important;
+    }
+    
+    [data-testid="stButton"] button {
+        width: 100% !important;
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('[data-testid="stButton"] button');
+        buttons.forEach((btn, index) => {
+            const text = btn.textContent.trim();
+            if (text === 'Home' || text === 'Diseases & Remedies' || text === 'About') {
+                btn.className = 'nav-btn-regular';
+            } else if (text === 'Login') {
+                btn.className = 'nav-btn-auth nav-btn-login';
+            } else if (text === 'Sign Up') {
+                btn.className = 'nav-btn-auth nav-btn-signup';
+            }
+        });
+    });
+</script>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="main">', unsafe_allow_html=True)
