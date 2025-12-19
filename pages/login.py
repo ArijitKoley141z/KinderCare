@@ -24,7 +24,10 @@ def render():
         }
         /* Improve checkbox styling */
         [data-testid="stCheckbox"] {
-            color: #1a1a1a !important;
+            color: #000000 !important;
+        }
+        [data-testid="stCheckbox"] label {
+            color: #000000 !important;
         }
         /* Style buttons */
         [data-testid="baseButton-primary"] {
