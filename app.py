@@ -93,10 +93,10 @@ st.markdown("""
 st.markdown("---")
 
 st.markdown("""
-<h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin-bottom: 0.5rem; margin-top: 1rem; text-align: left;">
+<h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin-bottom: 0.1rem; margin-top: -1.5rem; text-align: left;">
     KinderCare
 </h1>
-<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin-bottom: 2rem; text-align: left;">
+<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin-bottom: 2rem; margin-top: 0.1rem; text-align: left;">
     Your Child's Health & Vaccination Companion
 </h2>
 """, unsafe_allow_html=True)
