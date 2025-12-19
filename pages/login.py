@@ -44,7 +44,7 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown('<div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border-top: 4px solid #667eea;">', unsafe_allow_html=True)
+        st.markdown('<div style="background: #f0f7ff; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border-top: 4px solid #667eea;">', unsafe_allow_html=True)
         
         email = st.text_input("📧 Email Address", placeholder="your@email.com", key="login_email")
         password = st.text_input("🔐 Password", type="password", placeholder="Enter your password", key="login_password")
