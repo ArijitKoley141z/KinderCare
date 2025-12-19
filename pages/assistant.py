@@ -15,10 +15,10 @@ def process_user_message(user_input, child, vaccinations, health_events):
     st.session_state.conversation_history.append({"role": "assistant", "content": response})
 
 def render():
-    st.markdown('<h1 style="color: #667eea; margin-top: 0;">Health Assistant</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">🤖 Health Assistant</h1>', unsafe_allow_html=True)
     
     st.markdown("""
-    <div class="info-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
         <h3 style="color: white; margin-top: 0;">AI Health Assistant</h3>
         <p style="color: white; margin: 0;">Ask questions about your child's vaccination schedule, health concerns, or get general guidance. I understand natural language - just ask as you would ask a friend!</p>
     </div>
@@ -54,7 +54,7 @@ def render():
     
     st.markdown("---")
     
-    st.subheader("Quick Questions")
+    st.subheader("💡 Quick Questions")
     quick_responses = get_quick_responses()
     
     cols = st.columns(3)
@@ -66,7 +66,7 @@ def render():
     
     st.markdown("---")
     
-    st.subheader("Chat")
+    st.subheader("💬 Chat")
     
     chat_container = st.container()
     
@@ -74,15 +74,15 @@ def render():
         for msg in st.session_state.conversation_history:
             if msg['role'] == 'user':
                 st.markdown(f"""
-                <div style="background-color: #42a5f5; padding: 10px 15px; border-radius: 15px; 
-                            margin: 10px 0; margin-left: 20%; text-align: right; color: #fff;">
+                <div style="background-color: #667eea; padding: 12px 15px; border-radius: 15px; 
+                            margin: 10px 0; margin-left: 20%; text-align: right; color: white;">
                     <strong>You:</strong> {msg['content']}
                 </div>
                 """, unsafe_allow_html=True)
             else:
                 st.markdown(f"""
-                <div style="background-color: #9e9e9e; padding: 10px 15px; border-radius: 15px; 
-                            margin: 10px 0; margin-right: 20%; color: #fff;">
+                <div style="background-color: #e8e8e8; padding: 12px 15px; border-radius: 15px; 
+                            margin: 10px 0; margin-right: 20%; color: #333;">
                     <strong>Assistant:</strong><br>{msg['content']}
                 </div>
                 """, unsafe_allow_html=True)

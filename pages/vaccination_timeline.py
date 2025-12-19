@@ -1,74 +1,106 @@
 import streamlit as st
-from vaccination_guidelines import INDIA_UIP_SCHEDULE, WHO_SCHEDULE, CDC_SCHEDULE
+import json
+
+def load_vaccine_data():
+    """Load vaccine data from JSON files"""
+    data = {
+        "India (UIP)": None,
+        "WHO": None
+    }
+    
+    try:
+        with open("data/vaccines_uip_india.json", "r") as f:
+            data["India (UIP)"] = json.load(f)
+    except FileNotFoundError:
+        pass
+    
+    try:
+        with open("data/vaccines_who.json", "r") as f:
+            data["WHO"] = json.load(f)
+    except FileNotFoundError:
+        pass
+    
+    return data
 
 def render():
-    st.markdown('<h1 style="color: #667eea; margin-top: 0;">Vaccination Timeline</h1>', unsafe_allow_html=True)
-    st.markdown("A simple guide showing when your child needs each vaccine.")
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">📈 Vaccination Timeline</h1>', unsafe_allow_html=True)
+    st.markdown("A visual guide showing when your child needs each vaccine.")
+    
+    vaccine_data = load_vaccine_data()
     
     guideline = st.selectbox(
         "Select Vaccination Guideline",
-        ["India (UIP)", "WHO", "CDC (USA)"],
+        ["India (UIP)", "WHO"],
         help="Choose the vaccination guideline to view the recommended schedule"
     )
     
-    if guideline == "India (UIP)":
-        schedule = INDIA_UIP_SCHEDULE
-        guideline_info = "Universal Immunization Programme - Government of India"
-    elif guideline == "WHO":
-        schedule = WHO_SCHEDULE
-        guideline_info = "World Health Organization Recommendations"
-    else:
-        schedule = CDC_SCHEDULE
-        guideline_info = "Centers for Disease Control and Prevention (USA)"
+    if guideline not in vaccine_data or vaccine_data[guideline] is None:
+        st.error(f"⚠️ Vaccine data for {guideline} is not available")
+        return
     
-    st.info(f"**{guideline}**: {guideline_info}")
+    data = vaccine_data[guideline]
+    
+    st.info(f"""
+    **{data.get('name', guideline)}**  
+    Source: {data.get('source', 'Unknown')}
+    """)
     
     st.markdown("---")
     
-    age_groups = {}
-    for vacc in schedule:
-        age_label = vacc['age_label']
-        weeks = vacc['age_weeks']
-        if age_label not in age_groups:
-            age_groups[age_label] = {'weeks': weeks, 'vaccines': []}
-        age_groups[age_label]['vaccines'].append({
-            'name': vacc['vaccine'],
-            'description': vacc['description']
-        })
-    
-    sorted_groups = sorted(age_groups.items(), key=lambda x: x[1]['weeks'])
+    vaccines = data.get('vaccines', [])
     
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Total Vaccines", len(schedule))
+        st.metric("Total Vaccines", len(vaccines))
     with col2:
-        st.metric("Age Stages", len(sorted_groups))
+        age_groups = set([v['age_label'] for v in vaccines])
+        st.metric("Age Groups", len(age_groups))
     
     st.markdown("---")
-    st.subheader("When to Vaccinate Your Child")
+    st.subheader("📅 Vaccination Schedule by Age")
     
-    for age_label, data in sorted_groups:
-        vaccines = data['vaccines']
-        vaccine_count = len(vaccines)
+    age_groups = {}
+    for vaccine in vaccines:
+        age_label = vaccine['age_label']
+        if age_label not in age_groups:
+            age_groups[age_label] = {
+                'weeks': vaccine['age_weeks'],
+                'vaccines': []
+            }
+        age_groups[age_label]['vaccines'].append(vaccine)
+    
+    sorted_groups = sorted(age_groups.items(), key=lambda x: x[1]['weeks'])
+    
+    for age_label, group_data in sorted_groups:
+        vaccines_in_group = group_data['vaccines']
+        vaccine_count = len(vaccines_in_group)
         vaccine_text = "vaccine" if vaccine_count == 1 else "vaccines"
         
-        with st.expander(f"**{age_label}** — {vaccine_count} {vaccine_text}", expanded=False):
-            for vacc in vaccines:
+        with st.expander(f"**{age_label}** — {vaccine_count} {vaccine_text} 💉", expanded=False):
+            for vaccine in vaccines_in_group:
+                doses_text = f"({vaccine['doses']} dose{'s' if vaccine['doses'] > 1 else ''})"
+                
                 st.markdown(f"""
-                <div style="background-color: #667eea; padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; color: white;">
-                    <div style="font-weight: bold; font-size: 16px; margin-bottom: 4px;">
-                        💉 {vacc['name']}
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px; border-radius: 8px; margin-bottom: 12px; color: white;">
+                    <div style="font-weight: 700; font-size: 15px; margin-bottom: 5px;">
+                        {vaccine['name']}
                     </div>
-                    <div style="font-size: 14px; opacity: 0.95;">
-                        {vacc['description']}
+                    <div style="font-size: 13px; opacity: 0.9; margin-bottom: 5px;">
+                        {vaccine['full_name']} {doses_text}
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.85;">
+                        📝 {vaccine['description']}
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">
+                        ℹ️ {vaccine['notes']}
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("""
-    <div class="info-box">
-        <h3>Important</h3>
-        <p>This timeline shows the standard recommended vaccination schedule. Always consult your pediatrician for advice specific to your child's health needs.</p>
+    <div class="info-box" style="background: #f0f7ff; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 8px;">
+        <h3 style="color: #667eea; margin: 0 0 0.5rem 0;">💡 Important</h3>
+        <p style="color: #333; margin: 0;">This timeline shows the standard recommended vaccination schedule. Always consult your pediatrician for advice specific to your child's health needs. Some vaccines may need to be adjusted based on your child's medical history.</p>
     </div>
     """, unsafe_allow_html=True)

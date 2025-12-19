@@ -5,12 +5,13 @@ import database as db
 from vaccination_guidelines import get_age_string
 
 def render():
-    st.title("Health Timeline")
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">📅 Health Timeline</h1>', unsafe_allow_html=True)
+    st.markdown("Track your child's health events, vaccinations, and important milestones")
     
     children = db.get_all_children()
     
     if not children:
-        st.info("Please add a child profile in the Settings page first.")
+        st.info("Please add a child profile first.")
         return
     
     if 'selected_child_id' not in st.session_state or st.session_state.selected_child_id is None:
@@ -34,7 +35,7 @@ def render():
     
     col1, col2 = st.columns([3, 1])
     with col2:
-        if st.button("Add Health Event", type="primary", width='stretch'):
+        if st.button("➕ Add Health Event", type="primary", width='stretch'):
             st.session_state.show_add_event = True
     
     if st.session_state.get('show_add_event', False):
@@ -58,12 +59,8 @@ def render():
                 'type': 'Vaccines',
                 'title': f"Vaccine: {vacc['vaccine_name']}",
                 'description': vacc.get('notes', ''),
-                'icon': 'vaccine',
-                'color': '#4caf50',
-                'details': {
-                    'Administered by': vacc.get('administered_by', 'Not recorded'),
-                    'Batch Number': vacc.get('batch_number', 'Not recorded')
-                }
+                'icon': '💉',
+                'color': '#4caf50'
             })
     
     for event in health_events:
@@ -72,31 +69,21 @@ def render():
             event_date = date.fromisoformat(event_date)
         
         event_type = event['event_type']
-        if event_type == 'illness':
-            color = '#f44336'
-            type_label = 'Illness'
-        elif event_type == 'symptom':
-            color = '#ff9800'
-            type_label = 'Symptom'
-        else:
-            color = '#2196f3'
-            type_label = 'Doctor Visit'
+        icon_map = {
+            'illness': '🤒',
+            'symptom': '🌡️',
+            'doctor_visit': '👨‍⚕️',
+            'milestone': '🎯',
+            'other': '📝'
+        }
         
         timeline_items.append({
             'date': event_date,
-            'type': type_label,
+            'type': event_type.title(),
             'title': event['title'],
             'description': event.get('description', ''),
-            'icon': event_type,
-            'color': color,
-            'id': event['id'],
-            'details': {
-                'Severity': event.get('severity', 'Not specified'),
-                'Symptoms': event.get('symptoms', 'Not recorded'),
-                'Treatment': event.get('treatment', 'Not recorded'),
-                'Doctor': event.get('doctor_name', 'Not recorded'),
-                'Hospital/Clinic': event.get('hospital_clinic', 'Not recorded')
-            }
+            'icon': icon_map.get(event_type, '📝'),
+            'color': '#667eea'
         })
     
     if selected_filter != "All":
@@ -104,158 +91,51 @@ def render():
     
     timeline_items.sort(key=lambda x: x['date'], reverse=True)
     
-    if timeline_items:
-        st.subheader(f"Timeline ({len(timeline_items)} events)")
-        
-        render_timeline_chart(timeline_items[:20])
-        
-        st.markdown("---")
-        st.subheader("Detailed View")
-        
-        for item in timeline_items:
-            render_timeline_card(item)
+    if not timeline_items:
+        st.info("No health events recorded yet. Click 'Add Health Event' to get started!")
     else:
-        st.info("No health events recorded yet. Add health events to build your child's health timeline.")
-    
-    st.markdown("---")
-    st.markdown("""
-    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
-        <strong>Tip:</strong> Keep track of all health events including illnesses, symptoms, and doctor visits. 
-        This helps you and your healthcare provider understand your child's complete health history.
-    </div>
-    """, unsafe_allow_html=True)
+        for item in timeline_items:
+            date_str = item['date'].strftime('%B %d, %Y')
+            st.markdown(f"""
+            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid {item['color']}; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <span style="font-size: 1.5rem;">{item['icon']}</span>
+                    <div>
+                        <div style="font-weight: 700; color: #333;">{item['title']}</div>
+                        <div style="font-size: 0.85rem; color: #999;">{date_str}</div>
+                    </div>
+                </div>
+                {f'<div style="color: #666; font-size: 0.9rem; margin-left: 34px;">{item["description"]}</div>' if item['description'] else ''}
+            </div>
+            """, unsafe_allow_html=True)
 
 def render_add_event_form(child_id):
-    with st.form(key="add_health_event_form"):
-        st.subheader("Add Health Event")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            event_type = st.selectbox(
-                "Event Type",
-                ["illness", "symptom", "doctor_visit"],
-                format_func=lambda x: x.replace('_', ' ').title()
+    st.markdown("### Add New Health Event")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        event_date = st.date_input("Event Date", value=date.today())
+    with col2:
+        event_type = st.selectbox(
+            "Event Type",
+            ["illness", "symptom", "doctor_visit", "milestone", "other"],
+            format_func=lambda x: x.replace('_', ' ').title()
+        )
+    
+    title = st.text_input("Event Title", placeholder="e.g., High fever, Doctor checkup")
+    description = st.text_area("Description", placeholder="Additional details about the event...")
+    
+    if st.button("Save Event", type="primary"):
+        if title:
+            db.add_health_event(
+                child_id=child_id,
+                event_type=event_type,
+                event_date=event_date.isoformat(),
+                title=title,
+                description=description
             )
-        with col2:
-            event_date = st.date_input("Event Date", value=date.today(), max_value=date.today())
-        
-        title = st.text_input("Title", placeholder="e.g., Cold and Fever, Regular Checkup")
-        description = st.text_area("Description", placeholder="Brief description of the event")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            severity = st.selectbox("Severity", ["Mild", "Moderate", "Severe", "N/A"])
-        with col2:
-            symptoms = st.text_input("Symptoms", placeholder="e.g., Fever, Cough, Runny nose")
-        
-        treatment = st.text_input("Treatment Given", placeholder="e.g., Paracetamol, Rest")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            doctor_name = st.text_input("Doctor Name (Optional)")
-        with col2:
-            hospital_clinic = st.text_input("Hospital/Clinic (Optional)")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.form_submit_button("Save Event", type="primary", width='stretch'):
-                if not title:
-                    st.error("Please enter a title for the event.")
-                else:
-                    db.add_health_event(
-                        child_id=child_id,
-                        event_type=event_type,
-                        event_date=event_date.isoformat(),
-                        title=title,
-                        description=description,
-                        severity=severity if severity != "N/A" else None,
-                        symptoms=symptoms,
-                        treatment=treatment,
-                        doctor_name=doctor_name,
-                        hospital_clinic=hospital_clinic
-                    )
-                    st.session_state.show_add_event = False
-                    st.success("Health event added successfully!")
-                    st.rerun()
-        with col2:
-            if st.form_submit_button("Cancel", width='stretch'):
-                st.session_state.show_add_event = False
-                st.rerun()
-
-def render_timeline_chart(items):
-    if not items:
-        return
-    
-    dates = [item['date'] for item in items]
-    types = [item['type'] for item in items]
-    titles = [item['title'] for item in items]
-    colors = [item['color'] for item in items]
-    
-    fig = go.Figure()
-    
-    type_y = {'Vaccines': 3, 'Illness': 2, 'Symptom': 1, 'Doctor Visit': 0}
-    
-    for i, item in enumerate(items):
-        fig.add_trace(go.Scatter(
-            x=[item['date']],
-            y=[type_y.get(item['type'], 0)],
-            mode='markers+text',
-            marker=dict(size=15, color=item['color']),
-            text=[item['title'][:20] + '...' if len(item['title']) > 20 else item['title']],
-            textposition='top center',
-            name=item['type'],
-            showlegend=False,
-            hovertemplate=f"<b>{item['title']}</b><br>Date: {item['date']}<br>Type: {item['type']}<extra></extra>"
-        ))
-    
-    fig.update_layout(
-        height=250,
-        margin=dict(t=30, b=30, l=80, r=20),
-        xaxis_title="Date",
-        yaxis=dict(
-            tickmode='array',
-            tickvals=[0, 1, 2, 3],
-            ticktext=['Doctor Visit', 'Symptom', 'Illness', 'Vaccines']
-        ),
-        hovermode='closest'
-    )
-    
-    st.plotly_chart(fig, width='stretch')
-
-def render_timeline_card(item):
-    with st.container():
-        st.markdown(f"""
-        <div style="background-color: #fff; padding: 15px; border-radius: 8px; 
-                    border-left: 4px solid {item['color']}; margin-bottom: 10px;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
-                    <span style="background-color: {item['color']}; color: white; padding: 2px 8px; 
-                                 border-radius: 4px; font-size: 12px; font-weight: bold;">
-                        {item['type']}
-                    </span>
-                    <h4 style="margin: 8px 0 5px 0; color: #333;">{item['title']}</h4>
-                    <p style="margin: 0; color: #666; font-size: 14px;">
-                        {item['date'].strftime('%B %d, %Y')}
-                    </p>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if item.get('description'):
-            st.write(item['description'])
-        
-        details = item.get('details', {})
-        relevant_details = {k: v for k, v in details.items() if v and v != 'Not recorded'}
-        
-        if relevant_details:
-            with st.expander("View Details"):
-                for key, value in relevant_details.items():
-                    st.write(f"**{key}:** {value}")
-        
-        if 'id' in item:
-            if st.button("Delete", key=f"delete_event_{item['id']}", type="secondary"):
-                db.delete_health_event(item['id'])
-                st.success("Event deleted!")
-                st.rerun()
+            st.success("✅ Health event recorded!")
+            st.session_state.show_add_event = False
+            st.rerun()
+        else:
+            st.error("Please enter an event title")

@@ -2,14 +2,38 @@ import streamlit as st
 from datetime import date, datetime
 import database as db
 from vaccination_guidelines import categorize_vaccinations, get_age_string, generate_vaccination_schedule
+import json
+import os
+
+def load_vaccine_data():
+    """Load vaccine data from JSON files"""
+    data = {
+        "India (UIP)": None,
+        "WHO": None
+    }
+    
+    try:
+        with open("data/vaccines_uip_india.json", "r") as f:
+            data["India (UIP)"] = json.load(f)
+    except FileNotFoundError:
+        pass
+    
+    try:
+        with open("data/vaccines_who.json", "r") as f:
+            data["WHO"] = json.load(f)
+    except FileNotFoundError:
+        pass
+    
+    return data
 
 def render():
-    st.title("Vaccination Schedule")
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">📋 Vaccination Schedule</h1>', unsafe_allow_html=True)
+    st.markdown("Track your child's vaccination schedule based on recommended guidelines")
     
     children = db.get_all_children()
     
     if not children:
-        st.info("Please add a child profile in the Settings page first.")
+        st.info("Please add a child profile first to see vaccination schedule.")
         return
     
     if 'selected_child_id' not in st.session_state or st.session_state.selected_child_id is None:
@@ -62,15 +86,15 @@ def render():
     tab1, tab2, tab3, tab4 = st.tabs(["Overdue", "Upcoming", "Pending", "Completed"])
     
     with tab1:
-        st.subheader(f"Overdue Vaccines ({len(categories['overdue'])})")
+        st.subheader(f"🔴 Overdue Vaccines ({len(categories['overdue'])})")
         if categories['overdue']:
             for vacc in categories['overdue']:
                 render_vaccine_card(vacc, "overdue")
         else:
-            st.success("No overdue vaccines!")
+            st.success("✅ No overdue vaccines!")
     
     with tab2:
-        st.subheader(f"Upcoming Vaccines ({len(categories['upcoming'])})")
+        st.subheader(f"🟠 Upcoming Vaccines ({len(categories['upcoming'])})")
         if categories['upcoming']:
             for vacc in categories['upcoming']:
                 render_vaccine_card(vacc, "upcoming")
@@ -78,7 +102,7 @@ def render():
             st.info("No upcoming vaccines in the next 30 days.")
     
     with tab3:
-        st.subheader(f"Future Vaccines ({len(categories['pending'])})")
+        st.subheader(f"🟡 Future Vaccines ({len(categories['pending'])})")
         if categories['pending']:
             for vacc in categories['pending']:
                 render_vaccine_card(vacc, "pending")
@@ -86,7 +110,7 @@ def render():
             st.info("No future vaccines scheduled.")
     
     with tab4:
-        st.subheader(f"Completed Vaccines ({len(categories['completed'])})")
+        st.subheader(f"🟢 Completed Vaccines ({len(categories['completed'])})")
         if categories['completed']:
             for vacc in categories['completed']:
                 render_vaccine_card(vacc, "completed")
@@ -94,10 +118,20 @@ def render():
             st.info("No completed vaccines yet.")
     
     st.markdown("---")
+    
+    vaccine_data = load_vaccine_data()
+    guideline = child['country_guideline']
+    
+    if guideline in vaccine_data and vaccine_data[guideline]:
+        st.subheader(f"📚 {guideline} Guideline Information")
+        data = vaccine_data[guideline]
+        st.markdown(f"**Source:** {data.get('source', 'Unknown')}")
+        st.markdown(f"**Description:** {data.get('description', '')}")
+    
     st.markdown("""
-    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
-        <strong>Note:</strong> Always consult with your child's pediatrician before administering any vaccine. 
-        The schedule shown is based on official guidelines but may need adjustment based on your child's individual health needs.
+    <div class="info-box" style="background: #f0f7ff; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 8px;">
+        <h3 style="color: #667eea; margin: 0 0 0.5rem 0;">📌 Important Note</h3>
+        <p style="color: #333; margin: 0;">Always consult with your child's pediatrician before administering any vaccine. The schedule shown is based on official guidelines but may need adjustment based on your child's individual health needs.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -111,74 +145,32 @@ def render_vaccine_card(vacc, status_type):
     if status_type == "overdue":
         bg_color = "#ffebee"
         border_color = "#f44336"
+        icon = "🔴"
         status_text = f"Overdue by {abs(days_diff)} days"
     elif status_type == "upcoming":
         bg_color = "#fff8e1"
         border_color = "#ff9800"
+        icon = "🟠"
         status_text = f"Due in {days_diff} days"
     elif status_type == "completed":
         bg_color = "#e8f5e9"
         border_color = "#4caf50"
+        icon = "🟢"
         administered = vacc.get('administered_date', 'Unknown')
         status_text = f"Completed on {administered}" if administered else "Completed"
     else:
         bg_color = "#e3f2fd"
         border_color = "#2196f3"
-        status_text = f"Due in {days_diff} days"
+        icon = "🟡"
+        status_text = f"Due on {due_date.strftime('%B %d, %Y')}"
     
-    with st.container():
-        st.markdown(f"""
-        <div style="background-color: {bg_color}; padding: 15px; border-radius: 8px; 
-                    border-left: 4px solid {border_color}; margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0; color: #333;">{vacc['vaccine_name']}</h4>
-                    <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">
-                        Due Date: {due_date.strftime('%B %d, %Y')}
-                    </p>
-                    <p style="margin: 5px 0 0 0; color: {border_color}; font-size: 14px; font-weight: bold;">
-                        {status_text}
-                    </p>
-                </div>
+    st.markdown(f"""
+    <div style="background-color: {bg_color}; padding: 15px; border-radius: 8px; border-left: 5px solid {border_color}; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h4 style="margin: 0; color: #333;">{icon} {vacc['vaccine_name']}</h4>
+                <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9rem;">{status_text}</p>
             </div>
         </div>
-        """, unsafe_allow_html=True)
-        
-        if status_type != "completed":
-            col1, col2 = st.columns([3, 1])
-            with col2:
-                if st.button("Mark Complete", key=f"complete_{vacc['id']}", width='stretch'):
-                    st.session_state[f"show_complete_form_{vacc['id']}"] = True
-            
-            if st.session_state.get(f"show_complete_form_{vacc['id']}", False):
-                with st.form(key=f"complete_form_{vacc['id']}"):
-                    st.subheader(f"Complete: {vacc['vaccine_name']}")
-                    
-                    administered_date = st.date_input(
-                        "Date Administered",
-                        value=date.today(),
-                        max_value=date.today()
-                    )
-                    
-                    administered_by = st.text_input("Administered By (Doctor/Clinic)")
-                    batch_number = st.text_input("Batch Number (Optional)")
-                    notes = st.text_area("Notes (Optional)")
-                    
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        if st.form_submit_button("Save", type="primary", width='stretch'):
-                            db.update_vaccination_status(
-                                vacc['id'],
-                                status='completed',
-                                administered_date=administered_date.isoformat(),
-                                notes=notes,
-                                administered_by=administered_by,
-                                batch_number=batch_number
-                            )
-                            st.session_state[f"show_complete_form_{vacc['id']}"] = False
-                            st.success(f"{vacc['vaccine_name']} marked as completed!")
-                            st.rerun()
-                    with col2:
-                        if st.form_submit_button("Cancel", width='stretch'):
-                            st.session_state[f"show_complete_form_{vacc['id']}"] = False
-                            st.rerun()
+    </div>
+    """, unsafe_allow_html=True)
