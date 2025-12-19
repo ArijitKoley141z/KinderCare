@@ -22,6 +22,12 @@ def render():
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15) !important;
             outline: none !important;
         }
+        [data-testid="stTextInput"] label {
+            color: #000000 !important;
+        }
+        [data-testid="stTextInput"] label span {
+            color: #000000 !important;
+        }
         /* Improve checkbox styling */
         [data-testid="stCheckbox"] {
             color: #000000 !important;
