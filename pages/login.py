@@ -29,6 +29,12 @@ def render():
         [data-testid="stCheckbox"] label {
             color: #000000 !important;
         }
+        [data-testid="stCheckbox"] span {
+            color: #000000 !important;
+        }
+        [data-testid="stCheckbox"] * {
+            color: #000000 !important;
+        }
         /* Style buttons */
         [data-testid="baseButton-primary"] {
             font-weight: 600 !important;
