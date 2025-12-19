@@ -36,9 +36,11 @@ def render():
             font-weight: 800 !important;
             font-size: 1.05em !important;
             cursor: pointer !important;
+            padding: 12px 8px !important;
+            border-radius: 6px !important;
         }
         [data-testid="stExpander"] summary:hover {
-            background-color: transparent !important;
+            background-color: rgba(255, 255, 255, 0.05) !important;
             color: #fff !important;
             font-weight: 800 !important;
             font-size: 1.05em !important;
@@ -53,14 +55,18 @@ def render():
         }
         /* Fix expander header background when expanded */
         [data-testid="stExpander"] details[open] > summary {
-            background-color: transparent !important;
+            background-color: rgba(102, 126, 234, 0.1) !important;
             color: #ffffff !important;
             font-weight: 800 !important;
             font-size: 1.05em !important;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3) !important;
+            padding: 12px 8px !important;
+            border-radius: 6px 6px 0 0 !important;
+            margin-bottom: 12px !important;
         }
         /* Ensure text stays visible on hover */
         [data-testid="stExpander"] details[open] > summary:hover {
-            background-color: rgba(255, 255, 255, 0.08) !important;
+            background-color: rgba(102, 126, 234, 0.15) !important;
             color: #ffffff !important;
             font-weight: 800 !important;
             font-size: 1.05em !important;
