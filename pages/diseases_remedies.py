@@ -90,24 +90,24 @@ def render():
     
     for disease in diseases_data:
         with st.expander(f"{disease['emoji']} {disease['name']}", expanded=False):
-            st.markdown(f'<div style="color: #000;">**What causes it?**  \n{disease["causes"]}</div>', unsafe_allow_html=True)
-            
-            st.markdown('<div style="color: #000;">**Symptoms:**</div>', unsafe_allow_html=True)
             symptoms_text = " • ".join(disease['symptoms'])
-            symptoms_formatted = symptoms_text.replace(' • ', '  \n• ')
-            st.markdown(f'<div style="color: #000;">• {symptoms_formatted}</div>', unsafe_allow_html=True)
+            symptoms_formatted = symptoms_text.replace(' • ', '<br>• ')
             
-            st.markdown('<div style="color: #000;">**Home Remedies:**</div>', unsafe_allow_html=True)
             remedies_text = " • ".join(disease['home_remedies'])
-            remedies_formatted = remedies_text.replace(' • ', '  \n• ')
-            st.markdown(f'<div style="color: #000;">• {remedies_formatted}</div>', unsafe_allow_html=True)
+            remedies_formatted = remedies_text.replace(' • ', '<br>• ')
             
-            st.markdown(f'<div style="color: #000;">**When to See a Doctor:**  \n{disease["when_to_see_doctor"]}</div>', unsafe_allow_html=True)
-            
-            st.markdown('<div style="color: #000;">**Prevention:**</div>', unsafe_allow_html=True)
             prevention_text = " • ".join(disease['prevention'])
-            prevention_formatted = prevention_text.replace(' • ', '  \n• ')
-            st.markdown(f'<div style="color: #000;">• {prevention_formatted}</div>', unsafe_allow_html=True)
+            prevention_formatted = prevention_text.replace(' • ', '<br>• ')
+            
+            st.markdown(f"""
+            <div style="color: #000;">
+                <p><strong>What causes it?</strong><br>{disease['causes']}</p>
+                <p><strong>Symptoms:</strong><br>• {symptoms_formatted}</p>
+                <p><strong>Home Remedies:</strong><br>• {remedies_formatted}</p>
+                <p><strong>When to See a Doctor:</strong><br>{disease['when_to_see_doctor']}</p>
+                <p><strong>Prevention:</strong><br>• {prevention_formatted}</p>
+            </div>
+            """, unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("""
