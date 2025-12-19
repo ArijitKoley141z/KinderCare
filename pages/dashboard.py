@@ -111,7 +111,7 @@ def render():
     with col3:
         st.markdown(f"""
         <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #9c27b0;">
-            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">Not Yet Due</h4>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #9c27b0; margin: 0;">{len(categories['not_yet_due'])}</p>
+            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">Pending</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #9c27b0; margin: 0;">{len(categories['pending'])}</p>
         </div>
         """, unsafe_allow_html=True)
