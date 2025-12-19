@@ -92,6 +92,15 @@ st.markdown("""
 
 st.markdown("---")
 
+st.markdown("""
+<h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin-bottom: 0.5rem; margin-top: 1rem; text-align: left;">
+    KinderCare
+</h1>
+<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin-bottom: 2rem; text-align: left;">
+    Your Child's Health & Vaccination Companion
+</h2>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
 if st.session_state.current_page == "Home":
