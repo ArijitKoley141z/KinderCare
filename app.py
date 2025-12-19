@@ -103,7 +103,7 @@ with col_text:
 """, unsafe_allow_html=True)
 
 with col_image:
-    st.image("home_hero.jpg", use_column_width=True)
+    st.image("home_hero.jpg", width=500)
 
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
