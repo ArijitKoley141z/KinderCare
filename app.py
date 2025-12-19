@@ -100,9 +100,12 @@ with col_text:
 <h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin: 0.5rem 0 0 0; text-align: left; padding: 0;">
     KinderCare
 </h1>
-<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin: 0 0 2rem 0; text-align: left; padding: 0;">
+<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin: 0 0 0.5rem 0; text-align: left; padding: 0;">
     Your Child's Health & Vaccination<br>Companion
 </h2>
+<p style="font-size: 1.1rem; color: #666; text-align: left; margin: 0.5rem 0 2rem 0; padding: 0;">
+    Track vaccinations, monitor health milestones, and connect with healthcare experts
+</p>
 """, unsafe_allow_html=True)
 
 with col_image:
@@ -115,8 +118,6 @@ with col_image:
         st.markdown(f'<img src="data:image/jpeg;base64,{img_str}" style="width: 100%; max-width: 500px;">', unsafe_allow_html=True)
     except:
         st.write("Image not found")
-
-st.markdown('<div class="main">', unsafe_allow_html=True)
 
 if st.session_state.current_page == "Home":
     from pages import home
@@ -148,5 +149,3 @@ elif st.session_state.current_page == "Login":
 elif st.session_state.current_page == "Sign Up":
     from pages import signup
     signup.render()
-
-st.markdown('</div>', unsafe_allow_html=True)
