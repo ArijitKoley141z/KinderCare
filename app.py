@@ -12,11 +12,16 @@ st.markdown("""
 <style>
     [data-testid="stSidebarNav"] { display: none; }
     [data-testid="stSidebar"] { display: none; }
+    [data-testid="stAppViewContainer"] { background-color: #ffffff; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+    
+    .stApp {
+        background-color: #ffffff;
     }
     
     /* Header */
