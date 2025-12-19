@@ -44,7 +44,7 @@ if 'selected_child_id' not in st.session_state:
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
-nav_home, nav_diseases, nav_about, nav_login, nav_signup, nav_spacer = st.columns([0.8, 0.8, 0.8, 0.8, 0.8, 2])
+nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([1, 1, 1, 1, 1])
 
 with nav_home:
     if st.button("Home", key="nav_Home", use_container_width=True):
