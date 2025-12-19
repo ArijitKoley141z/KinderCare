@@ -99,8 +99,6 @@ st.markdown("""
 </h2>
 """, unsafe_allow_html=True)
 
-st.markdown("---")
-
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
 if st.session_state.current_page == "Home":
