@@ -1,4 +1,5 @@
 import streamlit as st
+import layout
 
 def render():
-    pass
+    layout.render_header()

@@ -4,6 +4,7 @@ import tempfile
 from datetime import date
 import database as db
 from ai_assistant import chat_with_assistant, transcribe_audio, get_quick_responses
+import layout
 
 def process_user_message(user_input, child, vaccinations, health_events):
     if not child:
@@ -15,6 +16,7 @@ def process_user_message(user_input, child, vaccinations, health_events):
     st.session_state.conversation_history.append({"role": "assistant", "content": response})
 
 def render():
+    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">🤖 Health Assistant</h1>', unsafe_allow_html=True)
     
     st.markdown("""

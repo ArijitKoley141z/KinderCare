@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import layout
 
 def load_vaccine_data():
     """Load vaccine data from JSON files"""
@@ -23,6 +24,7 @@ def load_vaccine_data():
     return data
 
 def render():
+    layout.render_header()
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📈 Vaccination Timeline</h1>', unsafe_allow_html=True)
     st.markdown("A visual guide showing when your child needs each vaccine.")
     
