@@ -9,12 +9,24 @@ def render():
         [data-testid="stExpander"] button {
             color: #000 !important;
             background-color: transparent !important;
+            border: none !important;
         }
         [data-testid="stExpander"] button:hover {
             background-color: transparent !important;
             color: #000 !important;
+            border: none !important;
+        }
+        [data-testid="stExpander"] details {
+            color: #000 !important;
+        }
+        [data-testid="stExpander"] details:hover {
+            background-color: transparent !important;
         }
         [data-testid="stExpander"] summary {
+            color: #000 !important;
+        }
+        [data-testid="stExpander"] summary:hover {
+            background-color: transparent !important;
             color: #000 !important;
         }
     </style>
@@ -22,7 +34,7 @@ def render():
     
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">🏥 Common Child Diseases & Remedies</h1>', unsafe_allow_html=True)
     st.markdown('<p style="color: #000;">Learn about common childhood illnesses, their symptoms, and recommended treatments</p>', unsafe_allow_html=True)
-    st.markdown("---")
+    st.divider()
     
     diseases_data = [
         {
@@ -106,7 +118,7 @@ def render():
         }
     ]
     
-    st.markdown("---")
+    st.divider()
     
     for disease in diseases_data:
         with st.expander(f"{disease['emoji']} {disease['name']}", expanded=False):
@@ -129,7 +141,7 @@ def render():
             </div>
             """, unsafe_allow_html=True)
     
-    st.markdown("---")
+    st.divider()
     st.markdown("""
     <div class="info-box" style="background: #f0f7ff; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 8px;">
         <h3 style="color: #667eea; margin: 0 0 0.5rem 0;">⚕️ Important Disclaimer</h3>
