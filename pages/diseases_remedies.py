@@ -29,6 +29,9 @@ def render():
             background-color: transparent !important;
             color: #000 !important;
         }
+        [data-testid="stExpander"] p, [data-testid="stExpander"] span {
+            color: #000 !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
