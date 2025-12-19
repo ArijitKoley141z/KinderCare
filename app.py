@@ -93,10 +93,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-col_text, col_image = st.columns([1.2, 1])
+if st.session_state.current_page == "Home":
+    col_text, col_image = st.columns([1.2, 1])
 
-with col_text:
-    st.markdown("""
+    with col_text:
+        st.markdown("""
 <h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin: 0.5rem 0 0 0; text-align: left; padding: 0;">
     KinderCare
 </h1>
@@ -108,16 +109,16 @@ with col_text:
 </p>
 """, unsafe_allow_html=True)
 
-with col_image:
-    # Load and encode image as base64 to avoid fullscreen icon
-    try:
-        img = Image.open("home_hero.jpg")
-        buffered = BytesIO()
-        img.save(buffered, format="JPEG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
-        st.markdown(f'<img src="data:image/jpeg;base64,{img_str}" style="width: 100%; max-width: 500px;">', unsafe_allow_html=True)
-    except:
-        st.write("Image not found")
+    with col_image:
+        # Load and encode image as base64 to avoid fullscreen icon
+        try:
+            img = Image.open("home_hero.jpg")
+            buffered = BytesIO()
+            img.save(buffered, format="JPEG")
+            img_str = base64.b64encode(buffered.getvalue()).decode()
+            st.markdown(f'<img src="data:image/jpeg;base64,{img_str}" style="width: 100%; max-width: 500px;">', unsafe_allow_html=True)
+        except:
+            st.write("Image not found")
 
 if st.session_state.current_page == "Home":
     from pages import home
