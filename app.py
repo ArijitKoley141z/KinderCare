@@ -95,7 +95,7 @@ st.markdown("""
     KinderCare
 </h1>
 <h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin: 0 0 2rem 0; text-align: left; padding: 0;">
-    Your Child's Health & Vaccination Companion
+    Your Child's Health & Vaccination<br>Companion
 </h2>
 """, unsafe_allow_html=True)
 
