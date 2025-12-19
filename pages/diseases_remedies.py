@@ -1,8 +1,22 @@
 import streamlit as st
 
 def render():
+    st.markdown("""
+    <style>
+        [data-testid="stExpander"] {
+            color: #000 !important;
+        }
+        [data-testid="stExpander"] button {
+            color: #000 !important;
+        }
+        [data-testid="stExpander"] summary {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">🏥 Common Child Diseases & Remedies</h1>', unsafe_allow_html=True)
-    st.markdown("Learn about common childhood illnesses, their symptoms, and recommended treatments")
+    st.markdown('<p style="color: #000;">Learn about common childhood illnesses, their symptoms, and recommended treatments</p>', unsafe_allow_html=True)
     
     diseases_data = [
         {
