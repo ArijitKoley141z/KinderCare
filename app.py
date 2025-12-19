@@ -98,13 +98,13 @@ if st.session_state.current_page == "Home":
 
     with col_text:
         st.markdown("""
-<h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin: 0.5rem 0 0 0; text-align: left; padding: 0;">
+<h1 style="font-size: 5rem; font-weight: 800; color: #667eea; margin: 0.5rem 0 0 0; text-align: left; padding: 0;">
     KinderCare
 </h1>
-<h2 style="font-size: 1.8rem; font-weight: 600; color: #333; margin: 0 0 0.5rem 0; text-align: left; padding: 0;">
+<h2 style="font-size: 2.5rem; font-weight: 600; color: #333; margin: 0 0 0.5rem 0; text-align: left; padding: 0;">
     Your Child's Health & Vaccination<br>Companion
 </h2>
-<p style="font-size: 1.1rem; color: #666; text-align: left; margin: 0.5rem 0 2rem 0; padding: 0;">
+<p style="font-size: 1.4rem; color: #666; text-align: left; margin: 0.5rem 0 2rem 0; padding: 0;">
     Track vaccinations, monitor health milestones, and connect with healthcare experts
 </p>
 """, unsafe_allow_html=True)
