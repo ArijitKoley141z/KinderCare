@@ -45,6 +45,13 @@ st.markdown("""
         gap: 0.5rem;
     }
     
+    .navbar-center {
+        display: flex;
+        gap: 2rem;
+        flex: 1;
+        margin-left: 3rem;
+    }
+    
     .navbar-right {
         display: flex;
         gap: 1rem;
@@ -58,18 +65,19 @@ st.markdown("""
         font-size: 0.95rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
+        padding: 0.5rem 0;
+        border-bottom: 2px solid transparent;
     }
     
     .nav-link:hover {
         color: #667eea;
-        background-color: #f5f5f5;
+        border-bottom: 2px solid #667eea;
     }
     
     .nav-link.active {
         color: #667eea;
         font-weight: 700;
+        border-bottom: 2px solid #667eea;
     }
     
     .btn-login {
@@ -81,6 +89,8 @@ st.markdown("""
         cursor: pointer;
         background: transparent;
         transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.9rem;
     }
     
     .btn-login:hover {
@@ -97,6 +107,8 @@ st.markdown("""
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.9rem;
     }
     
     .btn-signup:hover {
@@ -131,46 +143,49 @@ navbar_html = f"""
     <div class="navbar-left">
         👶 KinderCare
     </div>
-    <div class="navbar-right">
+    <div class="navbar-center">
 """
 
 for page in nav_pages:
     active_class = "active" if st.session_state.current_page == page else ""
-    navbar_html += f'<span class="nav-link {active_class}" onclick="document.querySelector(\'[key=nav_{page}]\').click()">{page}</span>'
+    navbar_html += f'<a class="nav-link {active_class}" href="javascript:void(0);" onclick="window.location.reload();" style="cursor: pointer;">{page}</a>'
 
 navbar_html += """
+    </div>
+    <div class="navbar-right">
+        <span class="btn-login" style="border: 2px solid #667eea; padding: 0.5rem 1rem;">Login</span>
+        <span class="btn-signup" style="background-color: #667eea; color: white; padding: 0.5rem 1rem;">Sign Up</span>
     </div>
 </div>
 """
 
 st.markdown(navbar_html, unsafe_allow_html=True)
 
-col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 1, 1])
+if st.button("Home", key="nav_Home"):
+    st.session_state.current_page = "Home"
+    st.rerun()
 
-with col1:
-    if st.button("Home", key="nav_Home", use_container_width=True, type="primary" if st.session_state.current_page == "Home" else "secondary"):
-        st.session_state.current_page = "Home"
-        st.rerun()
+if st.button("Diseases & Remedies", key="nav_DR"):
+    st.session_state.current_page = "Diseases & Remedies"
+    st.rerun()
 
-with col2:
-    if st.button("Diseases & Remedies", key="nav_Diseases & Remedies", use_container_width=True, type="primary" if st.session_state.current_page == "Diseases & Remedies" else "secondary"):
-        st.session_state.current_page = "Diseases & Remedies"
-        st.rerun()
+if st.button("About us", key="nav_About"):
+    st.session_state.current_page = "About us"
+    st.rerun()
 
-with col3:
-    if st.button("About us", key="nav_About us", use_container_width=True, type="primary" if st.session_state.current_page == "About us" else "secondary"):
-        st.session_state.current_page = "About us"
-        st.rerun()
+if st.button("Login", key="nav_Login"):
+    st.session_state.current_page = "Login"
+    st.rerun()
 
-with col4:
-    if st.button("🔐 Login", key="nav_Login", use_container_width=True, type="secondary"):
-        st.session_state.current_page = "Login"
-        st.rerun()
+if st.button("Sign Up", key="nav_SignUp"):
+    st.session_state.current_page = "Sign Up"
+    st.rerun()
 
-with col5:
-    if st.button("✍️ Sign Up", key="nav_Sign Up", use_container_width=True, type="primary"):
-        st.session_state.current_page = "Sign Up"
-        st.rerun()
+st.markdown("""
+<style>
+    [data-testid="stButton"] { display: none !important; }
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
