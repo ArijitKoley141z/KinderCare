@@ -90,7 +90,10 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
+col_text, col_image = st.columns([1.2, 1])
+
+with col_text:
+    st.markdown("""
 <h1 style="font-size: 3.5rem; font-weight: 800; color: #667eea; margin: 0.5rem 0 0 0; text-align: left; padding: 0;">
     KinderCare
 </h1>
@@ -98,6 +101,9 @@ st.markdown("""
     Your Child's Health & Vaccination<br>Companion
 </h2>
 """, unsafe_allow_html=True)
+
+with col_image:
+    st.image("home_hero.jpg", use_column_width=True)
 
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
