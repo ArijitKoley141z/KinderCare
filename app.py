@@ -47,30 +47,43 @@ if 'selected_child_id' not in st.session_state:
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
+st.markdown("""
+<style>
+    .nav-button-active {
+        border-bottom: 4px solid #667eea !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 nav_home, nav_diseases, nav_about, nav_login, nav_signup = st.columns([1, 1, 1, 1, 1])
 
 with nav_home:
-    if st.button("Home", key="nav_Home", use_container_width=True):
+    button_label = "🏠 Home" if st.session_state.current_page == "Home" else "Home"
+    if st.button(button_label, key="nav_Home", use_container_width=True):
         st.session_state.current_page = "Home"
         st.rerun()
 
 with nav_diseases:
-    if st.button("Diseases & Remedies", key="nav_DR", use_container_width=True):
+    button_label = "🏥 Diseases & Remedies" if st.session_state.current_page == "Diseases & Remedies" else "Diseases & Remedies"
+    if st.button(button_label, key="nav_DR", use_container_width=True):
         st.session_state.current_page = "Diseases & Remedies"
         st.rerun()
 
 with nav_about:
-    if st.button("About us", key="nav_About", use_container_width=True):
+    button_label = "ℹ️ About us" if st.session_state.current_page == "About us" else "About us"
+    if st.button(button_label, key="nav_About", use_container_width=True):
         st.session_state.current_page = "About us"
         st.rerun()
 
 with nav_login:
-    if st.button("Login", key="nav_Login", use_container_width=True):
+    button_label = "🔐 Login" if st.session_state.current_page == "Login" else "Login"
+    if st.button(button_label, key="nav_Login", use_container_width=True):
         st.session_state.current_page = "Login"
         st.rerun()
 
 with nav_signup:
-    if st.button("Sign Up", key="nav_SignUp", use_container_width=True):
+    button_label = "✍️ Sign Up" if st.session_state.current_page == "Sign Up" else "Sign Up"
+    if st.button(button_label, key="nav_SignUp", use_container_width=True):
         st.session_state.current_page = "Sign Up"
         st.rerun()
 
@@ -89,6 +102,15 @@ st.markdown("""
     [data-testid="stButton"] button:hover {
         color: white !important;
         background-color: #764ba2 !important;
+    }
+    
+    [data-testid="stButton"] button:active {
+        background-color: #667eea !important;
+    }
+    
+    [data-testid="stButton"] button:focus {
+        background-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3) !important;
     }
 </style>
 """, unsafe_allow_html=True)
