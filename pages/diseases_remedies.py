@@ -48,6 +48,16 @@ def render():
         [data-testid="stExpander"] p, [data-testid="stExpander"] span {
             color: #000 !important;
         }
+        /* Fix expander header background when expanded */
+        [data-testid="stExpander"] details[open] > summary {
+            background-color: transparent !important;
+            color: #ffffff !important;
+        }
+        /* Ensure text stays visible on hover */
+        [data-testid="stExpander"] details[open] > summary:hover {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
