@@ -45,14 +45,18 @@ def render():
         p {
             color: #000 !important;
         }
-        button {
-            color: black !important;
+        /* Tab styling */
+        [role="tablist"] button {
+            color: #000000 !important;
         }
-        [role="tab"] {
-            color: black !important;
+        [role="tablist"] button:not([aria-selected="false"]) {
+            color: #000000 !important;
         }
-        .stTabs button {
-            color: black !important;
+        [role="tablist"] button[aria-selected="true"] {
+            color: #000000 !important;
+        }
+        [role="tablist"] span {
+            color: #000000 !important;
         }
     </style>
     """, unsafe_allow_html=True)
