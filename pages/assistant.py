@@ -10,7 +10,7 @@ def process_user_message(user_input, child, vaccinations, health_events):
         st.warning("Please select a child first")
         return
     
-    response = chat_with_assistant(user_input, child, vaccinations, health_events)
+    response = chat_with_assistant(user_input, child, vaccinations, health_events, st.session_state.conversation_history)
     st.session_state.conversation_history.append({"role": "user", "content": user_input})
     st.session_state.conversation_history.append({"role": "assistant", "content": response})
 
