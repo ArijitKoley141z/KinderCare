@@ -23,8 +23,19 @@ def load_vaccine_data():
     return data
 
 def render():
+    st.markdown("""
+    <style>
+        h2, h3 {
+            color: #1a1a1a !important;
+        }
+        p {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📈 Vaccination Timeline</h1>', unsafe_allow_html=True)
-    st.markdown("A visual guide showing when your child needs each vaccine.")
+    st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">A visual guide showing when your child needs each vaccine.</p>', unsafe_allow_html=True)
     
     vaccine_data = load_vaccine_data()
     
@@ -51,13 +62,25 @@ def render():
     
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Total Vaccines", len(vaccines))
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Total Vaccines</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{len(vaccines)}</p>
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         age_groups = set([v['age_label'] for v in vaccines])
-        st.metric("Age Groups", len(age_groups))
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Age Groups</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{len(age_groups)}</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown("---")
-    st.subheader("📅 Vaccination Schedule by Age")
+    st.markdown('<h2 style="color: #1a1a1a; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">📅 Vaccination Schedule by Age</h2>', unsafe_allow_html=True)
     
     age_groups = {}
     for vaccine in vaccines:

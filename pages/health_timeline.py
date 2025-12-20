@@ -5,8 +5,19 @@ import database as db
 from vaccination_guidelines import get_age_string
 
 def render():
+    st.markdown("""
+    <style>
+        h2, h3 {
+            color: #1a1a1a !important;
+        }
+        p {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📅 Health Timeline</h1>', unsafe_allow_html=True)
-    st.markdown("Track your child's health events, vaccinations, and important milestones")
+    st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Track your child\'s health events, vaccinations, and important milestones</p>', unsafe_allow_html=True)
     
     children = db.get_all_children()
     
@@ -110,7 +121,7 @@ def render():
             """, unsafe_allow_html=True)
 
 def render_add_event_form(child_id):
-    st.markdown("### Add New Health Event")
+    st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">➕ Add New Health Event</h2>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
