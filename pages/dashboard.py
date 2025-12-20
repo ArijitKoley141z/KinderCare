@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import date
+from datetime import date, datetime, timedelta
 import database as db
 from vaccination_guidelines import categorize_vaccinations, get_age_string
 from notifications import get_in_app_notifications
@@ -147,3 +147,140 @@ def render():
             </p>
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    st.markdown('<h2 style="color:#667eea;margin-top:2rem;">📊 Vaccination Analytics</h2>', unsafe_allow_html=True)
+
+    if vaccinations:
+        df = pd.DataFrame(vaccinations)
+        
+        anal_col1, anal_col2 = st.columns(2)
+        
+        with anal_col1:
+            st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Status Distribution</h3>', unsafe_allow_html=True)
+            status_counts = df['status'].value_counts()
+            status_colors = {
+                'completed': '#81C784',
+                'upcoming': '#64B5F6',
+                'overdue': '#EF5350',
+                'pending': '#FFB74D'
+            }
+            colors = [status_colors.get(status, '#999') for status in status_counts.index]
+            
+            fig_status = go.Figure(data=[go.Pie(
+                labels=status_counts.index.str.capitalize(),
+                values=status_counts.values,
+                marker=dict(colors=colors),
+                hole=0.3,
+                textinfo="label+percent",
+                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}<extra></extra>"
+            )])
+            fig_status.update_layout(
+                height=350,
+                margin=dict(l=0, r=0, t=0, b=0),
+                font=dict(size=11)
+            )
+            st.plotly_chart(fig_status, use_container_width=True)
+        
+        with anal_col2:
+            st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Timeline</h3>', unsafe_allow_html=True)
+            
+            timeline_data = []
+            for vax in vaccinations:
+                due = vax.get('due_date')
+                if due and (isinstance(due, str) or isinstance(due, date)):
+                    if isinstance(due, str):
+                        try:
+                            due = datetime.fromisoformat(due).date()
+                        except:
+                            continue
+                    timeline_data.append({
+                        'vaccine': vax['vaccine_name'][:15],
+                        'due_date': due,
+                        'status': vax['status'].capitalize()
+                    })
+            
+            if timeline_data:
+                timeline_df = pd.DataFrame(timeline_data).sort_values('due_date')
+                status_map = {'Completed': 0, 'Upcoming': 1, 'Overdue': 2, 'Pending': 3}
+                timeline_df['status_order'] = timeline_df['status'].map(status_map)
+                
+                fig_timeline = px.scatter(
+                    timeline_df,
+                    x='due_date',
+                    y='status_order',
+                    color='status',
+                    size_max=8,
+                    hover_name='vaccine',
+                    hover_data={'due_date': True, 'status': True, 'status_order': False},
+                    color_discrete_map={
+                        'Completed': '#81C784',
+                        'Upcoming': '#64B5F6',
+                        'Overdue': '#EF5350',
+                        'Pending': '#FFB74D'
+                    },
+                    title=None
+                )
+                fig_timeline.update_layout(
+                    height=350,
+                    margin=dict(l=0, r=0, t=0, b=0),
+                    yaxis=dict(
+                        tickvals=[0, 1, 2, 3],
+                        ticktext=['Completed', 'Upcoming', 'Overdue', 'Pending'],
+                        title=None
+                    ),
+                    xaxis_title='Date',
+                    showlegend=False,
+                    hovermode='closest',
+                    font=dict(size=10)
+                )
+                st.plotly_chart(fig_timeline, use_container_width=True)
+        
+        st.markdown("---")
+        
+        metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+        
+        with metric_col1:
+            compliance_rate = (len(categories['completed']) / total * 100) if total > 0 else 0
+            st.metric("Compliance Rate", f"{compliance_rate:.0f}%", 
+                     f"{len(categories['completed'])}/{total}")
+        
+        with metric_col2:
+            overdue_count = len(categories['overdue'])
+            st.metric("Overdue Vaccines", overdue_count, 
+                     "⚠️ Need attention" if overdue_count > 0 else "All on track")
+        
+        with metric_col3:
+            age_months = int((date.today() - dob).days / 30.44)
+            st.metric("Age", f"{age_months} months", f"Born: {dob.strftime('%b %Y')}")
+        
+        with metric_col4:
+            if categories['upcoming']:
+                next_vax = min(categories['upcoming'], 
+                             key=lambda x: datetime.fromisoformat(x['due_date']).date() 
+                             if isinstance(x['due_date'], str) else x['due_date'])
+                due_date = next_vax['due_date']
+                if isinstance(due_date, str):
+                    due_date = datetime.fromisoformat(due_date).date()
+                days_until = (due_date - date.today()).days
+                st.metric("Next Vaccine Due", f"{days_until} days", 
+                         next_vax['vaccine_name'][:20])
+            else:
+                st.metric("Next Vaccine Due", "None", "All scheduled vaccines done")
+        
+        st.markdown("---")
+        
+        st.markdown('<h3 style="color: #667eea;">📋 Upcoming Vaccinations Details</h3>', unsafe_allow_html=True)
+        
+        if categories['upcoming']:
+            upcoming_df = pd.DataFrame(categories['upcoming']).sort_values('due_date')
+            upcoming_df['due_date'] = pd.to_datetime(upcoming_df['due_date']).dt.strftime('%Y-%m-%d')
+            upcoming_df_display = upcoming_df[['vaccine_name', 'due_date', 'status']].rename(
+                columns={'vaccine_name': 'Vaccine', 'due_date': 'Due Date', 'status': 'Status'}
+            )
+            st.dataframe(upcoming_df_display, use_container_width=True, hide_index=True)
+        else:
+            st.success("🎉 No upcoming vaccines! All scheduled vaccinations are up to date.")
+    else:
+        st.info("No vaccination records yet. Start adding vaccinations to see analytics.")
