@@ -101,7 +101,7 @@ def render():
         fig_pie = go.Figure(data=[go.Pie(
             labels=status_data['Status'],
             values=status_data['Count'],
-            marker=dict(colors=['#4caf50', '#ff9800', '#9c27b0']),
+            marker=dict(colors=['#64B5F6', '#81D4FA', '#B3E5FC']),
             textposition='inside',
             textinfo='label+percent'
         )])
@@ -124,9 +124,9 @@ def render():
         df_progress = pd.DataFrame(progress_bar_data)
         
         fig_bar = go.Figure(data=[
-            go.Bar(name='Completed', x=df_progress['Category'], y=df_progress['Completed'], marker_color='#4caf50'),
-            go.Bar(name='Upcoming', x=df_progress['Category'], y=df_progress['Upcoming'], marker_color='#ff9800'),
-            go.Bar(name='Pending', x=df_progress['Category'], y=df_progress['Pending'], marker_color='#9c27b0')
+            go.Bar(name='Completed', x=df_progress['Category'], y=df_progress['Completed'], marker_color='#64B5F6'),
+            go.Bar(name='Upcoming', x=df_progress['Category'], y=df_progress['Upcoming'], marker_color='#81D4FA'),
+            go.Bar(name='Pending', x=df_progress['Category'], y=df_progress['Pending'], marker_color='#B3E5FC')
         ])
         fig_bar.update_layout(
             barmode='stack',
@@ -146,25 +146,25 @@ def render():
     
     with col1:
         st.markdown(f"""
-        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
-            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0;">✓ Completed</h4>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #4caf50; margin: 0;">{len(categories['completed'])}</p>
+        <div style="background: #E3F2FD; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #64B5F6;">
+            <h4 style="color: #1565C0; margin: 0 0 0.5rem 0;">✓ Completed</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #64B5F6; margin: 0;">{len(categories['completed'])}</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown(f"""
-        <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
-            <h4 style="color: #e65100; margin: 0 0 0.5rem 0;">➜ Upcoming</h4>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #ff9800; margin: 0;">{len(categories['upcoming'])}</p>
+        <div style="background: #E0F7FA; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #81D4FA;">
+            <h4 style="color: #00838F; margin: 0 0 0.5rem 0;">➜ Upcoming</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #81D4FA; margin: 0;">{len(categories['upcoming'])}</p>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown(f"""
-        <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #9c27b0;">
-            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">⏳ Pending</h4>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #9c27b0; margin: 0;">{len(categories['pending'])}</p>
+        <div style="background: #F1F8E9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #B3E5FC;">
+            <h4 style="color: #0D47A1; margin: 0 0 0.5rem 0;">⏳ Pending</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #B3E5FC; margin: 0;">{len(categories['pending'])}</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -190,7 +190,7 @@ def render():
             x='Status',
             y='Count',
             color='Status',
-            color_discrete_map={'Completed': '#4caf50', 'Pending': '#9c27b0'},
+            color_discrete_map={'Completed': '#64B5F6', 'Pending': '#B3E5FC'},
             title="Vaccination Timeline Summary",
             labels={'Count': 'Number of Vaccines', 'Status': 'Status'}
         )
