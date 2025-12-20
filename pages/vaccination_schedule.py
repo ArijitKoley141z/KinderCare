@@ -82,7 +82,7 @@ def render():
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Age</p>
+            <p style="margin: 0; font-size: 14px; color: white;">Age</p>
             <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{get_age_string(dob)}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -90,7 +90,7 @@ def render():
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Guideline</p>
+            <p style="margin: 0; font-size: 14px; color: white;">Guideline</p>
             <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{child['country_guideline']}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -99,7 +99,7 @@ def render():
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Completed</p>
+            <p style="margin: 0; font-size: 14px; color: white;">Completed</p>
             <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{completed}/{len(vaccinations)}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -169,8 +169,8 @@ def render():
     
     st.markdown("""
     <div class="info-box" style="background: #f0f7ff; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 8px;">
-        <h3 style="color: #667eea; margin: 0 0 0.5rem 0;">📌 Important Note</h3>
-        <p style="color: #333; margin: 0;">Always consult with your child's pediatrician before administering any vaccine. The schedule shown is based on official guidelines but may need adjustment based on your child's individual health needs.</p>
+        <h3 style="color: white; margin: 0 0 0.5rem 0;">📌 Important Note</h3>
+        <p style="color: white; margin: 0;">Always consult with your child's pediatrician before administering any vaccine. The schedule shown is based on official guidelines but may need adjustment based on your child's individual health needs.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -207,8 +207,8 @@ def render_vaccine_card(vacc, status_type):
     <div style="background-color: {bg_color}; padding: 15px; border-radius: 8px; border-left: 5px solid {border_color}; margin-bottom: 10px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h4 style="margin: 0; color: #333;">{icon} {vacc['vaccine_name']}</h4>
-                <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9rem;">{status_text}</p>
+                <h4 style="margin: 0; color: white;">{icon} {vacc['vaccine_name']}</h4>
+                <p style="margin: 5px 0 0 0; color: white; font-size: 0.9rem;">{status_text}</p>
             </div>
         </div>
     </div>
