@@ -69,9 +69,9 @@ if not st.session_state.logged_in:
             st.rerun()
 
     with nav_diseases:
-        button_label = "🏥 Diseases & Remedies" if st.session_state.current_page == "Diseases & Remedies" else "Diseases & Remedies"
+        button_label = "🏥 Common Diseases" if st.session_state.current_page == "Common Diseases" else "Common Diseases"
         if st.button(button_label, key="nav_DR", use_container_width=True):
-            st.session_state.current_page = "Diseases & Remedies"
+            st.session_state.current_page = "Common Diseases"
             st.rerun()
 
     with nav_about:
@@ -204,7 +204,7 @@ if st.session_state.current_page == "Home":
 if st.session_state.current_page == "Home":
     from pages import home
     home.render()
-elif st.session_state.current_page == "Diseases & Remedies":
+elif st.session_state.current_page == "Common Diseases":
     from pages import diseases_remedies
     diseases_remedies.render()
 elif st.session_state.current_page == "About us":
