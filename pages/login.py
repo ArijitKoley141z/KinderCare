@@ -65,8 +65,6 @@ def render():
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown('<div style="background: #ffffff; padding: 2.5rem; border-radius: 14px; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.12); border: 1px solid rgba(102, 126, 234, 0.15);">', unsafe_allow_html=True)
-        
         email = st.text_input("📧 Email Address", placeholder="your@email.com", key="login_email")
         password = st.text_input("🔐 Password", type="password", placeholder="Enter your password", key="login_password")
         
@@ -100,5 +98,3 @@ def render():
             if st.button("Sign Up", key="switch_to_signup", use_container_width=True, type="secondary"):
                 st.session_state.current_page = "Sign Up"
                 st.rerun()
-        
-        st.markdown("</div>", unsafe_allow_html=True)
