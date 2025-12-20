@@ -8,6 +8,13 @@ from notifications import get_in_app_notifications
 import pandas as pd
 
 def render():
+    st.markdown("""
+    <style>
+        button, [data-testid="baseButton-primary"], [data-testid="baseButton-secondary"] {
+            color: white !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">Dashboard</h1>', unsafe_allow_html=True)
     
     children = db.get_all_children()
