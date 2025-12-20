@@ -28,7 +28,7 @@ def load_vaccine_data():
 
 def render():
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📋 Vaccination Schedule</h1>', unsafe_allow_html=True)
-    st.markdown("Track your child's vaccination schedule based on recommended guidelines")
+    st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Track your child\'s vaccination schedule based on recommended guidelines</p>', unsafe_allow_html=True)
     
     children = db.get_all_children()
     
@@ -123,7 +123,7 @@ def render():
     guideline = child['country_guideline']
     
     if guideline in vaccine_data and vaccine_data[guideline]:
-        st.subheader(f"📚 {guideline} Guideline Information")
+        st.markdown(f'<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">📚 {guideline} Guideline Information</h2>', unsafe_allow_html=True)
         data = vaccine_data[guideline]
         st.markdown(f"**Source:** {data.get('source', 'Unknown')}")
         st.markdown(f"**Description:** {data.get('description', '')}")
