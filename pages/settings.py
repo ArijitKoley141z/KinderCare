@@ -38,7 +38,11 @@ def render():
         }
         
         .react-datepicker__header {
-            background-color: #f8f8f8 !important;
+            background-color: #000000 !important;
+        }
+        
+        .react-datepicker__header div {
+            color: #FFFFFF !important;
         }
         
         .react-datepicker__current-month,
@@ -110,7 +114,7 @@ def render_add_child_form():
         with col1:
             country = st.selectbox(
                 "Vaccination Guideline",
-                ["India (UIP)", "WHO", "CDC (USA)"],
+                ["India (UIP)", "WHO"],
                 help="Select the vaccination guidelines to follow"
             )
         with col2:
@@ -273,7 +277,7 @@ def render_edit_child_form(child):
         
         col1, col2 = st.columns(2)
         with col1:
-            guidelines = ["India (UIP)", "WHO", "CDC (USA)"]
+            guidelines = ["India (UIP)", "WHO"]
             country = st.selectbox(
                 "Vaccination Guideline",
                 guidelines,

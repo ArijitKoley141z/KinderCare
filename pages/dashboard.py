@@ -96,13 +96,13 @@ def render():
     
     with col_chart1:
         status_data = {
-            'Status': ['Completed', 'Upcoming', 'Pending'],
-            'Count': [len(categories['completed']), len(categories['upcoming']), len(categories['pending'])]
+            'Status': ['Completed', 'Upcoming', 'Overdue', 'Pending'],
+            'Count': [len(categories['completed']), len(categories['upcoming']), len(categories['overdue']), len(categories['pending'])]
         }
         fig_pie = go.Figure(data=[go.Pie(
             labels=status_data['Status'],
             values=status_data['Count'],
-            marker=dict(colors=['#81C784', '#64B5F6', '#FFB74D']),
+            marker=dict(colors=['#81C784', '#64B5F6', '#EF5350', '#FFB74D']),
             textposition='inside',
             textinfo='label+percent'
         )])
@@ -120,6 +120,7 @@ def render():
             'Category': ['Progress'],
             'Completed': [len(categories['completed'])],
             'Upcoming': [len(categories['upcoming'])],
+            'Overdue': [len(categories['overdue'])],
             'Pending': [len(categories['pending'])]
         }
         df_progress = pd.DataFrame(progress_bar_data)
@@ -127,6 +128,7 @@ def render():
         fig_bar = go.Figure(data=[
             go.Bar(name='Completed', x=df_progress['Category'], y=df_progress['Completed'], marker_color='#81C784'),
             go.Bar(name='Upcoming', x=df_progress['Category'], y=df_progress['Upcoming'], marker_color='#64B5F6'),
+            go.Bar(name='Overdue', x=df_progress['Category'], y=df_progress['Overdue'], marker_color='#EF5350'),
             go.Bar(name='Pending', x=df_progress['Category'], y=df_progress['Pending'], marker_color='#FFB74D')
         ])
         fig_bar.update_layout(
@@ -162,42 +164,19 @@ def render():
         """, unsafe_allow_html=True)
     
     with col3:
+        overdue = len(categories['overdue'])
+        st.markdown(f"""
+        <div style="background: #FFEBEE; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #EF5350;">
+            <h4 style="color: #C62828; margin: 0 0 0.5rem 0;">⚠️ Overdue</h4>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #EF5350; margin: 0;">{overdue}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    col4 = st.columns(1)[0]
+    with col4:
         st.markdown(f"""
         <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #FFB74D;">
             <h4 style="color: #E65100; margin: 0 0 0.5rem 0;">⏳ Pending</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #FFB74D; margin: 0;">{len(categories['pending'])}</p>
         </div>
         """, unsafe_allow_html=True)
-    
-    # Vaccination Timeline Chart
-    if vaccinations:
-        st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">📅 Vaccination Timeline</h2>', unsafe_allow_html=True)
-        
-        timeline_data = []
-        for vac in vaccinations:
-            timeline_data.append({
-                'Vaccine': vac.get('vaccine_name', 'Unknown'),
-                'Date': vac.get('vaccination_date', 'Not Yet'),
-                'Status': 'Completed' if vac.get('vaccination_date') else 'Pending'
-            })
-        
-        df_timeline = pd.DataFrame(timeline_data)
-        
-        # Count by status
-        status_counts = df_timeline['Status'].value_counts()
-        
-        fig_timeline = px.bar(
-            df_timeline.value_counts(subset=['Status']).reset_index(name='Count'),
-            x='Status',
-            y='Count',
-            color='Status',
-            color_discrete_map={'Completed': '#81C784', 'Pending': '#FFB74D'},
-            title="Vaccination Timeline Summary",
-            labels={'Count': 'Number of Vaccines', 'Status': 'Status'}
-        )
-        fig_timeline.update_layout(
-            height=400,
-            showlegend=False,
-            margin=dict(t=40, b=20, l=20, r=20)
-        )
-        st.plotly_chart(fig_timeline, use_container_width=True)
