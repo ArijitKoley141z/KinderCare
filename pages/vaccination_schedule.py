@@ -85,6 +85,17 @@ def render():
             color: #000000 !important;
         }
 
+        /* ---------- Mark buttons text color white ---------- */
+        button:contains("Mark"), 
+        button[data-testid="stBaseButton"] {
+            color: white !important;
+        }
+
+        button:contains("Mark") span,
+        button[data-testid="stBaseButton"] span {
+            color: white !important;
+        }
+
         /* ---------- General text ---------- */
         h2, h3, p {
             color: #000000 !important;
