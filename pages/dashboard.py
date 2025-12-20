@@ -5,6 +5,7 @@ from datetime import date, timedelta
 import database as db
 from vaccination_guidelines import categorize_vaccinations, get_age_string
 from notifications import get_in_app_notifications
+import pandas as pd
 
 def render():
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">Dashboard</h1>', unsafe_allow_html=True)
@@ -88,6 +89,57 @@ def render():
     
     st.markdown("---")
     
+    st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">📊 Vaccination Analytics</h2>', unsafe_allow_html=True)
+    
+    col_chart1, col_chart2 = st.columns(2)
+    
+    with col_chart1:
+        status_data = {
+            'Status': ['Completed', 'Upcoming', 'Pending'],
+            'Count': [len(categories['completed']), len(categories['upcoming']), len(categories['pending'])]
+        }
+        fig_pie = go.Figure(data=[go.Pie(
+            labels=status_data['Status'],
+            values=status_data['Count'],
+            marker=dict(colors=['#4caf50', '#ff9800', '#9c27b0']),
+            textposition='inside',
+            textinfo='label+percent'
+        )])
+        fig_pie.update_layout(
+            title="Vaccination Status Overview",
+            height=400,
+            showlegend=True,
+            margin=dict(t=40, b=20, l=20, r=20)
+        )
+        st.plotly_chart(fig_pie, use_container_width=True)
+    
+    with col_chart2:
+        # Calculate progress bar visualization data
+        progress_bar_data = {
+            'Category': ['Progress'],
+            'Completed': [len(categories['completed'])],
+            'Upcoming': [len(categories['upcoming'])],
+            'Pending': [len(categories['pending'])]
+        }
+        df_progress = pd.DataFrame(progress_bar_data)
+        
+        fig_bar = go.Figure(data=[
+            go.Bar(name='Completed', x=df_progress['Category'], y=df_progress['Completed'], marker_color='#4caf50'),
+            go.Bar(name='Upcoming', x=df_progress['Category'], y=df_progress['Upcoming'], marker_color='#ff9800'),
+            go.Bar(name='Pending', x=df_progress['Category'], y=df_progress['Pending'], marker_color='#9c27b0')
+        ])
+        fig_bar.update_layout(
+            barmode='stack',
+            title="Vaccination Completion Status",
+            yaxis_title="Number of Vaccines",
+            height=400,
+            showlegend=True,
+            margin=dict(t=40, b=20, l=20, r=20)
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
+    
+    st.markdown("---")
+    
     st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">💉 Vaccination Categories</h2>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
@@ -95,7 +147,7 @@ def render():
     with col1:
         st.markdown(f"""
         <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
-            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0;">Completed</h4>
+            <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0;">✓ Completed</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #4caf50; margin: 0;">{len(categories['completed'])}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -103,7 +155,7 @@ def render():
     with col2:
         st.markdown(f"""
         <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
-            <h4 style="color: #e65100; margin: 0 0 0.5rem 0;">Upcoming</h4>
+            <h4 style="color: #e65100; margin: 0 0 0.5rem 0;">➜ Upcoming</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #ff9800; margin: 0;">{len(categories['upcoming'])}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -111,7 +163,40 @@ def render():
     with col3:
         st.markdown(f"""
         <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #9c27b0;">
-            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">Pending</h4>
+            <h4 style="color: #6a1b9a; margin: 0 0 0.5rem 0;">⏳ Pending</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #9c27b0; margin: 0;">{len(categories['pending'])}</p>
         </div>
         """, unsafe_allow_html=True)
+    
+    # Vaccination Timeline Chart
+    if vaccinations:
+        st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">📅 Vaccination Timeline</h2>', unsafe_allow_html=True)
+        
+        timeline_data = []
+        for vac in vaccinations:
+            timeline_data.append({
+                'Vaccine': vac.get('vaccine_name', 'Unknown'),
+                'Date': vac.get('vaccination_date', 'Not Yet'),
+                'Status': 'Completed' if vac.get('vaccination_date') else 'Pending'
+            })
+        
+        df_timeline = pd.DataFrame(timeline_data)
+        
+        # Count by status
+        status_counts = df_timeline['Status'].value_counts()
+        
+        fig_timeline = px.bar(
+            df_timeline.value_counts(subset=['Status']).reset_index(name='Count'),
+            x='Status',
+            y='Count',
+            color='Status',
+            color_discrete_map={'Completed': '#4caf50', 'Pending': '#9c27b0'},
+            title="Vaccination Timeline Summary",
+            labels={'Count': 'Number of Vaccines', 'Status': 'Status'}
+        )
+        fig_timeline.update_layout(
+            height=400,
+            showlegend=False,
+            margin=dict(t=40, b=20, l=20, r=20)
+        )
+        st.plotly_chart(fig_timeline, use_container_width=True)
