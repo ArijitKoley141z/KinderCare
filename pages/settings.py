@@ -51,9 +51,10 @@ def render():
         
         .react-datepicker__current-month,
         .react-datepicker__current-month-w3 {
-            color: #333333 !important;
-            font-weight: 600 !important;
+            color: #000000 !important;
+            font-weight: 700 !important;
             background-color: #FFFFFF !important;
+            font-size: 1rem !important;
         }
         
         .react-datepicker__day {
