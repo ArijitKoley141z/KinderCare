@@ -45,13 +45,13 @@ def render():
         p {
             color: #000 !important;
         }
-        button[data-testid="stTab"] {
+        button {
             color: black !important;
         }
-        [data-testid="stTabLabel"] {
+        [role="tab"] {
             color: black !important;
         }
-        .stTabs [role="tab"] {
+        .stTabs button {
             color: black !important;
         }
     </style>
