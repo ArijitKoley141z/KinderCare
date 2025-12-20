@@ -271,16 +271,32 @@ def render():
         
         st.markdown("---")
         
-        st.markdown('<h3 style="color: #667eea;">📋 Upcoming Vaccinations Details</h3>', unsafe_allow_html=True)
+        detail_col1, detail_col2 = st.columns(2)
         
-        if categories['upcoming']:
-            upcoming_df = pd.DataFrame(categories['upcoming']).sort_values('due_date')
-            upcoming_df['due_date'] = pd.to_datetime(upcoming_df['due_date']).dt.strftime('%Y-%m-%d')
-            upcoming_df_display = upcoming_df[['vaccine_name', 'due_date', 'status']].rename(
-                columns={'vaccine_name': 'Vaccine', 'due_date': 'Due Date', 'status': 'Status'}
-            )
-            st.dataframe(upcoming_df_display, use_container_width=True, hide_index=True)
-        else:
-            st.success("🎉 No upcoming vaccines! All scheduled vaccinations are up to date.")
+        with detail_col1:
+            st.markdown('<h3 style="color: #667eea;">⚠️ Overdue Vaccinations</h3>', unsafe_allow_html=True)
+            
+            if categories['overdue']:
+                overdue_df = pd.DataFrame(categories['overdue']).sort_values('due_date')
+                overdue_df['due_date'] = pd.to_datetime(overdue_df['due_date']).dt.strftime('%Y-%m-%d')
+                overdue_df_display = overdue_df[['vaccine_name', 'due_date', 'status']].rename(
+                    columns={'vaccine_name': 'Vaccine', 'due_date': 'Due Date', 'status': 'Status'}
+                )
+                st.dataframe(overdue_df_display, use_container_width=True, hide_index=True)
+            else:
+                st.success("✓ No overdue vaccines!")
+        
+        with detail_col2:
+            st.markdown('<h3 style="color: #667eea;">📋 Upcoming Vaccinations</h3>', unsafe_allow_html=True)
+            
+            if categories['upcoming']:
+                upcoming_df = pd.DataFrame(categories['upcoming']).sort_values('due_date')
+                upcoming_df['due_date'] = pd.to_datetime(upcoming_df['due_date']).dt.strftime('%Y-%m-%d')
+                upcoming_df_display = upcoming_df[['vaccine_name', 'due_date', 'status']].rename(
+                    columns={'vaccine_name': 'Vaccine', 'due_date': 'Due Date', 'status': 'Status'}
+                )
+                st.dataframe(upcoming_df_display, use_container_width=True, hide_index=True)
+            else:
+                st.success("🎉 No upcoming vaccines! All scheduled vaccinations are up to date.")
     else:
         st.info("No vaccination records yet. Start adding vaccinations to see analytics.")
