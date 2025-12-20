@@ -60,14 +60,14 @@ def register_user(name: str, email: str, password: str) -> bool:
 def get_user_by_email(email: str) -> Optional[Dict]:
     conn = get_user_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT * FROM users WHERE LOWER(email) = LOWER(?)", (email,))
     row = cursor.fetchone()
     conn.close()
     return dict(row) if row else None
 
 def authenticate_user(email: str, password: str) -> Optional[Dict]:
     user = get_user_by_email(email)
-    if user and user['password'] == password:
+    if user and user['password'].strip() == password.strip():
         return user
     return None
 

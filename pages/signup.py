@@ -84,6 +84,10 @@ def render():
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         
         if st.button("✍️ Create Account", key="signup_btn", use_container_width=True, type="primary"):
+            name = name.strip()
+            email = email.strip().lower()
+            password = password.strip()
+            confirm_password = confirm_password.strip()
             if not name or not email or not password or not confirm_password:
                 st.error("❌ Please fill all fields")
             elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
