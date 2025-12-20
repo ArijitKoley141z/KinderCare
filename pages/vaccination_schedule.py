@@ -35,6 +35,11 @@ def render():
             color: #ffffff !important;
         }
 
+        /* ---------- General text ---------- */
+        h2, h3, p {
+            color: #000000 !important;
+        }
+
         /* ---------- Tabs: lock text color to black permanently ---------- */
         div[data-testid="stTabs"] button {
             color: #000000 !important;
@@ -84,37 +89,27 @@ def render():
         div[data-testid="stTabs"] button[aria-selected="false"] * {
             color: #000000 !important;
         }
-
-        /* ---------- Mark buttons text color white ---------- */
-        [data-testid="stBaseButton"] {
-            color: white !important;
-        }
-
-        [data-testid="stBaseButton"] * {
-            color: white !important;
-        }
-
-        .stButton button {
-            color: white !important;
-        }
-
-        .stButton button * {
-            color: white !important;
-        }
-
-        .stButton button span {
-            color: white !important;
-        }
-
-        .stButton button p {
-            color: white !important;
-        }
-
-        /* ---------- General text ---------- */
-        h2, h3, p {
-            color: #000000 !important;
-        }
     </style>
+    <script>
+        function updateButtonColors() {
+            const buttons = document.querySelectorAll('button');
+            const tabsContainer = document.querySelector('[data-testid="stTabs"]');
+            
+            buttons.forEach(btn => {
+                if (!tabsContainer || !tabsContainer.contains(btn)) {
+                    btn.style.color = 'white !important';
+                    const spans = btn.querySelectorAll('span, p, div');
+                    spans.forEach(span => {
+                        span.style.color = 'white !important';
+                    });
+                }
+            });
+        }
+        
+        updateButtonColors();
+        window.addEventListener('load', updateButtonColors);
+        setTimeout(updateButtonColors, 100);
+    </script>
     """, unsafe_allow_html=True)
 
     st.markdown(
