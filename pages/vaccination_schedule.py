@@ -40,6 +40,23 @@ def render():
             color: #000000 !important;
         }
 
+        /* ---------- All buttons white text except tabs ---------- */
+        button:not([data-testid="stTabs"] button) {
+            color: white !important;
+        }
+        
+        button p {
+            color: white !important;
+        }
+        
+        button span {
+            color: white !important;
+        }
+        
+        button div {
+            color: white !important;
+        }
+
         /* ---------- Tabs: lock text color to black permanently ---------- */
         div[data-testid="stTabs"] button {
             color: #000000 !important;
@@ -90,26 +107,6 @@ def render():
             color: #000000 !important;
         }
     </style>
-    <script>
-        function updateButtonColors() {
-            const buttons = document.querySelectorAll('button');
-            const tabsContainer = document.querySelector('[data-testid="stTabs"]');
-            
-            buttons.forEach(btn => {
-                if (!tabsContainer || !tabsContainer.contains(btn)) {
-                    btn.style.color = 'white !important';
-                    const spans = btn.querySelectorAll('span, p, div');
-                    spans.forEach(span => {
-                        span.style.color = 'white !important';
-                    });
-                }
-            });
-        }
-        
-        updateButtonColors();
-        window.addEventListener('load', updateButtonColors);
-        setTimeout(updateButtonColors, 100);
-    </script>
     """, unsafe_allow_html=True)
 
     st.markdown(
