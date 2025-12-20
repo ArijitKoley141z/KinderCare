@@ -19,7 +19,7 @@ def render():
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">⚙️ Settings</h1>', unsafe_allow_html=True)
     st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Manage your child profiles, notification preferences, and account settings</p>', unsafe_allow_html=True)
     
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Child Profiles", "Notifications", "Data Management", "About", "Account"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Child Profiles", "Notifications", "About", "Account"])
     
     with tab1:
         render_child_profiles()
@@ -28,12 +28,9 @@ def render():
         render_notification_settings()
     
     with tab3:
-        render_data_management()
-    
-    with tab4:
         render_about()
     
-    with tab5:
+    with tab4:
         render_account()
 
 def render_child_profiles():
