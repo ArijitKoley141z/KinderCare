@@ -45,6 +45,15 @@ def render():
         p {
             color: #000 !important;
         }
+        button[data-testid="stTab"] {
+            color: black !important;
+        }
+        [data-testid="stTabLabel"] {
+            color: black !important;
+        }
+        .stTabs [role="tab"] {
+            color: black !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
