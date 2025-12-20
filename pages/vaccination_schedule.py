@@ -41,7 +41,15 @@ def render():
             font-weight: 600 !important;
         }
 
+        button[data-baseweb="tab"] > span {
+            color: #000000 !important;
+        }
+
         button[data-baseweb="tab"]:hover {
+            color: #000000 !important;
+        }
+
+        button[data-baseweb="tab"]:hover > span {
             color: #000000 !important;
         }
 
@@ -49,7 +57,15 @@ def render():
             color: #000000 !important;
         }
 
+        button[data-baseweb="tab"]:active > span {
+            color: #000000 !important;
+        }
+
         button[data-baseweb="tab"]:focus {
+            color: #000000 !important;
+        }
+
+        button[data-baseweb="tab"]:focus > span {
             color: #000000 !important;
         }
 
@@ -57,7 +73,15 @@ def render():
             color: #000000 !important;
         }
 
+        button[data-baseweb="tab"][aria-selected="true"] > span {
+            color: #000000 !important;
+        }
+
         button[data-baseweb="tab"][aria-selected="false"] {
+            color: #000000 !important;
+        }
+
+        button[data-baseweb="tab"][aria-selected="false"] > span {
             color: #000000 !important;
         }
 
