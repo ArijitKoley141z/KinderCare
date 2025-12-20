@@ -81,8 +81,7 @@ def render():
     """, unsafe_allow_html=True)
     
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">🏥 Common Child Diseases & Remedies</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="color: #000;">Learn about common childhood illnesses, their symptoms, and recommended treatments</p>', unsafe_allow_html=True)
-    st.divider()
+    st.markdown('<p style="color: #000; margin-bottom: 1rem;">Learn about common childhood illnesses, their symptoms, and recommended treatments</p>', unsafe_allow_html=True)
     
     diseases_data = [
         {
