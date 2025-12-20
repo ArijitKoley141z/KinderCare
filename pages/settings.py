@@ -5,9 +5,21 @@ import database as db
 from vaccination_guidelines import generate_vaccination_schedule
 
 def render():
-    st.title("Settings")
+    st.markdown("""
+    <style>
+        h2, h3 {
+            color: #1a1a1a !important;
+        }
+        p {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
     
-    tab1, tab2, tab3, tab4 = st.tabs(["Child Profiles", "Notifications", "Data Management", "About"])
+    st.markdown('<h1 style="color: #667eea; margin-top: 0;">⚙️ Settings</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Manage your child profiles, notification preferences, and account settings</p>', unsafe_allow_html=True)
+    
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Child Profiles", "Notifications", "Data Management", "About", "Account"])
     
     with tab1:
         render_child_profiles()
@@ -20,6 +32,9 @@ def render():
     
     with tab4:
         render_about()
+    
+    with tab5:
+        render_account()
 
 def render_child_profiles():
     st.subheader("Manage Child Profiles")
@@ -453,3 +468,34 @@ def render_about():
     *Designed to demonstrate real-world problem solving, data handling, and AI integration 
     suitable for MNC technical evaluations.*
     """)
+
+def render_account():
+    st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">Account Management</h2>', unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div style="background: #f0f7ff; border-left: 4px solid #667eea; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h3 style="color: #667eea; margin-top: 0;">Account Information</h3>
+        <p style="color: #333; margin: 0;">You are currently logged into your KinderCare account. Click the button below to securely logout.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 1, 2])
+    with col1:
+        if st.button("🚪 Logout", key="settings_logout", use_container_width=True, type="secondary", help="Click to logout from your account"):
+            st.session_state.logged_in = False
+            st.session_state.current_page = "Home"
+            st.session_state.conversation_history = []
+            st.rerun()
+    
+    st.markdown("---")
+    st.markdown("""
+    <div style="background: #fff3cd; border-left: 4px solid #ff9800; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="color: #e65100; margin-top: 0;">Security Tips</h3>
+        <ul style="color: #333;">
+            <li>Always logout from shared devices</li>
+            <li>Keep your credentials confidential</li>
+            <li>Regularly review your child profiles for accuracy</li>
+            <li>Enable email notifications for important updates</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)

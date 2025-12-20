@@ -91,7 +91,7 @@ if not st.session_state.logged_in:
             st.session_state.current_page = "Sign Up"
             st.rerun()
 else:
-    nav_dashboard, nav_vax_sched, nav_vax_timeline, nav_health_timeline, nav_assistant, nav_logout = st.columns([1, 1, 1, 1, 1, 1])
+    nav_dashboard, nav_vax_sched, nav_vax_timeline, nav_health_timeline, nav_assistant, nav_settings = st.columns([1, 1, 1, 1, 1, 1])
 
     with nav_dashboard:
         button_label = "📊 Dashboard" if st.session_state.current_page == "Dashboard" else "Dashboard"
@@ -123,10 +123,10 @@ else:
             st.session_state.current_page = "Assistant"
             st.rerun()
 
-    with nav_logout:
-        if st.button("🚪 Logout", key="nav_Logout", use_container_width=True):
-            st.session_state.logged_in = False
-            st.session_state.current_page = "Home"
+    with nav_settings:
+        button_label = "⚙️ Settings" if st.session_state.current_page == "Settings" else "Settings"
+        if st.button(button_label, key="nav_Settings", use_container_width=True):
+            st.session_state.current_page = "Settings"
             st.rerun()
 
 st.markdown("""
@@ -208,6 +208,9 @@ elif st.session_state.current_page == "Health Timeline":
 elif st.session_state.current_page == "Assistant":
     from pages import assistant
     assistant.render()
+elif st.session_state.current_page == "Settings":
+    from pages import settings
+    settings.render()
 elif st.session_state.current_page == "Login":
     from pages import login
     login.render()
