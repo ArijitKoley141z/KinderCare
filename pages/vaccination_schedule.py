@@ -52,15 +52,13 @@ def render():
         button[kind="secondary"],
         button {
             color: #ffffff !important;
-            font-weight: 700 !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+            font-weight: 600 !important;
         }
 
         button span,
         button p,
         button div {
             color: #ffffff !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
         }
     </style>
     """, unsafe_allow_html=True)
