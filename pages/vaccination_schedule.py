@@ -47,20 +47,68 @@ def render():
             font-weight: 600 !important;
         }
 
-        /* ---------- FORCE ACTION BUTTON TEXT WHITE ---------- */
-        button[kind="primary"],
-        button[kind="secondary"],
+        /* ---------- FORCE ALL NON-TAB BUTTONS TO WHITE ---------- */
         button {
-            color: #ffffff !important;
-            font-weight: 600 !important;
+            color: white !important;
         }
-
-        button span,
-        button p,
+        
+        button * {
+            color: white !important;
+        }
+        
+        button span {
+            color: white !important;
+        }
+        
         button div {
-            color: #ffffff !important;
+            color: white !important;
+        }
+        
+        button p {
+            color: white !important;
         }
     </style>
+    <script>
+        // Aggressively force button text to white
+        function forceButtonsWhite() {
+            const buttons = document.querySelectorAll('button');
+            const tabsContainer = document.querySelector('[data-testid="stTabs"]');
+            
+            buttons.forEach(btn => {
+                // Skip tab buttons
+                if (tabsContainer && tabsContainer.contains(btn)) {
+                    btn.style.color = '#000000';
+                    return;
+                }
+                
+                // Force button text to white
+                btn.style.color = 'white !important';
+                
+                // Force all children to white
+                const walker = document.createTreeWalker(
+                    btn,
+                    NodeFilter.SHOW_ELEMENT,
+                    null,
+                    false
+                );
+                
+                let currentNode;
+                while (currentNode = walker.nextNode()) {
+                    currentNode.style.color = 'white !important';
+                }
+            });
+        }
+        
+        // Run immediately
+        forceButtonsWhite();
+        
+        // Run on load
+        document.addEventListener('DOMContentLoaded', forceButtonsWhite);
+        window.addEventListener('load', forceButtonsWhite);
+        
+        // Run periodically to catch dynamically added buttons
+        setInterval(forceButtonsWhite, 300);
+    </script>
     """, unsafe_allow_html=True)
 
     st.markdown(
