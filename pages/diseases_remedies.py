@@ -163,6 +163,118 @@ def render():
             ],
             "when_to_see_doctor": "If signs of dehydration appear, vomiting persists beyond 24 hours, or bloody stools are present.",
             "prevention": ["Rotavirus vaccine", "Proper food handling", "Regular handwashing"]
+        },
+        {
+            "name": "Measles",
+            "emoji": "🔴",
+            "symptoms": ["Fever", "Cough", "Runny nose", "Red watery eyes", "Rash starting on face and spreading down body"],
+            "causes": "Highly contagious viral infection spread through airborne droplets.",
+            "home_remedies": [
+                "Ensure complete bed rest",
+                "High-dose vitamin A supplementation (consult doctor)",
+                "Maintain adequate hydration",
+                "Use cool-mist humidifier to ease cough",
+                "Keep room darkened to ease eye irritation",
+                "Dress in comfortable, breathable clothing"
+            ],
+            "when_to_see_doctor": "Seek immediate medical attention if suspected, as measles requires professional monitoring.",
+            "prevention": ["MMR vaccine", "Avoid contact with infected individuals"]
+        },
+        {
+            "name": "Strep Throat",
+            "emoji": "😖",
+            "symptoms": ["Severe sore throat", "Fever over 101°F", "Swollen red tonsils", "White/yellow spots on tonsils", "Headache", "Nausea"],
+            "causes": "Group A Streptococcus bacteria spread through droplets from coughing or sneezing.",
+            "home_remedies": [
+                "Warm salt water gargles several times daily",
+                "Cold throat lozenges or popsicles for pain relief",
+                "Honey to soothe throat irritation",
+                "Anti-inflammatory medications like ibuprofen",
+                "Adequate hydration with warm drinks",
+                "Complete rest until fever subsides"
+            ],
+            "when_to_see_doctor": "Consult doctor for antibiotics, which are essential to prevent complications like rheumatic fever.",
+            "prevention": ["Frequent handwashing", "Teach child not to share utensils or drinks", "Keep infected child away from others"]
+        },
+        {
+            "name": "Pink Eye (Conjunctivitis)",
+            "emoji": "👁️",
+            "symptoms": ["Red or pink conjunctiva", "Itching and burning", "Watery or discharge from eyes", "Swollen eyelids", "Light sensitivity", "Crusting of eyelids"],
+            "causes": "Bacterial, viral, or allergic infection/irritation of the eye membrane.",
+            "home_remedies": [
+                "Wash hands frequently before touching eyes",
+                "Use warm compresses on closed eyes",
+                "Gently clean away discharge with warm water",
+                "Apply artificial tears if irritated",
+                "Avoid touching or rubbing eyes",
+                "Use clean towels and pillowcases frequently"
+            ],
+            "when_to_see_doctor": "If discharge is thick/yellowish (bacterial), eyes become painful, or vision is affected.",
+            "prevention": ["Regular handwashing", "Don't share eye makeup or contacts", "Avoid rubbing eyes with dirty hands"]
+        },
+        {
+            "name": "Croup",
+            "emoji": "🎺",
+            "symptoms": ["Barking, seal-like cough", "Hoarse voice", "Stridor (high-pitched breathing)", "Fever", "Runny nose", "Mild symptoms during day, worse at night"],
+            "causes": "Viral infection, usually parainfluenza virus, causing inflammation in the airways.",
+            "home_remedies": [
+                "Cool mist or steam inhalation for 15-20 minutes",
+                "Keep child calm and relaxed",
+                "Elevate head with extra pillows",
+                "Use humidifier in bedroom overnight",
+                "Offer honey and warm drinks (for children over 1 year)",
+                "Avoid smoke and irritants"
+            ],
+            "when_to_see_doctor": "If stridor is present during rest, severe difficulty breathing, drooling, or symptoms worsen.",
+            "prevention": ["Avoid second-hand smoke", "Regular handwashing", "Up-to-date vaccinations"]
+        },
+        {
+            "name": "Whooping Cough (Pertussis)",
+            "emoji": "💨",
+            "symptoms": ["Severe coughing fits followed by 'whooping' sound", "Nasal congestion", "Low-grade fever", "Sneezing", "Coughing may last 6+ weeks"],
+            "causes": "Bordetella pertussis bacteria, highly contagious respiratory infection.",
+            "home_remedies": [
+                "Ensure child gets complete rest",
+                "Maintain high fluid intake",
+                "Use humidifier to ease congestion",
+                "Smaller, frequent meals to prevent vomiting",
+                "Keep environment calm and quiet",
+                "Monitor for complications like pneumonia"
+            ],
+            "when_to_see_doctor": "Medical attention essential; antibiotics may be prescribed. Hospitalization may be needed for severe cases.",
+            "prevention": ["DTaP vaccine", "Booster shots for older children and adults", "Avoid contact with infected individuals"]
+        },
+        {
+            "name": "Atopic Dermatitis (Eczema)",
+            "emoji": "🔴",
+            "symptoms": ["Intense itching, especially at night", "Red or brownish patches", "Small raised bumps that leak fluid when scratched", "Swollen, cracked skin", "Raw, sensitive skin from scratching"],
+            "causes": "Genetic predisposition combined with environmental triggers and impaired skin barrier function.",
+            "home_remedies": [
+                "Use fragrance-free, gentle moisturizers immediately after bathing",
+                "Lukewarm (not hot) baths with mild cleansers",
+                "Apply hydrocortisone cream for itching (under medical guidance)",
+                "Use humidifier to maintain skin moisture",
+                "Avoid harsh detergents and fabrics",
+                "Keep fingernails trimmed to prevent damage from scratching"
+            ],
+            "when_to_see_doctor": "If rash spreads, signs of infection appear, or over-the-counter treatments don't help.",
+            "prevention": ["Use mild, hypoallergenic products", "Avoid known triggers", "Keep skin well-moisturized", "Avoid excessive sweating"]
+        },
+        {
+            "name": "Mumps",
+            "emoji": "🐭",
+            "symptoms": ["Swollen salivary glands (cheeks puff out)", "Fever", "Headache", "Muscle aches", "Loss of appetite", "Difficulty eating or drinking"],
+            "causes": "Mumps virus spread through droplets from coughing or sneezing; highly contagious.",
+            "home_remedies": [
+                "Complete bed rest during acute phase",
+                "Soft foods like mashed potatoes, yogurt, pudding",
+                "Pain relievers for aches and fever",
+                "Warm compresses on swollen glands",
+                "Encourage fluid intake",
+                "Avoid acidic foods and drinks that irritate glands"
+            ],
+            "when_to_see_doctor": "For confirmation, monitoring, and watching for complications like meningitis or hearing loss.",
+            "prevention": ["MMR vaccine (highly effective)", "Avoid contact with infected individuals"]
         }
     ]
     
