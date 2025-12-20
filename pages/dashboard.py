@@ -149,7 +149,7 @@ def render():
     
     with col1:
         st.markdown(f"""
-        <div style="background: #E8F5E9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #81C784;">
+        <div style="background: #E8F5E9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #81C784; min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
             <h4 style="color: #2E7D32; margin: 0 0 0.5rem 0;">✓ Completed</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #81C784; margin: 0;">{len(categories['completed'])}</p>
         </div>
@@ -157,7 +157,7 @@ def render():
     
     with col2:
         st.markdown(f"""
-        <div style="background: #E3F2FD; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #64B5F6;">
+        <div style="background: #E3F2FD; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #64B5F6; min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
             <h4 style="color: #1565C0; margin: 0 0 0.5rem 0;">➜ Upcoming</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #64B5F6; margin: 0;">{len(categories['upcoming'])}</p>
         </div>
@@ -166,7 +166,7 @@ def render():
     with col3:
         overdue = len(categories['overdue'])
         st.markdown(f"""
-        <div style="background: #FFEBEE; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #EF5350;">
+        <div style="background: #FFEBEE; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #EF5350; min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
             <h4 style="color: #C62828; margin: 0 0 0.5rem 0;">⚠️ Overdue</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #EF5350; margin: 0;">{overdue}</p>
         </div>
@@ -174,7 +174,7 @@ def render():
     
     with col4:
         st.markdown(f"""
-        <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #FFB74D;">
+        <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #FFB74D; min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
             <h4 style="color: #E65100; margin: 0 0 0.5rem 0;">⏳ Pending</h4>
             <p style="font-size: 1.5rem; font-weight: bold; color: #FFB74D; margin: 0;">{len(categories['pending'])}</p>
         </div>
