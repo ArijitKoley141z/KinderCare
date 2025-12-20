@@ -207,9 +207,28 @@ def render_vaccine_card(vacc, status_type):
     <div style="background-color: {bg_color}; padding: 15px; border-radius: 8px; border-left: 5px solid {border_color}; margin-bottom: 10px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h4 style="margin: 0; color: white;">{icon} {vacc['vaccine_name']}</h4>
-                <p style="margin: 5px 0 0 0; color: white; font-size: 0.9rem;">{status_text}</p>
+                <h4 style="margin: 0; color: black;">{icon} {vacc['vaccine_name']}</h4>
+                <p style="margin: 5px 0 0 0; color: black; font-size: 0.9rem;">{status_text}</p>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([2, 1, 1])
+    
+    with col1:
+        pass
+    
+    if status_type in ["overdue", "upcoming", "pending"]:
+        with col2:
+            if st.button("✓ Mark Completed", key=f"mark_completed_{vacc['id']}", use_container_width=True):
+                db.update_vaccination_status(vacc['id'], 'completed', date.today().isoformat())
+                st.success(f"✓ {vacc['vaccine_name']} marked as completed!")
+                st.rerun()
+    
+    if status_type == "completed":
+        with col2:
+            if st.button("↶ Mark Not Completed", key=f"mark_not_completed_{vacc['id']}", use_container_width=True):
+                db.update_vaccination_status(vacc['id'], 'pending', None)
+                st.info(f"↶ {vacc['vaccine_name']} moved back to pending.")
+                st.rerun()
