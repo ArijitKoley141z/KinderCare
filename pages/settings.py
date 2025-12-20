@@ -37,6 +37,10 @@ def render():
             color: #000000 !important;
         }
         
+        .react-datepicker {
+            background-color: #000000 !important;
+        }
+        
         .react-datepicker__header {
             background-color: #000000 !important;
         }
@@ -47,12 +51,33 @@ def render():
         
         .react-datepicker__current-month,
         .react-datepicker__current-month-w3 {
-            color: #000000 !important;
+            color: #FFFFFF !important;
             font-weight: 600 !important;
+            background-color: #000000 !important;
+        }
+        
+        .react-datepicker__day {
+            color: #FFFFFF !important;
+        }
+        
+        .react-datepicker__day:hover {
+            background-color: #333333 !important;
+        }
+        
+        .react-datepicker__day--selected {
+            background-color: #667eea !important;
         }
         
         .react-datepicker__navigation-icon::before {
-            border-color: #000000 !important;
+            border-color: #FFFFFF !important;
+        }
+        
+        .react-datepicker__day-names {
+            background-color: #000000 !important;
+        }
+        
+        .react-datepicker__day-name {
+            color: #FFFFFF !important;
         }
     </style>
     """, unsafe_allow_html=True)
