@@ -1,6 +1,6 @@
 import streamlit as st
 import re
-import database as db
+import user_database as udb
 
 def render():
     st.markdown("""
@@ -91,7 +91,7 @@ def render():
             elif len(password) < 6:
                 st.error("❌ Password must be at least 6 characters long")
             else:
-                user = db.authenticate_user(email, password)
+                user = udb.authenticate_user(email, password)
                 if user:
                     st.success("✅ Login successful!")
                     st.session_state.logged_in = True

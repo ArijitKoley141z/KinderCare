@@ -1,6 +1,6 @@
 import streamlit as st
 import re
-import database as db
+import user_database as udb
 
 def render():
     st.markdown("""
@@ -95,7 +95,7 @@ def render():
             elif not agree_terms:
                 st.error("❌ Please agree to Terms & Conditions")
             else:
-                success = db.register_user(name, email, password)
+                success = udb.register_user(name, email, password)
                 if success:
                     st.success("✅ Account created successfully!")
                     st.session_state.logged_in = True
