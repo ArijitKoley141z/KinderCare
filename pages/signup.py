@@ -46,16 +46,11 @@ def render():
             font-weight: 600 !important;
             font-size: 1.05em !important;
             border-radius: 12px !important;
-            color: white !important;
         }
         [data-testid="baseButton-secondary"] {
             font-weight: 600 !important;
             font-size: 1.05em !important;
             border-radius: 12px !important;
-            color: white !important;
-        }
-        button {
-            color: white !important;
         }
     </style>
     """, unsafe_allow_html=True)

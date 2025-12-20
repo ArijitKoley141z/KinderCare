@@ -40,9 +40,6 @@ def render():
         [data-testid="stExpander"] button svg {
             stroke: #000 !important;
         }
-        button, [data-testid="baseButton-primary"], [data-testid="baseButton-secondary"] {
-            color: white !important;
-        }
     </style>
     """, unsafe_allow_html=True)
     

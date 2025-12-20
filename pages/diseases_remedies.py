@@ -77,9 +77,6 @@ def render():
             font-weight: 800 !important;
             font-size: 1.05em !important;
         }
-        button, [data-testid="baseButton-primary"], [data-testid="baseButton-secondary"] {
-            color: white !important;
-        }
     </style>
     """, unsafe_allow_html=True)
     

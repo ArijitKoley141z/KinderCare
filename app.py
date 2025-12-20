@@ -131,6 +131,17 @@ else:
 
 st.markdown("""
 <style>
+    /* Global button text styling */
+    button, [role="button"], .stButton button {
+        color: white !important;
+    }
+    
+    button span, [role="button"] span, .stButton button span,
+    button p, [role="button"] p, .stButton button p,
+    button div, [role="button"] div, .stButton button div {
+        color: white !important;
+    }
+    
     [data-testid="stButton"] button {
         color: white !important;
         background-color: #667eea !important;
@@ -153,6 +164,11 @@ st.markdown("""
     [data-testid="stButton"] button:focus {
         background-color: #667eea !important;
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3) !important;
+    }
+    
+    /* Form submit buttons */
+    [data-testid="baseButton-primary"] span, [data-testid="baseButton-secondary"] span {
+        color: white !important;
     }
 </style>
 """, unsafe_allow_html=True)

@@ -1,13 +1,6 @@
 import streamlit as st
 
 def render():
-    st.markdown("""
-    <style>
-        button, [data-testid="baseButton-primary"], [data-testid="baseButton-secondary"] {
-            color: white !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">ℹ️ About Us</h1>', unsafe_allow_html=True)
     
     st.markdown("""
