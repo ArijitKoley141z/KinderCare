@@ -121,7 +121,8 @@ def render():
         unsafe_allow_html=True
     )
 
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id) if user_id else []
     if not children:
         st.info("Please add a child profile first to see vaccination schedule.")
         return

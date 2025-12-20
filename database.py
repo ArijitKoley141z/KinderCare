@@ -18,6 +18,7 @@ def init_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS children (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
             date_of_birth DATE NOT NULL,
             country_guideline TEXT NOT NULL DEFAULT 'WHO',
@@ -25,7 +26,8 @@ def init_database():
             blood_group TEXT,
             allergies TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     """)
     
@@ -96,15 +98,15 @@ def init_database():
     conn.commit()
     conn.close()
 
-def add_child(name: str, date_of_birth: str, country_guideline: str, 
+def add_child(name: str, date_of_birth: str, country_guideline: str, user_id: int,
               gender: Optional[str] = None, blood_group: Optional[str] = None, 
               allergies: Optional[str] = None) -> int:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO children (name, date_of_birth, country_guideline, gender, blood_group, allergies)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (name, date_of_birth, country_guideline, gender, blood_group, allergies))
+        INSERT INTO children (user_id, name, date_of_birth, country_guideline, gender, blood_group, allergies)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (user_id, name, date_of_birth, country_guideline, gender, blood_group, allergies))
     child_id = cursor.lastrowid
     conn.commit()
     conn.close()
@@ -118,10 +120,13 @@ def get_child(child_id: int) -> Optional[Dict]:
     conn.close()
     return dict(row) if row else None
 
-def get_all_children() -> List[Dict]:
+def get_all_children(user_id: Optional[int] = None) -> List[Dict]:
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM children ORDER BY name")
+    if user_id:
+        cursor.execute("SELECT * FROM children WHERE user_id = ? ORDER BY name", (user_id,))
+    else:
+        cursor.execute("SELECT * FROM children ORDER BY name")
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]

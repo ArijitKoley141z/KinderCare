@@ -95,6 +95,7 @@ def render():
                 if user:
                     st.success("✅ Login successful!")
                     st.session_state.logged_in = True
+                    st.session_state.user_id = user['id']
                     st.session_state.user_name = user['name']
                     st.session_state.user_email = user['email']
                     st.session_state.current_page = "Dashboard"

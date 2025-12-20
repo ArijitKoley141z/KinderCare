@@ -44,7 +44,8 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
 if 'selected_child_id' not in st.session_state:
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id) if user_id else []
     st.session_state.selected_child_id = children[0]['id'] if children else None
 
 if 'conversation_history' not in st.session_state:

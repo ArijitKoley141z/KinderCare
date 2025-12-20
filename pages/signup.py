@@ -98,7 +98,11 @@ def render():
                 success = udb.register_user(name, email, password)
                 if success:
                     st.success("✅ Account created successfully!")
+                    user = udb.get_user_by_email(email)
                     st.session_state.logged_in = True
+                    st.session_state.user_id = user['id']
+                    st.session_state.user_name = user['name']
+                    st.session_state.user_email = user['email']
                     st.session_state.current_page = "Dashboard"
                     st.rerun()
                 else:

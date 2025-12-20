@@ -35,7 +35,8 @@ def render():
     </div>
     """, unsafe_allow_html=True)
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id) if user_id else []
     
     if not children:
         st.warning("Please add a child profile to use the assistant effectively.")

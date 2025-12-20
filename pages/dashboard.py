@@ -10,7 +10,8 @@ import pandas as pd
 def render():
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">Dashboard</h1>', unsafe_allow_html=True)
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id) if user_id else []
     
     if not children:
         st.info("Welcome! Please add a child profile in the Settings page to get started.")

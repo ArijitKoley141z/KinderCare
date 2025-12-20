@@ -19,7 +19,8 @@ def render():
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📅 Health Timeline</h1>', unsafe_allow_html=True)
     st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Track your child\'s health events, vaccinations, and important milestones</p>', unsafe_allow_html=True)
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id) if user_id else []
     
     if not children:
         st.info("Please add a child profile first.")

@@ -60,7 +60,8 @@ def render_child_profiles():
     if st.session_state.get('show_add_child', False):
         render_add_child_form()
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id)
     
     if children:
         st.markdown("---")
@@ -117,10 +118,12 @@ def render_add_child_form():
                 if not name:
                     st.error("Please enter the child's name.")
                 else:
+                    user_id = st.session_state.get('user_id')
                     child_id = db.add_child(
                         name=name,
                         date_of_birth=dob.isoformat(),
                         country_guideline=country,
+                        user_id=user_id,
                         gender=gender if gender != "Not specified" else None,
                         blood_group=blood_group if blood_group != "Not specified" else None,
                         allergies=allergies if allergies else None
@@ -301,7 +304,8 @@ def render_edit_child_form(child):
 def render_notification_settings():
     st.subheader("Notification Preferences")
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id)
     
     if not children:
         st.info("Add a child profile first to configure notifications.")
@@ -413,7 +417,8 @@ def render_data_management():
     st.markdown("---")
     st.markdown("### Database Information")
     
-    children = db.get_all_children()
+    user_id = st.session_state.get('user_id')
+    children = db.get_all_children(user_id=user_id)
     total_vaccinations = 0
     total_events = 0
     
