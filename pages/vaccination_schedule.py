@@ -26,6 +26,21 @@ def load_vaccine_data():
 def render():
     st.markdown("""
     <style>
+        /* ---------- FORCE BUTTON TEXT COLOR TO WHITE ---------- */
+        button[kind="secondary"],
+        button[kind="primary"],
+        button {
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+
+        /* Ensure inner text elements are white */
+        button span,
+        button p,
+        button div {
+            color: #ffffff !important;
+        }
+
         /* ---------- Purple card text force white ---------- */
         .purple-card p,
         .purple-card h1,
