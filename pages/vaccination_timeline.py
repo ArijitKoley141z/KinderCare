@@ -40,6 +40,16 @@ def render():
         [data-testid="stExpander"] button svg {
             stroke: #000 !important;
         }
+        
+        /* Vaccination Timeline Boxes - Ensure white text visibility */
+        .vaccine-stat-box p {
+            color: white !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .vaccine-stat-box {
+            color: white !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -72,19 +82,19 @@ def render():
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 500;">Total Vaccines</p>
-            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white !important;">{len(vaccines)}</p>
+        <div class="vaccine-stat-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; text-align: center;">
+            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">Total Vaccines</p>
+            <p style="margin: 10px 0 0 0; font-size: 40px; font-weight: 900; color: white !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">{len(vaccines)}</p>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         age_groups = set([v['age_label'] for v in vaccines])
         st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 500;">Age Groups</p>
-            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white !important;">{len(age_groups)}</p>
+        <div class="vaccine-stat-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; text-align: center;">
+            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">Age Groups</p>
+            <p style="margin: 10px 0 0 0; font-size: 40px; font-weight: 900; color: white !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">{len(age_groups)}</p>
         </div>
         """, unsafe_allow_html=True)
     
