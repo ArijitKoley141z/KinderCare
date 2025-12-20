@@ -31,6 +31,15 @@ def render():
         p {
             color: #000 !important;
         }
+        [data-testid="stExpander"] details > summary {
+            color: #000 !important;
+        }
+        [data-testid="stExpander"] details > summary svg {
+            stroke: #000 !important;
+        }
+        [data-testid="stExpander"] button svg {
+            stroke: #000 !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     

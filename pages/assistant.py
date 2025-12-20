@@ -15,6 +15,17 @@ def process_user_message(user_input, child, vaccinations, health_events):
     st.session_state.conversation_history.append({"role": "assistant", "content": response})
 
 def render():
+    st.markdown("""
+    <style>
+        h2, h3 {
+            color: #1a1a1a !important;
+        }
+        p {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">🤖 Health Assistant</h1>', unsafe_allow_html=True)
     
     st.markdown("""
@@ -54,7 +65,7 @@ def render():
     
     st.markdown("---")
     
-    st.subheader("💡 Quick Questions")
+    st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">💡 Quick Questions</h2>', unsafe_allow_html=True)
     quick_responses = get_quick_responses()
     
     cols = st.columns(3)
@@ -66,7 +77,7 @@ def render():
     
     st.markdown("---")
     
-    st.subheader("💬 Chat")
+    st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">💬 Chat</h2>', unsafe_allow_html=True)
     
     chat_container = st.container()
     
