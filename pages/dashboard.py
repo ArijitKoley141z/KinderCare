@@ -153,26 +153,30 @@ def render():
     st.markdown('<h2 style="color:#667eea;margin-top:2rem;">📊 Vaccination Analytics</h2>', unsafe_allow_html=True)
 
     if vaccinations:
-        df = pd.DataFrame(vaccinations)
+        status_colors = {
+            'completed': '#81C784',
+            'upcoming': '#64B5F6',
+            'overdue': '#EF5350',
+            'pending': '#FFB74D'
+        }
+        
+        status_counts = {
+            'completed': len(categories['completed']),
+            'upcoming': len(categories['upcoming']),
+            'overdue': len(categories['overdue']),
+            'pending': len(categories['pending'])
+        }
         
         anal_col1, anal_col2 = st.columns(2)
         
         with anal_col1:
             st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Status Distribution</h3>', unsafe_allow_html=True)
             
-            all_statuses = ['completed', 'upcoming', 'overdue', 'pending']
-            status_counts = df['status'].value_counts().reindex(all_statuses, fill_value=0)
-            status_colors = {
-                'completed': '#81C784',
-                'upcoming': '#64B5F6',
-                'overdue': '#EF5350',
-                'pending': '#FFB74D'
-            }
-            colors = [status_colors.get(status, '#999') for status in status_counts.index]
+            colors = [status_colors.get(status, '#999') for status in status_counts.keys()]
             
             fig_status = go.Figure(data=[go.Pie(
-                labels=status_counts.index.str.capitalize(),
-                values=status_counts.values,
+                labels=[s.capitalize() for s in status_counts.keys()],
+                values=list(status_counts.values()),
                 marker=dict(colors=colors),
                 hole=0.3,
                 textinfo="label+percent",
@@ -188,21 +192,13 @@ def render():
         with anal_col2:
             st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Status Count</h3>', unsafe_allow_html=True)
             
-            all_statuses = ['completed', 'upcoming', 'overdue', 'pending']
-            status_counts = df['status'].value_counts().reindex(all_statuses, fill_value=0)
-            status_colors = {
-                'completed': '#81C784',
-                'upcoming': '#64B5F6',
-                'overdue': '#EF5350',
-                'pending': '#FFB74D'
-            }
-            colors = [status_colors.get(status, '#999') for status in status_counts.index]
+            colors = [status_colors.get(status, '#999') for status in status_counts.keys()]
             
             fig_bar = go.Figure(data=[go.Bar(
-                x=status_counts.index.str.capitalize(),
-                y=status_counts.values,
+                x=[s.capitalize() for s in status_counts.keys()],
+                y=list(status_counts.values()),
                 marker=dict(color=colors),
-                text=status_counts.values,
+                text=list(status_counts.values()),
                 textposition='auto',
                 hovertemplate="<b>%{x}</b><br>Count: %{y}<extra></extra>"
             )])
@@ -219,19 +215,20 @@ def render():
         st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">📅 Vaccination Timeline by Status</h3>', unsafe_allow_html=True)
         
         timeline_data = []
-        for vax in vaccinations:
-            due = vax.get('due_date')
-            if due and (isinstance(due, str) or isinstance(due, date)):
-                if isinstance(due, str):
-                    try:
-                        due = datetime.fromisoformat(due).date()
-                    except:
-                        continue
-                timeline_data.append({
-                    'vaccine': vax['vaccine_name'],
-                    'due_date': due,
-                    'status': vax['status'].capitalize()
-                })
+        for category_name, vax_list in categories.items():
+            for vax in vax_list:
+                due = vax.get('due_date')
+                if due and (isinstance(due, str) or isinstance(due, date)):
+                    if isinstance(due, str):
+                        try:
+                            due = datetime.fromisoformat(due).date()
+                        except:
+                            continue
+                    timeline_data.append({
+                        'vaccine': vax['vaccine_name'],
+                        'due_date': due,
+                        'status': category_name.capitalize()
+                    })
         
         if timeline_data:
             timeline_df = pd.DataFrame(timeline_data).sort_values('due_date')
