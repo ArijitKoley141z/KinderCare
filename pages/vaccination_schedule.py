@@ -36,52 +36,52 @@ def render():
         }
 
         /* ---------- Tabs: lock text color to black permanently ---------- */
-        button[data-baseweb="tab"] {
+        div[data-testid="stTabs"] button {
             color: #000000 !important;
             font-weight: 600 !important;
         }
 
-        button[data-baseweb="tab"] > span {
+        div[data-testid="stTabs"] button * {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:hover {
+        div[data-testid="stTabs"] button span {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:hover > span {
+        div[data-testid="stTabs"] button p {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:active {
+        div[data-testid="stTabs"] button:hover {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:active > span {
+        div[data-testid="stTabs"] button:hover * {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:focus {
+        div[data-testid="stTabs"] button:active {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"]:focus > span {
+        div[data-testid="stTabs"] button:active * {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"][aria-selected="true"] {
+        div[data-testid="stTabs"] button[aria-selected="true"] {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"][aria-selected="true"] > span {
+        div[data-testid="stTabs"] button[aria-selected="true"] * {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"][aria-selected="false"] {
+        div[data-testid="stTabs"] button[aria-selected="false"] {
             color: #000000 !important;
         }
 
-        button[data-baseweb="tab"][aria-selected="false"] > span {
+        div[data-testid="stTabs"] button[aria-selected="false"] * {
             color: #000000 !important;
         }
 
