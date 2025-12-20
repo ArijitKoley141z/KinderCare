@@ -26,40 +26,49 @@ def load_vaccine_data():
 def render():
     st.markdown("""
     <style>
-        /* ---------- Purple card text force white ---------- */
-        .purple-card p,
-        .purple-card h1,
-        .purple-card h2,
-        .purple-card h3,
-        .purple-card h4 {
-            color: #ffffff !important;
-        }
+    /* =====================================================
+       FORCE STREAMLIT BUTTON TEXT COLOR TO WHITE (FIX)
+       ===================================================== */
 
-        /* ---------- General text ---------- */
-        h2, h3, p {
-            color: #000000 !important;
-        }
+    /* Target the actual container Streamlit uses for button labels */
+    button div[data-testid="stMarkdownContainer"] p {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
 
-        /* ---------- Tabs: keep text black ---------- */
-        div[data-testid="stTabs"] button,
-        div[data-testid="stTabs"] button * {
-            color: #000000 !important;
-            font-weight: 600 !important;
-        }
+    /* Fallback: force all text inside buttons to white */
+    button * {
+        color: #ffffff !important;
+    }
 
-        /* ---------- FORCE ACTION BUTTON TEXT WHITE ---------- */
-        button[kind="primary"],
-        button[kind="secondary"],
-        button {
-            color: #ffffff !important;
-            font-weight: 600 !important;
-        }
+    /* Prevent hover/active states from reverting color */
+    button:hover div[data-testid="stMarkdownContainer"] p,
+    button:active div[data-testid="stMarkdownContainer"] p {
+        color: #ffffff !important;
+    }
 
-        button span,
-        button p,
-        button div {
-            color: #ffffff !important;
-        }
+    /* =====================================================
+       EXISTING STYLES (UNCHANGED)
+       ===================================================== */
+
+    .purple-card p,
+    .purple-card h1,
+    .purple-card h2,
+    .purple-card h3,
+    .purple-card h4 {
+        color: #ffffff !important;
+    }
+
+    h2, h3, p {
+        color: #000000 !important;
+    }
+
+    /* Tabs should remain black */
+    div[data-testid="stTabs"] button,
+    div[data-testid="stTabs"] button * {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -104,7 +113,7 @@ def render():
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
             <p style="font-size:18px;font-weight:500;margin:0;">Age</p>
-            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{get_age_string(dob)}</p>
+            <p style="font-size:32px;font-weight:700;margin-top:10px;">{get_age_string(dob)}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -113,7 +122,7 @@ def render():
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
             <p style="font-size:18px;font-weight:500;margin:0;">Guideline</p>
-            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{child['country_guideline']}</p>
+            <p style="font-size:32px;font-weight:700;margin-top:10px;">{child['country_guideline']}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -123,7 +132,7 @@ def render():
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
             <p style="font-size:18px;font-weight:500;margin:0;">Completed</p>
-            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{completed}/{len(vaccinations)}</p>
+            <p style="font-size:32px;font-weight:700;margin-top:10px;">{completed}/{len(vaccinations)}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -171,14 +180,6 @@ def render():
         else:
             st.info("No completed vaccines")
 
-    vaccine_data = load_vaccine_data()
-    guideline = child['country_guideline']
-
-    if guideline in vaccine_data and vaccine_data[guideline]:
-        data = vaccine_data[guideline]
-        st.markdown(f"Source: {data.get('source', 'Unknown')}")
-        st.markdown(data.get('description', ''))
-
 
 def render_vaccine_card(vacc, status_type):
     due_date = vacc['due_date']
@@ -188,31 +189,18 @@ def render_vaccine_card(vacc, status_type):
     days_diff = (due_date - date.today()).days
 
     if status_type == "overdue":
-        bg = "#ffebee"
-        border = "#f44336"
-        status_emoji = "🔴"
-        status_text = f"Overdue by {abs(days_diff)} days"
+        bg, border, emoji, text = "#ffebee", "#f44336", "🔴", f"Overdue by {abs(days_diff)} days"
     elif status_type == "upcoming":
-        bg = "#fff8e1"
-        border = "#ff9800"
-        status_emoji = "🟠"
-        status_text = f"Due in {days_diff} days"
+        bg, border, emoji, text = "#fff8e1", "#ff9800", "🟠", f"Due in {days_diff} days"
     elif status_type == "completed":
-        bg = "#e8f5e9"
-        border = "#4caf50"
-        status_emoji = "✅"
-        administered = vacc.get('administered_date', 'Today')
-        status_text = f"Completed on {administered}"
+        bg, border, emoji, text = "#e8f5e9", "#4caf50", "✅", f"Completed"
     else:
-        bg = "#e3f2fd"
-        border = "#2196f3"
-        status_emoji = "🔵"
-        status_text = f"Due on {due_date.strftime('%d %B %Y')}"
+        bg, border, emoji, text = "#e3f2fd", "#2196f3", "🔵", f"Due on {due_date.strftime('%d %B %Y')}"
 
     st.markdown(f"""
     <div style="background:{bg};padding:18px;border-radius:10px;border-left:6px solid {border};margin-bottom:12px;">
         <h4 style="margin:0;color:#000;">💉 {vacc['vaccine_name']}</h4>
-        <p style="margin:6px 0;color:#000;">{status_emoji} {status_text}</p>
+        <p style="margin:6px 0;color:#000;">{emoji} {text}</p>
         <p style="margin:0;color:#666;font-size:0.85rem;">📅 {due_date.strftime('%A, %B %d, %Y')}</p>
     </div>
     """, unsafe_allow_html=True)
