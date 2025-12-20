@@ -93,17 +93,20 @@ def render():
             elif len(password) < 6:
                 st.error("❌ Password must be at least 6 characters long")
             else:
-                user = udb.authenticate_user(email.lower(), password)
-                if user:
-                    st.success("✅ Login successful!")
-                    st.session_state.logged_in = True
-                    st.session_state.user_id = user['id']
-                    st.session_state.user_name = user['name']
-                    st.session_state.user_email = user['email']
-                    st.session_state.current_page = "Dashboard"
-                    st.rerun()
-                else:
-                    st.error("❌ Invalid email or password")
+                try:
+                    user = udb.authenticate_user(email.lower(), password)
+                    if user:
+                        st.success("✅ Login successful!")
+                        st.session_state.logged_in = True
+                        st.session_state.user_id = user['id']
+                        st.session_state.user_name = user['name']
+                        st.session_state.user_email = user['email']
+                        st.session_state.current_page = "Dashboard"
+                        st.rerun()
+                    else:
+                        st.error("❌ Invalid email or password")
+                except Exception as e:
+                    st.error(f"❌ Error during login: {str(e)}")
         
         st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
         st.markdown('<hr style="border: none; border-top: 1px solid #ddd; margin: 1rem 0;">', unsafe_allow_html=True)

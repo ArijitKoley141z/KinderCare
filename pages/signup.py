@@ -99,18 +99,24 @@ def render():
             elif not agree_terms:
                 st.error("❌ Please agree to Terms & Conditions")
             else:
-                success = udb.register_user(name, email, password)
-                if success:
-                    st.success("✅ Account created successfully!")
-                    user = udb.get_user_by_email(email)
-                    st.session_state.logged_in = True
-                    st.session_state.user_id = user['id']
-                    st.session_state.user_name = user['name']
-                    st.session_state.user_email = user['email']
-                    st.session_state.current_page = "Dashboard"
-                    st.rerun()
-                else:
-                    st.error("❌ Email already registered. Please use a different email or login.")
+                try:
+                    success = udb.register_user(name, email, password)
+                    if success:
+                        st.success("✅ Account created successfully!")
+                        user = udb.get_user_by_email(email)
+                        if user:
+                            st.session_state.logged_in = True
+                            st.session_state.user_id = user['id']
+                            st.session_state.user_name = user['name']
+                            st.session_state.user_email = user['email']
+                            st.session_state.current_page = "Dashboard"
+                            st.rerun()
+                        else:
+                            st.error("❌ Account created but failed to retrieve user. Please try logging in.")
+                    else:
+                        st.error("❌ Email already registered. Please use a different email or login.")
+                except Exception as e:
+                    st.error(f"❌ Error during signup: {str(e)}")
         
         st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
         st.markdown('<hr style="border: none; border-top: 1px solid #ddd; margin: 1rem 0;">', unsafe_allow_html=True)
