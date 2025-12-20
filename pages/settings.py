@@ -542,6 +542,39 @@ def render_about():
 def render_account():
     import user_database as udb
     
+    st.markdown("""
+    <style>
+        /* Password input styling - consistent across all pages */
+        [data-testid="stTextInput"] input {
+            font-size: 1rem !important;
+            padding: 14px 16px !important;
+            border-radius: 12px !important;
+            border: 2px solid #ddd !important;
+            background-color: #f8f9fa !important;
+            transition: all 0.3s ease !important;
+            color: #1a1a1a !important;
+        }
+        [data-testid="stTextInput"] input::placeholder {
+            color: #999 !important;
+        }
+        [data-testid="stTextInput"] input:focus {
+            border-color: #667eea !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15) !important;
+            outline: none !important;
+        }
+        [data-testid="stTextInput"] label {
+            color: #000000 !important;
+        }
+        [data-testid="stTextInput"] label span {
+            color: #000000 !important;
+        }
+        .stTextInput small {
+            display: none !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">Account Management</h2>', unsafe_allow_html=True)
     
     st.markdown("""
