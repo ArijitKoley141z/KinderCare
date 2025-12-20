@@ -26,27 +26,6 @@ def load_vaccine_data():
 def render():
     st.markdown("""
     <style>
-        /* ---------- FORCE ALL BUTTON TEXT COLOR TO WHITE ---------- */
-        button {
-            color: white !important;
-        }
-
-        button * {
-            color: white !important;
-        }
-
-        button span {
-            color: white !important;
-        }
-
-        button p {
-            color: white !important;
-        }
-
-        button div {
-            color: white !important;
-        }
-
         /* ---------- Purple card text force white ---------- */
         .purple-card p,
         .purple-card h1,
@@ -61,85 +40,27 @@ def render():
             color: #000000 !important;
         }
 
-        /* ---------- Tabs: override to black text ---------- */
-        div[data-testid="stTabs"] button {
+        /* ---------- Tabs: keep text black ---------- */
+        div[data-testid="stTabs"] button,
+        div[data-testid="stTabs"] button * {
             color: #000000 !important;
             font-weight: 600 !important;
         }
 
-        div[data-testid="stTabs"] button * {
-            color: #000000 !important;
+        /* ---------- FORCE ACTION BUTTON TEXT WHITE ---------- */
+        button[kind="primary"],
+        button[kind="secondary"],
+        button {
+            color: #ffffff !important;
+            font-weight: 600 !important;
         }
 
-        div[data-testid="stTabs"] button span {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button p {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button:hover {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button:hover * {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button:active {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button:active * {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button[aria-selected="true"] {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button[aria-selected="true"] * {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button[aria-selected="false"] {
-            color: #000000 !important;
-        }
-
-        div[data-testid="stTabs"] button[aria-selected="false"] * {
-            color: #000000 !important;
+        button span,
+        button p,
+        button div {
+            color: #ffffff !important;
         }
     </style>
-    <script>
-        // Force button text color to white for all non-tab buttons
-        function applyButtonStyles() {
-            const buttons = document.querySelectorAll('button');
-            const tabsContainer = document.querySelector('[data-testid="stTabs"]');
-            
-            buttons.forEach(btn => {
-                if (!tabsContainer || !tabsContainer.contains(btn)) {
-                    btn.style.color = 'white';
-                    // Get all text nodes and color them
-                    const getAllElements = (el) => {
-                        let elements = [el];
-                        for (let child of el.children) {
-                            elements = elements.concat(getAllElements(child));
-                        }
-                        return elements;
-                    };
-                    getAllElements(btn).forEach(el => {
-                        el.style.color = 'white';
-                    });
-                }
-            });
-        }
-        
-        // Apply styles on page load and periodically
-        document.addEventListener('DOMContentLoaded', applyButtonStyles);
-        window.addEventListener('load', applyButtonStyles);
-        setInterval(applyButtonStyles, 500);
-    </script>
     """, unsafe_allow_html=True)
 
     st.markdown(
@@ -289,20 +210,10 @@ def render_vaccine_card(vacc, status_type):
         status_text = f"Due on {due_date.strftime('%d %B %Y')}"
 
     st.markdown(f"""
-    <div style="background:{bg};padding:18px;border-radius:10px;border-left:6px solid {border};margin-bottom:12px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-        <div style="display:flex;align-items:center;gap:10px;">
-            <div>
-                <h4 style="margin:0;color:#000;display:flex;align-items:center;gap:8px;">
-                    💉 {vacc['vaccine_name']}
-                </h4>
-                <p style="margin:8px 0 0 0;color:#000;font-size:0.95rem;display:flex;align-items:center;gap:8px;">
-                    {status_emoji} {status_text}
-                </p>
-                <p style="margin:5px 0 0 0;color:#666;font-size:0.85rem;">
-                    📅 {due_date.strftime('%A, %B %d, %Y')}
-                </p>
-            </div>
-        </div>
+    <div style="background:{bg};padding:18px;border-radius:10px;border-left:6px solid {border};margin-bottom:12px;">
+        <h4 style="margin:0;color:#000;">💉 {vacc['vaccine_name']}</h4>
+        <p style="margin:6px 0;color:#000;">{status_emoji} {status_text}</p>
+        <p style="margin:0;color:#666;font-size:0.85rem;">📅 {due_date.strftime('%A, %B %d, %Y')}</p>
     </div>
     """, unsafe_allow_html=True)
 
