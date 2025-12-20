@@ -74,8 +74,8 @@ def render():
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 18px; color: white; font-weight: 500;">Total Vaccines</p>
-            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white;">{len(vaccines)}</p>
+            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 500;">Total Vaccines</p>
+            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white !important;">{len(vaccines)}</p>
         </div>
         """, unsafe_allow_html=True)
     with col2:
@@ -83,8 +83,8 @@ def render():
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 20px; border-radius: 10px; color: white; text-align: center;">
-            <p style="margin: 0; font-size: 18px; color: white; font-weight: 500;">Age Groups</p>
-            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white;">{len(age_groups)}</p>
+            <p style="margin: 0; font-size: 18px; color: white !important; font-weight: 500;">Age Groups</p>
+            <p style="margin: 10px 0 0 0; font-size: 36px; font-weight: bold; color: white !important;">{len(age_groups)}</p>
         </div>
         """, unsafe_allow_html=True)
     
