@@ -31,6 +31,25 @@ def render():
         [data-testid="stTabs"] button * {
             color: #000000 !important;
         }
+        
+        /* Calendar Month and Year Visibility */
+        [data-testid="stDateInput"] button {
+            color: #000000 !important;
+        }
+        
+        .react-datepicker__header {
+            background-color: #f8f8f8 !important;
+        }
+        
+        .react-datepicker__current-month,
+        .react-datepicker__current-month-w3 {
+            color: #000000 !important;
+            font-weight: 600 !important;
+        }
+        
+        .react-datepicker__navigation-icon::before {
+            border-color: #000000 !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
