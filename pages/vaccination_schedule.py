@@ -86,15 +86,27 @@ def render():
         }
 
         /* ---------- Mark buttons text color white ---------- */
-        button[data-testid="stBaseButton"] {
+        [data-testid="stBaseButton"] {
             color: white !important;
         }
 
-        button[data-testid="stBaseButton"] span {
+        [data-testid="stBaseButton"] * {
             color: white !important;
         }
 
-        button[data-testid="stBaseButton"] p {
+        .stButton button {
+            color: white !important;
+        }
+
+        .stButton button * {
+            color: white !important;
+        }
+
+        .stButton button span {
+            color: white !important;
+        }
+
+        .stButton button p {
             color: white !important;
         }
 
