@@ -159,7 +159,9 @@ def render():
         
         with anal_col1:
             st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Status Distribution</h3>', unsafe_allow_html=True)
-            status_counts = df['status'].value_counts()
+            
+            all_statuses = ['completed', 'upcoming', 'overdue', 'pending']
+            status_counts = df['status'].value_counts().reindex(all_statuses, fill_value=0)
             status_colors = {
                 'completed': '#81C784',
                 'upcoming': '#64B5F6',
@@ -184,58 +186,89 @@ def render():
             st.plotly_chart(fig_status, use_container_width=True)
         
         with anal_col2:
-            st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Timeline</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">Vaccination Status Count</h3>', unsafe_allow_html=True)
             
-            timeline_data = []
-            for vax in vaccinations:
-                due = vax.get('due_date')
-                if due and (isinstance(due, str) or isinstance(due, date)):
-                    if isinstance(due, str):
-                        try:
-                            due = datetime.fromisoformat(due).date()
-                        except:
-                            continue
-                    timeline_data.append({
-                        'vaccine': vax['vaccine_name'][:15],
-                        'due_date': due,
-                        'status': vax['status'].capitalize()
-                    })
+            all_statuses = ['completed', 'upcoming', 'overdue', 'pending']
+            status_counts = df['status'].value_counts().reindex(all_statuses, fill_value=0)
+            status_colors = {
+                'completed': '#81C784',
+                'upcoming': '#64B5F6',
+                'overdue': '#EF5350',
+                'pending': '#FFB74D'
+            }
+            colors = [status_colors.get(status, '#999') for status in status_counts.index]
             
-            if timeline_data:
-                timeline_df = pd.DataFrame(timeline_data).sort_values('due_date')
-                status_map = {'Completed': 0, 'Upcoming': 1, 'Overdue': 2, 'Pending': 3}
-                timeline_df['status_order'] = timeline_df['status'].map(status_map)
-                
-                fig_timeline = px.scatter(
-                    timeline_df,
-                    x='due_date',
-                    y='status_order',
-                    color='status',
-                    size_max=8,
-                    hover_name='vaccine',
-                    hover_data={'due_date': True, 'status': True, 'status_order': False},
-                    color_discrete_map={
-                        'Completed': '#81C784',
-                        'Upcoming': '#64B5F6',
-                        'Overdue': '#EF5350',
-                        'Pending': '#FFB74D'
-                    },
-                    title=None
-                )
-                fig_timeline.update_layout(
-                    height=350,
-                    margin=dict(l=0, r=0, t=0, b=0),
-                    yaxis=dict(
-                        tickvals=[0, 1, 2, 3],
-                        ticktext=['Completed', 'Upcoming', 'Overdue', 'Pending'],
-                        title=None
-                    ),
-                    xaxis_title='Date',
-                    showlegend=False,
-                    hovermode='closest',
-                    font=dict(size=10)
-                )
-                st.plotly_chart(fig_timeline, use_container_width=True)
+            fig_bar = go.Figure(data=[go.Bar(
+                x=status_counts.index.str.capitalize(),
+                y=status_counts.values,
+                marker=dict(color=colors),
+                text=status_counts.values,
+                textposition='auto',
+                hovertemplate="<b>%{x}</b><br>Count: %{y}<extra></extra>"
+            )])
+            fig_bar.update_layout(
+                height=350,
+                margin=dict(l=0, r=0, t=0, b=0),
+                xaxis_title='Status',
+                yaxis_title='Number of Vaccines',
+                showlegend=False,
+                font=dict(size=11)
+            )
+            st.plotly_chart(fig_bar, use_container_width=True)
+        
+        st.markdown('<h3 style="color: #667eea; font-size: 1.2rem;">📅 Vaccination Timeline by Status</h3>', unsafe_allow_html=True)
+        
+        timeline_data = []
+        for vax in vaccinations:
+            due = vax.get('due_date')
+            if due and (isinstance(due, str) or isinstance(due, date)):
+                if isinstance(due, str):
+                    try:
+                        due = datetime.fromisoformat(due).date()
+                    except:
+                        continue
+                timeline_data.append({
+                    'vaccine': vax['vaccine_name'],
+                    'due_date': due,
+                    'status': vax['status'].capitalize()
+                })
+        
+        if timeline_data:
+            timeline_df = pd.DataFrame(timeline_data).sort_values('due_date')
+            status_map = {'Completed': 0, 'Upcoming': 1, 'Overdue': 2, 'Pending': 3}
+            timeline_df['status_order'] = timeline_df['status'].map(status_map)
+            
+            fig_timeline = px.scatter(
+                timeline_df,
+                x='due_date',
+                y='status_order',
+                color='status',
+                size_max=12,
+                hover_name='vaccine',
+                hover_data={'due_date': True, 'status': True, 'status_order': False},
+                color_discrete_map={
+                    'Completed': '#81C784',
+                    'Upcoming': '#64B5F6',
+                    'Overdue': '#EF5350',
+                    'Pending': '#FFB74D'
+                },
+                title=None
+            )
+            fig_timeline.update_layout(
+                height=400,
+                margin=dict(l=0, r=0, t=0, b=0),
+                yaxis=dict(
+                    tickvals=[0, 1, 2, 3],
+                    ticktext=['Completed', 'Upcoming', 'Overdue', 'Pending'],
+                    title='Status'
+                ),
+                xaxis_title='Date',
+                showlegend=True,
+                hovermode='closest',
+                font=dict(size=11),
+                plot_bgcolor='rgba(240, 240, 240, 0.5)'
+            )
+            st.plotly_chart(fig_timeline, use_container_width=True)
         
         st.markdown("---")
         
