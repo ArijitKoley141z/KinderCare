@@ -105,20 +105,51 @@ def render():
     if not timeline_items:
         st.info("No health events recorded yet. Click 'Add Health Event' to get started!")
     else:
-        for item in timeline_items:
+        for idx, item in enumerate(timeline_items):
             date_str = item['date'].strftime('%B %d, %Y')
-            st.markdown(f"""
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid {item['color']}; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                    <span style="font-size: 1.5rem;">{item['icon']}</span>
-                    <div>
-                        <div style="font-weight: 700; color: #333;">{item['title']}</div>
-                        <div style="font-size: 0.85rem; color: #999;">{date_str}</div>
+            
+            # Find the event ID for deletion (only for health events, not vaccines)
+            event_id = None
+            if item['type'] != 'Vaccines':
+                for event in health_events:
+                    if event['title'] == item['title'] and event['event_date'] == item['date'].isoformat():
+                        event_id = event['id']
+                        break
+            
+            col1, col2 = st.columns([0.95, 0.05])
+            
+            with col1:
+                st.markdown(f"""
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid {item['color']}; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                        <span style="font-size: 1.5rem;">{item['icon']}</span>
+                        <div>
+                            <div style="font-weight: 700; color: #333;">{item['title']}</div>
+                            <div style="font-size: 0.85rem; color: #999;">{date_str}</div>
+                        </div>
                     </div>
+                    {f'<div style="color: #666; font-size: 0.9rem; margin-left: 34px;">{item["description"]}</div>' if item['description'] else ''}
                 </div>
-                {f'<div style="color: #666; font-size: 0.9rem; margin-left: 34px;">{item["description"]}</div>' if item['description'] else ''}
-            </div>
-            """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                if event_id and st.button("🗑️", key=f"delete_event_{event_id}", help="Delete this event"):
+                    st.session_state[f"confirm_delete_event_{event_id}"] = True
+            
+            # Show delete confirmation
+            if event_id and st.session_state.get(f"confirm_delete_event_{event_id}", False):
+                st.warning("Are you sure you want to delete this event?")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("Yes, Delete", key=f"confirm_delete_yes_{event_id}"):
+                        db.delete_health_event(event_id)
+                        st.success("Event deleted!")
+                        st.session_state[f"confirm_delete_event_{event_id}"] = False
+                        st.rerun()
+                with col2:
+                    if st.button("Cancel", key=f"confirm_delete_no_{event_id}"):
+                        st.session_state[f"confirm_delete_event_{event_id}"] = False
+                        st.rerun()
 
 def render_add_event_form(child_id):
     st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">➕ Add New Health Event</h2>', unsafe_allow_html=True)
