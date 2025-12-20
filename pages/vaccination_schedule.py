@@ -40,24 +40,20 @@ def render():
             color: #000000 !important;
         }
 
-        /* ---------- All buttons white text except tabs ---------- */
-        button:not([data-testid="stTabs"] button) {
-            color: white !important;
-        }
-        
-        button p {
-            color: white !important;
-        }
-        
-        button span {
-            color: white !important;
-        }
-        
-        button div {
+        /* ---------- All buttons: set white text ---------- */
+        button {
             color: white !important;
         }
 
-        /* ---------- Tabs: lock text color to black permanently ---------- */
+        button * {
+            color: white !important;
+        }
+
+        /* ---------- Tabs: override to black text ---------- */
+        div[data-testid="stTabs"] {
+            --button-color: #000000;
+        }
+
         div[data-testid="stTabs"] button {
             color: #000000 !important;
             font-weight: 600 !important;
