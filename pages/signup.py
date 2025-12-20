@@ -1,4 +1,6 @@
 import streamlit as st
+import re
+import database as db
 
 def render():
     st.markdown("""
@@ -84,17 +86,23 @@ def render():
         if st.button("✍️ Create Account", key="signup_btn", use_container_width=True, type="primary"):
             if not name or not email or not password or not confirm_password:
                 st.error("❌ Please fill all fields")
+            elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+                st.error("❌ Please enter a valid email address")
+            elif len(password) < 6:
+                st.error("❌ Password must be at least 6 characters long")
             elif password != confirm_password:
                 st.error("❌ Passwords don't match")
             elif not agree_terms:
                 st.error("❌ Please agree to Terms & Conditions")
-            elif len(password) < 6:
-                st.error("❌ Password must be at least 6 characters long")
             else:
-                st.success("✅ Account created successfully!")
-                st.session_state.logged_in = True
-                st.session_state.current_page = "Dashboard"
-                st.rerun()
+                success = db.register_user(name, email, password)
+                if success:
+                    st.success("✅ Account created successfully!")
+                    st.session_state.logged_in = True
+                    st.session_state.current_page = "Dashboard"
+                    st.rerun()
+                else:
+                    st.error("❌ Email already registered. Please use a different email or login.")
         
         st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
         st.markdown('<hr style="border: none; border-top: 1px solid #ddd; margin: 1rem 0;">', unsafe_allow_html=True)

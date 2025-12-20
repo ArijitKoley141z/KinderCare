@@ -1,4 +1,6 @@
 import streamlit as st
+import re
+import database as db
 
 def render():
     st.markdown("""
@@ -82,13 +84,23 @@ def render():
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         
         if st.button("🔓 Login", key="login_btn", use_container_width=True, type="primary"):
-            if email and password:
-                st.success("✅ Login successful!")
-                st.session_state.logged_in = True
-                st.session_state.current_page = "Dashboard"
-                st.rerun()
-            else:
+            if not email or not password:
                 st.error("❌ Please enter both email and password")
+            elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+                st.error("❌ Please enter a valid email address")
+            elif len(password) < 6:
+                st.error("❌ Password must be at least 6 characters long")
+            else:
+                user = db.authenticate_user(email, password)
+                if user:
+                    st.success("✅ Login successful!")
+                    st.session_state.logged_in = True
+                    st.session_state.user_name = user['name']
+                    st.session_state.user_email = user['email']
+                    st.session_state.current_page = "Dashboard"
+                    st.rerun()
+                else:
+                    st.error("❌ Invalid email or password")
         
         st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
         st.markdown('<hr style="border: none; border-top: 1px solid #ddd; margin: 1rem 0;">', unsafe_allow_html=True)
