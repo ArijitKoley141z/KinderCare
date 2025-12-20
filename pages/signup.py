@@ -28,6 +28,9 @@ def render():
         [data-testid="stTextInput"] label span {
             color: #000000 !important;
         }
+        .stTextInput small {
+            display: none !important;
+        }
         /* Improve checkbox styling */
         [data-testid="stCheckbox"] {
             color: #000000 !important;

@@ -30,8 +30,8 @@ def render():
     
     st.markdown("""
     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-        <h3 style="color: white; margin-top: 0;">AI Health Assistant</h3>
-        <p style="color: white; margin: 0;">Ask questions about your child's vaccination schedule, health concerns, or get general guidance. I understand natural language - just ask as you would ask a friend!</p>
+        <h3 style="color: white !important; margin-top: 0;">AI Health Assistant</h3>
+        <p style="color: white !important; margin: 0;">Ask questions about your child's vaccination schedule, health concerns, or get general guidance. I understand natural language - just ask as you would ask a friend!</p>
     </div>
     """, unsafe_allow_html=True)
     
