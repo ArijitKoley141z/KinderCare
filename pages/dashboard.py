@@ -32,7 +32,7 @@ def render():
     
     notifications = get_in_app_notifications(st.session_state.selected_child_id)
     if notifications:
-        st.markdown("<h3>Notifications</h3>", unsafe_allow_html=True)
+        st.markdown('<h2 style="color: #667eea; margin-bottom: 1rem; font-weight: 700;">🔔 Notifications</h2>', unsafe_allow_html=True)
         for notif in notifications:
             if notif['type'] == 'error':
                 st.error(f"**{notif['title']}**: {notif['message']}")
@@ -88,7 +88,7 @@ def render():
     
     st.markdown("---")
     
-    st.markdown("<h3>Vaccination Categories</h3>", unsafe_allow_html=True)
+    st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">💉 Vaccination Categories</h2>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
