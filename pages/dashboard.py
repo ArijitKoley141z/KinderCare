@@ -145,7 +145,7 @@ def render():
     
     st.markdown('<h2 style="color: #667eea; margin-top: 2rem; margin-bottom: 1rem; font-weight: 700;">💉 Vaccination Categories</h2>', unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.markdown(f"""
@@ -172,7 +172,6 @@ def render():
         </div>
         """, unsafe_allow_html=True)
     
-    col4 = st.columns(1)[0]
     with col4:
         st.markdown(f"""
         <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #FFB74D;">
