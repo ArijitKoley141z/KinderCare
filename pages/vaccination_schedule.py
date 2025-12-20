@@ -86,13 +86,15 @@ def render():
         }
 
         /* ---------- Mark buttons text color white ---------- */
-        button:contains("Mark"), 
         button[data-testid="stBaseButton"] {
             color: white !important;
         }
 
-        button:contains("Mark") span,
         button[data-testid="stBaseButton"] span {
+            color: white !important;
+        }
+
+        button[data-testid="stBaseButton"] p {
             color: white !important;
         }
 
