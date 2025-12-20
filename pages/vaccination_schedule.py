@@ -132,8 +132,8 @@ def render():
         st.markdown(f"""
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
-            <p>Age</p>
-            <p style="font-size:24px;font-weight:700;">{get_age_string(dob)}</p>
+            <p style="font-size:18px;font-weight:500;margin:0;">Age</p>
+            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{get_age_string(dob)}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -141,8 +141,8 @@ def render():
         st.markdown(f"""
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
-            <p>Guideline</p>
-            <p style="font-size:24px;font-weight:700;">{child['country_guideline']}</p>
+            <p style="font-size:18px;font-weight:500;margin:0;">Guideline</p>
+            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{child['country_guideline']}</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -151,8 +151,8 @@ def render():
         st.markdown(f"""
         <div class="purple-card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
         padding:20px;border-radius:10px;text-align:center;">
-            <p>Completed</p>
-            <p style="font-size:24px;font-weight:700;">{completed}/{len(vaccinations)}</p>
+            <p style="font-size:18px;font-weight:500;margin:0;">Completed</p>
+            <p style="font-size:32px;font-weight:700;margin:10px 0 0 0;">{completed}/{len(vaccinations)}</p>
         </div>
         """, unsafe_allow_html=True)
 
