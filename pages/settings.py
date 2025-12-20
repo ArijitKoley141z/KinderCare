@@ -13,6 +13,24 @@ def render():
         p {
             color: #000 !important;
         }
+        
+        /* Settings Tab Text - Force Black Color for Visibility */
+        [data-testid="stTabs"] button {
+            color: #000000 !important;
+            font-weight: 600 !important;
+        }
+        
+        [data-testid="stTabs"] button span {
+            color: #000000 !important;
+        }
+        
+        [data-testid="stTabs"] button p {
+            color: #000000 !important;
+        }
+        
+        [data-testid="stTabs"] button * {
+            color: #000000 !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
