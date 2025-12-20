@@ -27,6 +27,27 @@ def load_vaccine_data():
     return data
 
 def render():
+    st.markdown("""
+    <style>
+        [data-testid="stMetricValue"] {
+            color: #667eea !important;
+            font-weight: 700 !important;
+        }
+        [data-testid="stMetricLabel"] {
+            color: #333 !important;
+        }
+        h2 {
+            color: #1a1a1a !important;
+        }
+        h3 {
+            color: #1a1a1a !important;
+        }
+        p {
+            color: #000 !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<h1 style="color: #667eea; margin-top: 0;">📋 Vaccination Schedule</h1>', unsafe_allow_html=True)
     st.markdown('<p style="color: #000; margin-bottom: 1.5rem;">Track your child\'s vaccination schedule based on recommended guidelines</p>', unsafe_allow_html=True)
     
@@ -58,12 +79,30 @@ def render():
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Age", get_age_string(dob))
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Age</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{get_age_string(dob)}</p>
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
-        st.metric("Guideline", child['country_guideline'])
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Guideline</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{child['country_guideline']}</p>
+        </div>
+        """, unsafe_allow_html=True)
     with col3:
         completed = len([v for v in vaccinations if v['status'] == 'completed'])
-        st.metric("Completed", f"{completed}/{len(vaccinations)}")
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 20px; border-radius: 10px; color: white; text-align: center;">
+            <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Completed</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: white;">{completed}/{len(vaccinations)}</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -86,7 +125,7 @@ def render():
     tab1, tab2, tab3, tab4 = st.tabs(["Overdue", "Upcoming", "Pending", "Completed"])
     
     with tab1:
-        st.subheader(f"🔴 Overdue Vaccines ({len(categories['overdue'])})")
+        st.markdown(f'<h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">🔴 Overdue Vaccines ({len(categories["overdue"])})</h3>', unsafe_allow_html=True)
         if categories['overdue']:
             for vacc in categories['overdue']:
                 render_vaccine_card(vacc, "overdue")
@@ -94,7 +133,7 @@ def render():
             st.success("✅ No overdue vaccines!")
     
     with tab2:
-        st.subheader(f"🟠 Upcoming Vaccines ({len(categories['upcoming'])})")
+        st.markdown(f'<h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">🟠 Upcoming Vaccines ({len(categories["upcoming"])})</h3>', unsafe_allow_html=True)
         if categories['upcoming']:
             for vacc in categories['upcoming']:
                 render_vaccine_card(vacc, "upcoming")
@@ -102,7 +141,7 @@ def render():
             st.info("No upcoming vaccines in the next 30 days.")
     
     with tab3:
-        st.subheader(f"🟡 Future Vaccines ({len(categories['pending'])})")
+        st.markdown(f'<h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">🟡 Future Vaccines ({len(categories["pending"])})</h3>', unsafe_allow_html=True)
         if categories['pending']:
             for vacc in categories['pending']:
                 render_vaccine_card(vacc, "pending")
@@ -110,7 +149,7 @@ def render():
             st.info("No future vaccines scheduled.")
     
     with tab4:
-        st.subheader(f"🟢 Completed Vaccines ({len(categories['completed'])})")
+        st.markdown(f'<h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">🟢 Completed Vaccines ({len(categories["completed"])})</h3>', unsafe_allow_html=True)
         if categories['completed']:
             for vacc in categories['completed']:
                 render_vaccine_card(vacc, "completed")
