@@ -3,6 +3,7 @@ import os
 from datetime import datetime, date
 from typing import Optional, List, Dict, Any
 import json
+import user_database as udb
 
 DATABASE_PATH = "vaccination_health.db"
 
@@ -14,22 +15,6 @@ def get_connection():
 def init_database():
     conn = get_connection()
     cursor = conn.cursor()
-    
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS children (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            name TEXT NOT NULL,
-            date_of_birth DATE NOT NULL,
-            country_guideline TEXT NOT NULL DEFAULT 'WHO',
-            gender TEXT,
-            blood_group TEXT,
-            allergies TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-        )
-    """)
     
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS vaccinations (
@@ -44,8 +29,7 @@ def init_database():
             administered_by TEXT,
             batch_number TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (child_id) REFERENCES children(id) ON DELETE CASCADE
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     
@@ -62,8 +46,7 @@ def init_database():
             treatment TEXT,
             doctor_name TEXT,
             hospital_clinic TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (child_id) REFERENCES children(id) ON DELETE CASCADE
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     
@@ -79,8 +62,7 @@ def init_database():
             reminder_1_day INTEGER DEFAULT 1,
             reminder_on_day INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (child_id) REFERENCES children(id) ON DELETE CASCADE
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
     
@@ -97,64 +79,6 @@ def init_database():
     
     conn.commit()
     conn.close()
-
-def add_child(name: str, date_of_birth: str, country_guideline: str, user_id: int,
-              gender: Optional[str] = None, blood_group: Optional[str] = None, 
-              allergies: Optional[str] = None) -> int:
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO children (user_id, name, date_of_birth, country_guideline, gender, blood_group, allergies)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (user_id, name, date_of_birth, country_guideline, gender, blood_group, allergies))
-    child_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    return child_id
-
-def get_child(child_id: int) -> Optional[Dict]:
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM children WHERE id = ?", (child_id,))
-    row = cursor.fetchone()
-    conn.close()
-    return dict(row) if row else None
-
-def get_all_children(user_id: Optional[int] = None) -> List[Dict]:
-    conn = get_connection()
-    cursor = conn.cursor()
-    if user_id:
-        cursor.execute("SELECT * FROM children WHERE user_id = ? ORDER BY name", (user_id,))
-    else:
-        cursor.execute("SELECT * FROM children ORDER BY name")
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-def update_child(child_id: int, **kwargs) -> bool:
-    conn = get_connection()
-    cursor = conn.cursor()
-    fields = []
-    values = []
-    for key, value in kwargs.items():
-        if key in ['name', 'date_of_birth', 'country_guideline', 'gender', 'blood_group', 'allergies']:
-            fields.append(f"{key} = ?")
-            values.append(value)
-    if fields:
-        fields.append("updated_at = CURRENT_TIMESTAMP")
-        values.append(child_id)
-        cursor.execute(f"UPDATE children SET {', '.join(fields)} WHERE id = ?", values)
-        conn.commit()
-    conn.close()
-    return True
-
-def delete_child(child_id: int) -> bool:
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM children WHERE id = ?", (child_id,))
-    conn.commit()
-    conn.close()
-    return True
 
 def add_vaccination(child_id: int, vaccine_name: str, vaccine_code: str, 
                    due_date: str, status: str = 'pending') -> int:
@@ -307,5 +231,22 @@ def get_sent_reminders(vaccination_id: int) -> List[Dict]:
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
+def add_child(name: str, date_of_birth: str, country_guideline: str, user_id: int,
+              gender: Optional[str] = None, blood_group: Optional[str] = None, 
+              allergies: Optional[str] = None) -> int:
+    return udb.add_child(name, date_of_birth, country_guideline, user_id, gender, blood_group, allergies)
+
+def get_child(child_id: int) -> Optional[Dict]:
+    return udb.get_child(child_id)
+
+def get_all_children(user_id: Optional[int] = None) -> List[Dict]:
+    return udb.get_all_children(user_id)
+
+def update_child(child_id: int, **kwargs) -> bool:
+    return udb.update_child(child_id, **kwargs)
+
+def delete_child(child_id: int) -> bool:
+    return udb.delete_child(child_id)
 
 init_database()
