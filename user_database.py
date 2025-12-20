@@ -137,4 +137,30 @@ def delete_child(child_id: int) -> bool:
     conn.close()
     return True
 
+def delete_user_account(user_id: int) -> bool:
+    import database as db
+    conn = get_user_connection()
+    cursor = conn.cursor()
+    
+    try:
+        children = get_all_children(user_id)
+        
+        for child in children:
+            db.delete_all_vaccinations(child['id'])
+            db.delete_health_event(child['id']) if db.get_health_events(child['id']) else None
+            reminder_settings = db.get_reminder_settings(child['id'])
+            if reminder_settings:
+                cursor.execute("DELETE FROM reminder_settings WHERE child_id = ?", (child['id'],))
+            cursor.execute("DELETE FROM sent_reminders WHERE vaccination_id IN (SELECT id FROM vaccinations WHERE child_id = ?)", (child['id'],))
+        
+        cursor.execute("DELETE FROM child_profiles WHERE user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error deleting user account: {e}")
+        return False
+    finally:
+        conn.close()
+
 init_user_database()

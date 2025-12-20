@@ -38,11 +38,11 @@ def render():
         }
         
         .react-datepicker {
-            background-color: #000000 !important;
+            background-color: #667eea !important;
         }
         
         .react-datepicker__header {
-            background-color: #000000 !important;
+            background-color: #667eea !important;
         }
         
         .react-datepicker__header div {
@@ -53,19 +53,21 @@ def render():
         .react-datepicker__current-month-w3 {
             color: #FFFFFF !important;
             font-weight: 600 !important;
-            background-color: #000000 !important;
+            background-color: #667eea !important;
         }
         
         .react-datepicker__day {
-            color: #FFFFFF !important;
+            color: #333333 !important;
         }
         
         .react-datepicker__day:hover {
-            background-color: #333333 !important;
+            background-color: #764ba2 !important;
+            color: #FFFFFF !important;
         }
         
         .react-datepicker__day--selected {
-            background-color: #667eea !important;
+            background-color: #764ba2 !important;
+            color: #FFFFFF !important;
         }
         
         .react-datepicker__navigation-icon::before {
@@ -73,7 +75,7 @@ def render():
         }
         
         .react-datepicker__day-names {
-            background-color: #000000 !important;
+            background-color: #667eea !important;
         }
         
         .react-datepicker__day-name {
@@ -538,6 +540,8 @@ def render_about():
     """)
 
 def render_account():
+    import user_database as udb
+    
     st.markdown('<h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 1rem; font-weight: 700;">Account Management</h2>', unsafe_allow_html=True)
     
     st.markdown("""
@@ -554,6 +558,57 @@ def render_account():
             st.session_state.current_page = "Home"
             st.session_state.conversation_history = []
             st.rerun()
+    with col2:
+        if st.button("🗑️ Delete Account", key="settings_delete", use_container_width=True, type="secondary", help="Permanently delete your account and all data"):
+            st.session_state.show_delete_account = True
+    
+    if st.session_state.get('show_delete_account', False):
+        st.markdown("---")
+        st.markdown("""
+        <div style="background: #ffebee; border-left: 4px solid #EF5350; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+            <h3 style="color: #C62828; margin-top: 0;">⚠️ Delete Account</h3>
+            <p style="color: #333; margin: 0.5rem 0;"><strong>WARNING:</strong> This action is <strong>permanent and cannot be undone</strong>. Deleting your account will:</p>
+            <ul style="color: #333; margin: 0.5rem 0;">
+                <li>Remove all child profiles</li>
+                <li>Delete all vaccination records</li>
+                <li>Remove all health timeline data</li>
+                <li>Clear all notification settings</li>
+            </ul>
+            <p style="color: #333; margin: 0.5rem 0;"><strong>Please ensure you have backed up any important data before proceeding.</strong></p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        with st.form(key="delete_account_form"):
+            st.markdown("### Confirm Account Deletion")
+            password = st.text_input("Enter your password to confirm deletion", type="password", placeholder="Your account password")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.form_submit_button("Yes, Delete My Account", type="primary"):
+                    user_email = st.session_state.get('user_email')
+                    user_id = st.session_state.get('user_id')
+                    
+                    if not password:
+                        st.error("Please enter your password to confirm deletion.")
+                    else:
+                        user = udb.authenticate_user(user_email, password)
+                        if user and user['id'] == user_id:
+                            udb.delete_user_account(user_id)
+                            st.success("Account successfully deleted. Redirecting...")
+                            import time
+                            time.sleep(2)
+                            st.session_state.logged_in = False
+                            st.session_state.current_page = "Home"
+                            st.session_state.conversation_history = []
+                            st.rerun()
+                        else:
+                            st.error("Incorrect password. Account deletion cancelled.")
+                            st.session_state.show_delete_account = False
+            
+            with col2:
+                if st.form_submit_button("Cancel", type="secondary"):
+                    st.session_state.show_delete_account = False
+                    st.rerun()
     
     st.markdown("---")
     st.markdown("""
