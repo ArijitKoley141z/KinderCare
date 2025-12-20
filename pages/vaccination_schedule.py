@@ -26,19 +26,25 @@ def load_vaccine_data():
 def render():
     st.markdown("""
     <style>
-        /* ---------- FORCE BUTTON TEXT COLOR TO WHITE ---------- */
-        button[kind="secondary"],
-        button[kind="primary"],
+        /* ---------- FORCE ALL BUTTON TEXT COLOR TO WHITE ---------- */
         button {
-            color: #ffffff !important;
-            font-weight: 600 !important;
+            color: white !important;
         }
 
-        /* Ensure inner text elements are white */
-        button span,
-        button p,
+        button * {
+            color: white !important;
+        }
+
+        button span {
+            color: white !important;
+        }
+
+        button p {
+            color: white !important;
+        }
+
         button div {
-            color: #ffffff !important;
+            color: white !important;
         }
 
         /* ---------- Purple card text force white ---------- */
@@ -55,20 +61,7 @@ def render():
             color: #000000 !important;
         }
 
-        /* ---------- All buttons: set white text ---------- */
-        button {
-            color: white !important;
-        }
-
-        button * {
-            color: white !important;
-        }
-
         /* ---------- Tabs: override to black text ---------- */
-        div[data-testid="stTabs"] {
-            --button-color: #000000;
-        }
-
         div[data-testid="stTabs"] button {
             color: #000000 !important;
             font-weight: 600 !important;
@@ -118,6 +111,35 @@ def render():
             color: #000000 !important;
         }
     </style>
+    <script>
+        // Force button text color to white for all non-tab buttons
+        function applyButtonStyles() {
+            const buttons = document.querySelectorAll('button');
+            const tabsContainer = document.querySelector('[data-testid="stTabs"]');
+            
+            buttons.forEach(btn => {
+                if (!tabsContainer || !tabsContainer.contains(btn)) {
+                    btn.style.color = 'white';
+                    // Get all text nodes and color them
+                    const getAllElements = (el) => {
+                        let elements = [el];
+                        for (let child of el.children) {
+                            elements = elements.concat(getAllElements(child));
+                        }
+                        return elements;
+                    };
+                    getAllElements(btn).forEach(el => {
+                        el.style.color = 'white';
+                    });
+                }
+            });
+        }
+        
+        // Apply styles on page load and periodically
+        document.addEventListener('DOMContentLoaded', applyButtonStyles);
+        window.addEventListener('load', applyButtonStyles);
+        setInterval(applyButtonStyles, 500);
+    </script>
     """, unsafe_allow_html=True)
 
     st.markdown(
