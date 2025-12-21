@@ -177,6 +177,14 @@ st.markdown("""
     [data-testid="baseButton-primary"] span, [data-testid="baseButton-secondary"] span {
         color: white !important;
     }
+    
+    /* Get Started button styling */
+    .get-started-button [data-testid="stButton"] button {
+        border-radius: 50px !important;
+        padding: 0.5rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        width: auto !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -196,9 +204,11 @@ if st.session_state.current_page == "Home":
 </p>
 """, unsafe_allow_html=True)
         
-        if st.button("Get Started", key="get_started_btn", use_container_width=True):
+        st.markdown('<div class="get-started-button">', unsafe_allow_html=True)
+        if st.button("Get Started", key="get_started_btn"):
             st.session_state.current_page = "Sign Up"
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with col_image:
         # Load and encode image as base64 to avoid fullscreen icon
