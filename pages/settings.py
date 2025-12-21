@@ -424,30 +424,46 @@ def render_notification_settings():
     
     st.markdown("---")
     
-    # Check if SendGrid is configured
+    # Check if email is configured
     sendgrid_key = os.environ.get('SENDGRID_API_KEY')
+    smtp_username = os.environ.get('SMTP_USERNAME')
     
     if sendgrid_key:
         st.success("✅ SendGrid is configured. Email notifications will be sent via SendGrid.")
+    elif smtp_username:
+        st.success(f"✅ SMTP is configured ({os.environ.get('SMTP_SERVER', 'smtp.gmail.com')}). Email notifications will be sent.")
     else:
         st.markdown("""
         <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
             <strong>Email Configuration:</strong> Email reminders require configuration. Choose one option:
             <br><br>
-            <strong>Option 1: SendGrid (Recommended)</strong>
+            <strong>Option 1: Gmail SMTP (Recommended & Free)</strong>
+            <ul>
+                <li>Go to myaccount.google.com and enable "Less secure apps"</li>
+                <li>Or use an <strong>App Password</strong> instead of your Gmail password:
+                    <ul><li>Enable 2-step verification in Google Account</li>
+                    <li>Generate an App Password at myaccount.google.com/apppasswords</li></ul>
+                </li>
+                <li>Set environment variables:
+                    <ul>
+                    <li>SMTP_SERVER: smtp.gmail.com</li>
+                    <li>SMTP_PORT: 587</li>
+                    <li>SMTP_USERNAME: your.email@gmail.com</li>
+                    <li>SMTP_PASSWORD: your-app-password</li>
+                    <li>FROM_EMAIL: your.email@gmail.com (optional)</li>
+                    </ul>
+                </li>
+            </ul>
+            <strong>Option 2: Other SMTP Provider</strong>
+            <ul>
+                <li>Use any SMTP provider (Outlook, Yahoo, custom server, etc.)</li>
+                <li>Set the same environment variables with your provider's SMTP details</li>
+            </ul>
+            <strong>Option 3: SendGrid</strong>
             <ul>
                 <li>Sign up for SendGrid at sendgrid.com</li>
                 <li>Create an API key</li>
                 <li>Add to secrets: SENDGRID_API_KEY</li>
-                <li>Optionally set: SENDGRID_FROM_EMAIL</li>
-            </ul>
-            <strong>Option 2: Custom SMTP</strong>
-            <ul>
-                <li>SMTP_SERVER - Your SMTP server address</li>
-                <li>SMTP_PORT - SMTP port (default: 587)</li>
-                <li>SMTP_USERNAME - SMTP username</li>
-                <li>SMTP_PASSWORD - SMTP password</li>
-                <li>FROM_EMAIL - Email address to send from</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)

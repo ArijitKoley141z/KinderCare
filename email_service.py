@@ -1,6 +1,9 @@
 import os
 from typing import Optional
 import user_database as udb
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 def send_email_notification(user_id: int, child_id: int, recipient_email: str, 
                            subject: str, content: str) -> bool:
@@ -28,21 +31,16 @@ def send_email_notification(user_id: int, child_id: int, recipient_email: str,
                 return True
             except Exception as e:
                 print(f"SendGrid error: {e}")
-                # Log the failed email attempt
-                udb.log_email(user_id, child_id, recipient_email, subject, content, status='failed')
-                return False
-        else:
-            # Fallback: use Python's SMTP for local testing
-            import smtplib
-            from email.mime.text import MIMEText
-            from email.mime.multipart import MIMEMultipart
-            
-            smtp_server = os.getenv("SMTP_SERVER", "localhost")
-            smtp_port = int(os.getenv("SMTP_PORT", "587"))
-            smtp_username = os.getenv("SMTP_USERNAME", "")
-            smtp_password = os.getenv("SMTP_PASSWORD", "")
-            from_email = os.getenv("FROM_EMAIL", "noreply@kindercare.app")
-            
+                # Fall through to try SMTP
+        
+        # Try using Gmail SMTP (or custom SMTP)
+        smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+        smtp_port = int(os.getenv("SMTP_PORT", "587"))
+        smtp_username = os.getenv("SMTP_USERNAME", "")
+        smtp_password = os.getenv("SMTP_PASSWORD", "")
+        from_email = os.getenv("FROM_EMAIL", smtp_username)  # Use username as sender if FROM_EMAIL not set
+        
+        if smtp_username and smtp_password:
             try:
                 msg = MIMEMultipart("alternative")
                 msg["Subject"] = subject
@@ -52,20 +50,24 @@ def send_email_notification(user_id: int, child_id: int, recipient_email: str,
                 html_part = MIMEText(content, "html")
                 msg.attach(html_part)
                 
-                with smtplib.SMTP(smtp_server, smtp_port) as server:
-                    if smtp_username and smtp_password:
-                        server.starttls()
-                        server.login(smtp_username, smtp_password)
+                with smtplib.SMTP(smtp_server, smtp_port, timeout=10) as server:
+                    server.starttls()
+                    server.login(smtp_username, smtp_password)
                     server.sendmail(from_email, recipient_email, msg.as_string())
                 
                 # Log the email to database
                 udb.log_email(user_id, child_id, recipient_email, subject, content, status='sent')
+                print(f"✅ Email sent via SMTP to {recipient_email}")
                 return True
             except Exception as e:
                 print(f"SMTP error: {e}")
                 # Log the failed email attempt
                 udb.log_email(user_id, child_id, recipient_email, subject, content, status='failed')
                 return False
+        else:
+            print("Email configuration missing: Please set SMTP_USERNAME and SMTP_PASSWORD")
+            return False
+            
     except Exception as e:
         print(f"Unexpected error in email service: {e}")
         try:
