@@ -438,17 +438,34 @@ def render_notification_settings():
             st.success("Notification settings saved!")
     
     st.markdown("---")
-    st.markdown("""
-    <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
-        <strong>Email Configuration:</strong> To send email reminders, configure SMTP settings in your environment variables:
-        <ul>
-            <li>SMTP_SERVER - Your SMTP server address</li>
-            <li>SMTP_PORT - SMTP port (default: 587)</li>
-            <li>SMTP_USER - SMTP username/email</li>
-            <li>SMTP_PASSWORD - SMTP password</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    
+    # Check if SendGrid is configured
+    sendgrid_key = os.environ.get('SENDGRID_API_KEY')
+    
+    if sendgrid_key:
+        st.success("✅ SendGrid is configured. Email notifications will be sent via SendGrid.")
+    else:
+        st.markdown("""
+        <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
+            <strong>Email Configuration:</strong> Email reminders require configuration. Choose one option:
+            <br><br>
+            <strong>Option 1: SendGrid (Recommended)</strong>
+            <ul>
+                <li>Sign up for SendGrid at sendgrid.com</li>
+                <li>Create an API key</li>
+                <li>Add to secrets: SENDGRID_API_KEY</li>
+                <li>Optionally set: SENDGRID_FROM_EMAIL</li>
+            </ul>
+            <strong>Option 2: Custom SMTP</strong>
+            <ul>
+                <li>SMTP_SERVER - Your SMTP server address</li>
+                <li>SMTP_PORT - SMTP port (default: 587)</li>
+                <li>SMTP_USERNAME - SMTP username</li>
+                <li>SMTP_PASSWORD - SMTP password</li>
+                <li>FROM_EMAIL - Email address to send from</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
 def render_data_management():
     st.subheader("Data Management")

@@ -39,6 +39,21 @@ def init_user_database():
         )
     """)
     
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS emails (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            child_id INTEGER NOT NULL,
+            recipient_email TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            content TEXT NOT NULL,
+            status TEXT DEFAULT 'sent',
+            sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (child_id) REFERENCES child_profiles(id) ON DELETE CASCADE
+        )
+    """)
+    
     conn.commit()
     conn.close()
 
@@ -137,6 +152,37 @@ def delete_child(child_id: int) -> bool:
     conn.close()
     return True
 
+def log_email(user_id: int, child_id: int, recipient_email: str, subject: str, content: str, status: str = 'sent') -> int:
+    """Log a sent email to the database."""
+    conn = get_user_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO emails (user_id, child_id, recipient_email, subject, content, status)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (user_id, child_id, recipient_email, subject, content, status))
+    email_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return email_id
+
+def get_sent_emails(user_id: int = None, child_id: int = None) -> List[Dict]:
+    """Retrieve sent emails, optionally filtered by user or child."""
+    conn = get_user_connection()
+    cursor = conn.cursor()
+    
+    if user_id and child_id:
+        cursor.execute("SELECT * FROM emails WHERE user_id = ? AND child_id = ? ORDER BY sent_at DESC", (user_id, child_id))
+    elif user_id:
+        cursor.execute("SELECT * FROM emails WHERE user_id = ? ORDER BY sent_at DESC", (user_id,))
+    elif child_id:
+        cursor.execute("SELECT * FROM emails WHERE child_id = ? ORDER BY sent_at DESC", (child_id,))
+    else:
+        cursor.execute("SELECT * FROM emails ORDER BY sent_at DESC")
+    
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
 def delete_user_account(user_id: int) -> bool:
     import database as db
     conn = get_user_connection()
@@ -153,6 +199,7 @@ def delete_user_account(user_id: int) -> bool:
                 cursor.execute("DELETE FROM reminder_settings WHERE child_id = ?", (child['id'],))
             cursor.execute("DELETE FROM sent_reminders WHERE vaccination_id IN (SELECT id FROM vaccinations WHERE child_id = ?)", (child['id'],))
         
+        cursor.execute("DELETE FROM emails WHERE user_id = ?", (user_id,))
         cursor.execute("DELETE FROM child_profiles WHERE user_id = ?", (user_id,))
         cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
         conn.commit()
