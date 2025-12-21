@@ -5,7 +5,7 @@ from typing import Optional, List, Dict, Any
 import json
 import user_database as udb
 
-DATABASE_PATH = "data/vaccination_database.db"
+DATABASE_PATH = "vaccination_health.db"
 
 def get_connection():
     conn = sqlite3.connect(DATABASE_PATH)
