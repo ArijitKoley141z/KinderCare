@@ -1,7 +1,7 @@
 import sqlite3
 from typing import Optional, Dict, List
 
-USER_DATABASE_PATH = "user_database.db"
+USER_DATABASE_PATH = "data/user_database.db"
 
 def get_user_connection():
     conn = sqlite3.connect(USER_DATABASE_PATH)
