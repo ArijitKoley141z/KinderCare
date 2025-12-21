@@ -496,7 +496,7 @@ def render_about():
     
     ### Features
     
-    - **Personalized Vaccination Scheduler**: Auto-generated schedules based on India UIP, WHO, or CDC guidelines
+    - **Personalized Vaccination Scheduler**: Auto-generated schedules based on India (UIP) and WHO guidelines
     - **Health Timeline**: Track vaccinations, illnesses, symptoms, and doctor visits
     - **Smart Reminders**: Get notified about upcoming and overdue vaccines
     - **AI Assistant**: Natural language queries about your child's health and vaccinations
@@ -504,11 +504,10 @@ def render_about():
     
     ### Vaccination Guidelines
     
-    This application supports three major vaccination guidelines:
+    This application supports two major vaccination guidelines:
     
     1. **India (UIP)**: Universal Immunization Programme - Government of India
     2. **WHO**: World Health Organization recommendations
-    3. **CDC (USA)**: Centers for Disease Control and Prevention (United States)
     
     ### Technology Stack
     
