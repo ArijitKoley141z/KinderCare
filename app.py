@@ -195,6 +195,10 @@ if st.session_state.current_page == "Home":
     Track vaccinations, monitor health milestones, and connect with healthcare experts
 </p>
 """, unsafe_allow_html=True)
+        
+        if st.button("Get Started", key="get_started_btn", use_container_width=True):
+            st.session_state.current_page = "Sign Up"
+            st.rerun()
 
     with col_image:
         # Load and encode image as base64 to avoid fullscreen icon
