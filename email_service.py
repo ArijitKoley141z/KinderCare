@@ -33,12 +33,12 @@ def send_email_notification(user_id: int, child_id: int, recipient_email: str,
                 print(f"SendGrid error: {e}")
                 # Fall through to try SMTP
         
-        # Try using Gmail SMTP (or custom SMTP)
-        smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-        smtp_port = int(os.getenv("SMTP_PORT", "587"))
+        # Try using Gmail SMTP
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
         smtp_username = os.getenv("SMTP_USERNAME", "")
         smtp_password = os.getenv("SMTP_PASSWORD", "")
-        from_email = os.getenv("FROM_EMAIL", smtp_username)  # Use username as sender if FROM_EMAIL not set
+        from_email = smtp_username  # Use Gmail address as sender
         
         if smtp_username and smtp_password:
             try:
