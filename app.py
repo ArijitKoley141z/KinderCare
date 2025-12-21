@@ -3,6 +3,8 @@ import database as db
 from PIL import Image
 import base64
 from io import BytesIO
+import reminder_service
+import user_database as udb
 
 st.set_page_config(
     page_title="KinderCare - Child Health & Vaccination",
@@ -36,6 +38,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 db.init_database()
+
+# Check and send reminders for logged-in users
+if st.session_state.get('logged_in') and st.session_state.get('user_id'):
+    reminder_service.check_and_send_reminders()
 
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home"

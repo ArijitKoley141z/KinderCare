@@ -409,28 +409,13 @@ def render_notification_settings():
                 value=bool(settings.get('reminder_on_day', True))
             )
         
-        st.markdown("### SMS Notifications (Coming Soon)")
-        
-        sms_enabled = st.checkbox(
-            "Enable SMS Reminders",
-            value=bool(settings.get('sms_enabled', False)),
-            disabled=True
-        )
-        phone_number = st.text_input(
-            "Phone Number",
-            value=settings.get('phone_number', ''),
-            placeholder="+1234567890",
-            disabled=True
-        )
-        st.info("SMS notifications require Twilio integration. This feature will be available in a future update.")
-        
         if st.form_submit_button("Save Notification Settings", type="primary"):
             db.save_reminder_settings(
                 child_id=child_id,
                 email_enabled=email_enabled,
                 email_address=email_address,
                 sms_enabled=False,
-                phone_number=phone_number,
+                phone_number="",
                 reminder_7_days=reminder_7_days,
                 reminder_1_day=reminder_1_day,
                 reminder_on_day=reminder_on_day
