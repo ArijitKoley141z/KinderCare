@@ -430,9 +430,7 @@ def render_notification_settings():
     
     if sendgrid_key:
         st.success("✅ SendGrid is configured. Email notifications will be sent via SendGrid.")
-    elif smtp_username:
-        st.success(f"✅ SMTP is configured ({os.environ.get('SMTP_SERVER', 'smtp.gmail.com')}). Email notifications will be sent.")
-    else:
+    elif not smtp_username:
         st.markdown("""
         <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
             <strong>Email Configuration:</strong> Email reminders require configuration. Choose one option:
