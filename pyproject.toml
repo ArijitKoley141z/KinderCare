@@ -8,6 +8,7 @@ dependencies = [
     "openai>=2.11.0",
     "pandas>=2.3.3",
     "plotly>=6.5.0",
+    "pymongo>=4.15.5",
     "python-dateutil>=2.9.0.post0",
     "streamlit>=1.52.1",
 ]
