@@ -587,13 +587,13 @@ def render_account():
     
     col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
-        if st.button("🚪 Logout", key="settings_logout", use_container_width=True, type="secondary", help="Click to logout from your account"):
+        if st.button("🚪 Logout", key="settings_logout", width='stretch', type="secondary", help="Click to logout from your account"):
             st.session_state.logged_in = False
             st.session_state.current_page = "Home"
             st.session_state.conversation_history = []
             st.rerun()
     with col2:
-        if st.button("🗑️ Delete Account", key="settings_delete", use_container_width=True, type="secondary", help="Permanently delete your account and all data"):
+        if st.button("🗑️ Delete Account", key="settings_delete", width='stretch', type="secondary", help="Permanently delete your account and all data"):
             st.session_state.show_delete_account = True
     
     if st.session_state.get('show_delete_account', False):

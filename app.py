@@ -64,31 +64,31 @@ if not st.session_state.logged_in:
 
     with nav_home:
         button_label = "🏠 Home" if st.session_state.current_page == "Home" else "Home"
-        if st.button(button_label, key="nav_Home", use_container_width=True):
+        if st.button(button_label, key="nav_Home", width='stretch'):
             st.session_state.current_page = "Home"
             st.rerun()
 
     with nav_diseases:
         button_label = "🏥 Common Diseases" if st.session_state.current_page == "Common Diseases" else "Common Diseases"
-        if st.button(button_label, key="nav_DR", use_container_width=True):
+        if st.button(button_label, key="nav_DR", width='stretch'):
             st.session_state.current_page = "Common Diseases"
             st.rerun()
 
     with nav_about:
         button_label = "ℹ️ About us" if st.session_state.current_page == "About us" else "About us"
-        if st.button(button_label, key="nav_About", use_container_width=True):
+        if st.button(button_label, key="nav_About", width='stretch'):
             st.session_state.current_page = "About us"
             st.rerun()
 
     with nav_login:
         button_label = "🔐 Login" if st.session_state.current_page == "Login" else "Login"
-        if st.button(button_label, key="nav_Login", use_container_width=True):
+        if st.button(button_label, key="nav_Login", width='stretch'):
             st.session_state.current_page = "Login"
             st.rerun()
 
     with nav_signup:
         button_label = "✍️ Sign Up" if st.session_state.current_page == "Sign Up" else "Sign Up"
-        if st.button(button_label, key="nav_SignUp", use_container_width=True):
+        if st.button(button_label, key="nav_SignUp", width='stretch'):
             st.session_state.current_page = "Sign Up"
             st.rerun()
 else:
@@ -96,37 +96,37 @@ else:
 
     with nav_dashboard:
         button_label = "📊 Dashboard" if st.session_state.current_page == "Dashboard" else "Dashboard"
-        if st.button(button_label, key="nav_Dashboard", use_container_width=True):
+        if st.button(button_label, key="nav_Dashboard", width='stretch'):
             st.session_state.current_page = "Dashboard"
             st.rerun()
 
     with nav_vax_sched:
         button_label = "💉 Vaccination Schedule" if st.session_state.current_page == "Vaccination Schedule" else "Vaccination Schedule"
-        if st.button(button_label, key="nav_VaxSched", use_container_width=True):
+        if st.button(button_label, key="nav_VaxSched", width='stretch'):
             st.session_state.current_page = "Vaccination Schedule"
             st.rerun()
 
     with nav_vax_timeline:
         button_label = "📅 Vaccination Timeline" if st.session_state.current_page == "Vaccination Timeline" else "Vaccination Timeline"
-        if st.button(button_label, key="nav_VaxTimeline", use_container_width=True):
+        if st.button(button_label, key="nav_VaxTimeline", width='stretch'):
             st.session_state.current_page = "Vaccination Timeline"
             st.rerun()
 
     with nav_health_timeline:
         button_label = "❤️ Health Timeline" if st.session_state.current_page == "Health Timeline" else "Health Timeline"
-        if st.button(button_label, key="nav_HealthTimeline", use_container_width=True):
+        if st.button(button_label, key="nav_HealthTimeline", width='stretch'):
             st.session_state.current_page = "Health Timeline"
             st.rerun()
 
     with nav_assistant:
         button_label = "🤖 Assistant" if st.session_state.current_page == "Assistant" else "Assistant"
-        if st.button(button_label, key="nav_Assistant", use_container_width=True):
+        if st.button(button_label, key="nav_Assistant", width='stretch'):
             st.session_state.current_page = "Assistant"
             st.rerun()
 
     with nav_settings:
         button_label = "⚙️ Settings" if st.session_state.current_page == "Settings" else "Settings"
-        if st.button(button_label, key="nav_Settings", use_container_width=True):
+        if st.button(button_label, key="nav_Settings", width='stretch'):
             st.session_state.current_page = "Settings"
             st.rerun()
 

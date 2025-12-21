@@ -83,7 +83,7 @@ def render():
         
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         
-        if st.button("🔓 Login", key="login_btn", use_container_width=True, type="primary"):
+        if st.button("🔓 Login", key="login_btn", width='stretch', type="primary"):
             email = email.strip()
             password = password.strip()
             if not email or not password:
@@ -116,6 +116,6 @@ def render():
         with col_text:
             st.markdown('<p style="color: #1a1a1a; margin: 0; font-weight: 500;">Don\'t have an account?</p>', unsafe_allow_html=True)
         with col_btn:
-            if st.button("Sign Up", key="switch_to_signup", use_container_width=True, type="secondary"):
+            if st.button("Sign Up", key="switch_to_signup", width='stretch', type="secondary"):
                 st.session_state.current_page = "Sign Up"
                 st.rerun()

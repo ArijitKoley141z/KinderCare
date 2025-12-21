@@ -270,11 +270,11 @@ def render_vaccine_card(vacc, status_type):
 
     if status_type != "completed":
         with col2:
-            if st.button("✓ Mark Completed", key=f"done_{vacc['id']}", use_container_width=True):
+            if st.button("✓ Mark Completed", key=f"done_{vacc['id']}", width='stretch'):
                 db.update_vaccination_status(vacc['id'], 'completed', date.today().isoformat())
                 st.rerun()
     else:
         with col2:
-            if st.button("↶ Mark Pending", key=f"undo_{vacc['id']}", use_container_width=True):
+            if st.button("↶ Mark Pending", key=f"undo_{vacc['id']}", width='stretch'):
                 db.update_vaccination_status(vacc['id'], 'pending', None)
                 st.rerun()
