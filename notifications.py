@@ -187,9 +187,9 @@ def check_and_send_reminders(child_id: int) -> Dict:
     sent_count = 0
     
     if settings.get('email_enabled') and settings.get('email_address'):
-        smtp_server = os.environ.get('SMTP_SERVER')
+        smtp_server = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
         smtp_port = int(os.environ.get('SMTP_PORT', 587))
-        smtp_user = os.environ.get('SMTP_USER')
+        smtp_user = os.environ.get('SMTP_USERNAME')
         smtp_password = os.environ.get('SMTP_PASSWORD')
         
         if send_email_reminder(
