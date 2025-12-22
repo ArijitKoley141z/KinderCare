@@ -421,50 +421,6 @@ def render_notification_settings():
                 reminder_on_day=reminder_on_day
             )
             st.success("Notification settings saved!")
-    
-    st.markdown("---")
-    
-    # Check if email is configured
-    sendgrid_key = os.environ.get('SENDGRID_API_KEY')
-    smtp_username = os.environ.get('SMTP_USERNAME')
-    
-    if sendgrid_key:
-        st.success("✅ SendGrid is configured. Email notifications will be sent via SendGrid.")
-    elif not smtp_username:
-        st.markdown("""
-        <div style="background-color: #117a8b; padding: 15px; border-radius: 5px; border-left: 4px solid #0c5460; color: white;">
-            <strong>Email Configuration:</strong> Email reminders require configuration. Choose one option:
-            <br><br>
-            <strong>Option 1: Gmail SMTP (Recommended & Free)</strong>
-            <ul>
-                <li>Go to myaccount.google.com and enable "Less secure apps"</li>
-                <li>Or use an <strong>App Password</strong> instead of your Gmail password:
-                    <ul><li>Enable 2-step verification in Google Account</li>
-                    <li>Generate an App Password at myaccount.google.com/apppasswords</li></ul>
-                </li>
-                <li>Set environment variables:
-                    <ul>
-                    <li>SMTP_SERVER: smtp.gmail.com</li>
-                    <li>SMTP_PORT: 587</li>
-                    <li>SMTP_USERNAME: your.email@gmail.com</li>
-                    <li>SMTP_PASSWORD: your-app-password</li>
-                    <li>FROM_EMAIL: your.email@gmail.com (optional)</li>
-                    </ul>
-                </li>
-            </ul>
-            <strong>Option 2: Other SMTP Provider</strong>
-            <ul>
-                <li>Use any SMTP provider (Outlook, Yahoo, custom server, etc.)</li>
-                <li>Set the same environment variables with your provider's SMTP details</li>
-            </ul>
-            <strong>Option 3: SendGrid</strong>
-            <ul>
-                <li>Sign up for SendGrid at sendgrid.com</li>
-                <li>Create an API key</li>
-                <li>Add to secrets: SENDGRID_API_KEY</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
 
 def render_data_management():
     st.subheader("Data Management")
