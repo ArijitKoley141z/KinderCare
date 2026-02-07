@@ -1,0 +1,14 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# Environment & secrets
+.env
+.streamlit/secrets.toml
+
+# OS files
+.DS_Store
+Thumbs.db
