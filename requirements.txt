@@ -1,6 +1,5 @@
 streamlit
-openai
-plotly
-python-dateutil
 pandas
-audio-recorder-streamlit
+plotly
+requests
+python-dotenv
