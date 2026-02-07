@@ -8,6 +8,7 @@ from notifications import get_in_app_notifications
 import pandas as pd
 
 
+
 def render():
     st.markdown("""
     <style>
@@ -360,3 +361,4 @@ def render():
                 st.info("No pending vaccines.")
     else:
         st.info("No vaccination records yet. Start adding vaccinations to see analytics.")
+render()

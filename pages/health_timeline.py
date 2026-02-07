@@ -182,3 +182,4 @@ def render_add_event_form(child_id):
             st.rerun()
         else:
             st.error("Please enter an event title")
+render()

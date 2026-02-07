@@ -117,3 +117,4 @@ def render():
     if send_button and user_input:
         process_user_message(user_input, child, vaccinations, health_events)
         st.rerun()
+render()
