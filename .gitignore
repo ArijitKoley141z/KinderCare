@@ -15,4 +15,6 @@ Thumbs.db
 # Replit internal files
 .local/
 .replit/
+.streamlit/
+
 
