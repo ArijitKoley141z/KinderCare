@@ -1,6 +1,14 @@
 import streamlit as st
 
-st.set_page_config(page_title="KinderCare")
+# Page config MUST be first Streamlit command
+st.set_page_config(
+    page_title="KinderCare",
+    layout="wide"
+)
 
-st.title("KinderCare Deployment Test")
-st.success("Streamlit Cloud is running correctly.")
+# Import your actual app logic AFTER Streamlit starts
+import app
+
+# If app.py has a render() or main() function, call it
+if hasattr(app, "render"):
+    app.render()
