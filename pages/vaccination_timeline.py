@@ -146,4 +146,3 @@ def render():
         <p style="color: #333; margin: 0;">This timeline shows the standard recommended vaccination schedule. Always consult your pediatrician for advice specific to your child's health needs. Some vaccines may need to be adjusted based on your child's medical history.</p>
     </div>
     """, unsafe_allow_html=True)
-render()

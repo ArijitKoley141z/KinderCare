@@ -278,4 +278,3 @@ def render_vaccine_card(vacc, status_type):
             if st.button("↶ Mark Pending", key=f"undo_{vacc['id']}", width='stretch'):
                 db.update_vaccination_status(vacc['id'], 'pending', None)
                 st.rerun()
-render()

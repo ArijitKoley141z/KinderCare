@@ -97,4 +97,3 @@ def render():
         </p>
     </div>
     """, unsafe_allow_html=True)
-render()

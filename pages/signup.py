@@ -129,4 +129,3 @@ def render():
             if st.button("Login", key="switch_to_login", width='stretch', type="secondary"):
                 st.session_state.current_page = "Login"
                 st.rerun()
-render()

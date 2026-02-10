@@ -627,4 +627,3 @@ def render_account():
         </ul>
     </div>
     """, unsafe_allow_html=True)
-render()
