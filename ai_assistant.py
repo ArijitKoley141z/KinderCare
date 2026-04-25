@@ -9,7 +9,7 @@ def get_gemini_client():
             return None
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",  # ✅ Fixed model name
+            model_name="gemini-2.5-flash",  
             system_instruction=(
                 "You are KinderCare AI — a friendly, knowledgeable pediatric health assistant. "
                 "You help parents with questions about child vaccinations, health milestones, "
