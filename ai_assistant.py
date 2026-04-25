@@ -9,7 +9,7 @@ def get_gemini_client():
             return None
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash-preview-05-20",
+            model_name="gemini-2.5-flash",  # ✅ Fixed model name
             system_instruction=(
                 "You are KinderCare AI — a friendly, knowledgeable pediatric health assistant. "
                 "You help parents with questions about child vaccinations, health milestones, "
@@ -24,38 +24,26 @@ def get_gemini_client():
         return None
 
 def chat_with_history(conversation_history: list) -> str:
-    """
-    Takes full conversation history and returns assistant reply.
-    conversation_history = [
-        {"role": "user", "content": "..."},
-        {"role": "assistant", "content": "..."},
-    ]
-    """
     model = get_gemini_client()
 
     if model is None:
         return (
             "⚠️ AI Assistant is not configured. "
-            "Please add your GOOGLE_API_KEY in Streamlit Cloud secrets to enable this feature."
+            "Please add your GOOGLE_API_KEY in Streamlit Cloud secrets."
         )
 
     try:
-        # Convert history to Gemini format
         gemini_history = []
-        for msg in conversation_history[:-1]:  # all except last message
+        for msg in conversation_history[:-1]:
             role = "user" if msg["role"] == "user" else "model"
             gemini_history.append({
                 "role": role,
                 "parts": [msg["content"]]
             })
 
-        # Start chat with history
         chat = model.start_chat(history=gemini_history)
-
-        # Send the latest user message
         last_message = conversation_history[-1]["content"]
         response = chat.send_message(last_message)
-
         return response.text
 
     except Exception as e:
