@@ -1,64 +1,74 @@
+import os
+import streamlit as st
 
-try:
-    from openai import OpenAI
-    OPENAI_AVAILABLE = True
-except ImportError:
-    OPENAI_AVAILABLE = False
-
-
-def chat_with_assistant(user_input: str) -> str:
-    
-
-    if not user_input or not user_input.strip():
-        return "Please enter a question."
-
-    # Cloud-safe fallback
-    if not OPENAI_AVAILABLE:
-        return (
-            "⚠️ AI assistant is disabled in the deployed version.\n\n"
-            "Reason: OpenAI dependency is not available on free hosting.\n\n"
-            "You can still view vaccination schedules, disease information, "
-            "and health timelines."
-        )
-
-    # Local OpenAI usage
+def get_gemini_client():
     try:
-        client = OpenAI()
+        import google.generativeai as genai
+        api_key = os.environ.get("GOOGLE_API_KEY") or st.secrets.get("GOOGLE_API_KEY", "")
+        if not api_key:
+            return None
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel(
+            model_name="gemini-2.5-flash-preview-05-20",
+            system_instruction=(
+                "You are KinderCare AI — a friendly, knowledgeable pediatric health assistant. "
+                "You help parents with questions about child vaccinations, health milestones, "
+                "common illnesses, and general child wellness. "
+                "Always give clear, practical advice in simple language. "
+                "Always remind parents to consult a real doctor for serious concerns. "
+                "Keep responses concise and easy to read."
+            )
+        )
+        return model
+    except ImportError:
+        return None
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a pediatric healthcare assistant. "
-                        "Provide safe, non-diagnostic advice. "
-                        "Always recommend consulting a doctor for serious symptoms."
-                    )
-                },
-                {"role": "user", "content": user_input}
-            ],
-            temperature=0.4
+def chat_with_history(conversation_history: list) -> str:
+    """
+    Takes full conversation history and returns assistant reply.
+    conversation_history = [
+        {"role": "user", "content": "..."},
+        {"role": "assistant", "content": "..."},
+    ]
+    """
+    model = get_gemini_client()
+
+    if model is None:
+        return (
+            "⚠️ AI Assistant is not configured. "
+            "Please add your GOOGLE_API_KEY in Streamlit Cloud secrets to enable this feature."
         )
 
-        return response.choices[0].message.content
+    try:
+        # Convert history to Gemini format
+        gemini_history = []
+        for msg in conversation_history[:-1]:  # all except last message
+            role = "user" if msg["role"] == "user" else "model"
+            gemini_history.append({
+                "role": role,
+                "parts": [msg["content"]]
+            })
+
+        # Start chat with history
+        chat = model.start_chat(history=gemini_history)
+
+        # Send the latest user message
+        last_message = conversation_history[-1]["content"]
+        response = chat.send_message(last_message)
+
+        return response.text
 
     except Exception as e:
-        return f"⚠️ AI error occurred: {str(e)}"
+        return f"⚠️ Error communicating with AI: {str(e)}"
 
 
 def get_quick_responses():
-    """
-    Predefined quick-help buttons (cloud & local safe)
-    """
-    return {
-        "Next vaccine due": "When is my child's next vaccination due?",
-        "Common cold care": "What should I do if my child has a common cold?",
-        "Fever guidance": "What should I do if my child has a fever?",
-        "Doctor visit": "When should I take my child to a doctor?"
-    }
-
-
-def transcribe_audio(_audio_bytes):
-    
-    return "🎙️ Voice input is planned for a future version."
+    return [
+        "When is my child's next vaccination due?",
+        "What should I do if my child has a fever?",
+        "What are common side effects after vaccination?",
+        "When should I take my child to a doctor immediately?"
+    ]
+        "What are common side effects after vaccination?",
+        "When should I take my child to a doctor immediately?"
+    ]
