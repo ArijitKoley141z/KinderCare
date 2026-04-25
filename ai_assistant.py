@@ -69,6 +69,3 @@ def get_quick_responses():
         "What are common side effects after vaccination?",
         "When should I take my child to a doctor immediately?"
     ]
-        "What are common side effects after vaccination?",
-        "When should I take my child to a doctor immediately?"
-    ]
