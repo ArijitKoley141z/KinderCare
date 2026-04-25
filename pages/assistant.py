@@ -3,7 +3,7 @@ from ai_assistant import chat_with_history, get_quick_responses
 
 def render():
 
-    # ✅ Fix 2 — All text in blue so it's visible on dark background
+    
     st.markdown("""
         <h2 style='color:#1E90FF;'>🤖 KinderCare AI Assistant</h2>
         <p style='color:#1E90FF; font-size:16px;'>
