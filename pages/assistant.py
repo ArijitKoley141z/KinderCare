@@ -53,7 +53,7 @@ def render():
         if st.button("🗑️ Clear Conversation", type="secondary"):
             st.session_state.chat_history = []
             st.rerun()
-    render()
+    
 
 # Call render if this is the main page
 render()
