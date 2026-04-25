@@ -2,16 +2,26 @@ import streamlit as st
 from ai_assistant import chat_with_history, get_quick_responses
 
 def render():
-    st.markdown("## 🤖 KinderCare AI Assistant")
-    st.markdown("Ask me anything about your child's health, vaccinations, or general wellness.")
-    st.markdown("---")
+
+    # ✅ Fix 2 — All text in blue so it's visible on dark background
+    st.markdown("""
+        <h2 style='color:#1E90FF;'>🤖 KinderCare AI Assistant</h2>
+        <p style='color:#1E90FF; font-size:16px;'>
+            Ask me anything about your child's health, vaccinations, or general wellness.
+        </p>
+        <hr style='border: 1px solid #1E90FF;'>
+    """, unsafe_allow_html=True)
 
     # Initialize chat history
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # Quick suggestion buttons
-    st.markdown("**💡 Quick Questions — click to ask:**")
+    # Quick suggestion buttons label
+    st.markdown(
+        "<p style='color:#1E90FF; font-weight:bold; font-size:15px;'>💡 Quick Questions — click to ask:</p>",
+        unsafe_allow_html=True
+    )
+
     quick = get_quick_responses()
     col1, col2 = st.columns(2)
     for i, question in enumerate(quick):
@@ -23,14 +33,14 @@ def render():
             st.session_state.chat_history.append({"role": "assistant", "content": reply})
             st.rerun()
 
-    st.markdown("---")
+    st.markdown("<hr style='border: 1px solid #1E90FF;'>", unsafe_allow_html=True)
 
     # Display conversation history
     for message in st.session_state.chat_history:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Chat input box at bottom
+    # Chat input
     user_input = st.chat_input("Ask KinderCare AI anything about your child's health...")
 
     if user_input:
@@ -47,13 +57,11 @@ def render():
         st.session_state.chat_history.append({"role": "assistant", "content": reply})
         st.rerun()
 
-    # Clear chat button
+    # Clear button
     if st.session_state.chat_history:
-        st.markdown("---")
+        st.markdown("<br>", unsafe_allow_html=True)
         if st.button("🗑️ Clear Conversation", type="secondary"):
             st.session_state.chat_history = []
             st.rerun()
-    
 
-# Call render if this is the main page
 render()
