@@ -3,15 +3,18 @@ from ai_assistant import chat_with_history, get_quick_responses
 
 def render():
 
-    
     st.markdown("""
-        <h2 style='color:#1E90FF;'>🤖 KinderCare AI Assistant</h2>
-        <p style='color:#1E90FF; font-size:16px;'>
-            Ask me anything about your child's health, vaccinations, or general wellness.
-        </p>
-        <hr style='border: 1px solid #1E90FF;'>
+    <style>
+        .stMarkdown, .stMarkdown p, .stMarkdown h1, .stMarkdown h2,
+        .stMarkdown h3, label, .stText, p, h1, h2, h3, span,
+        .stChatMessage p, .stChatMessage span, .stChatMessage div,
+        [data-testid="stChatMessageContent"] p,
+        [data-testid="stChatMessageContent"] span,
+        [data-testid="stChatMessageContent"] {
+            color: #1E90FF !important;
+        }
+    </style>
     """, unsafe_allow_html=True)
-
     # Initialize chat history
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
